@@ -21,8 +21,6 @@ export async function LogInWeb(request: IUser): Promise<Response> {
                     LIMIT 1
                     `;
                 const userResult = await User.sequelize?.query(userQuery, { type: QueryTypes.SELECT });
-                
-                console.log(userResult);
                 const user = userResult?.at(0);
                 if (typeof user !== 'undefined') {
                     const userId = parseInt(user['id' as keyof typeof user]);
