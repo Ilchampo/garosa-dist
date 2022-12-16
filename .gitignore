@@ -1,9 +1,9 @@
-# backend
+# server
 /server/node_modules
 /server/dist
 /server/.env
 
-# frontend
+# web
 /web/.DS_Store
 /web/node_modules
 /web/build
@@ -14,3 +14,20 @@
 /web/!.env.example
 /web/vite.config.js.timestamp-*
 /web/vite.config.ts.timestamp-*
+
+# mobile
+/mobile/*.iml
+/mobile/.gradle
+/mobile/local.properties
+/mobile/.idea/caches
+/mobile/.idea/libraries
+/mobile/.idea/modules.xml
+/mobile/.idea/workspace.xml
+/mobile/.idea/navEditor.xml
+/mobile/.idea/assetWizardSettings.xml
+/mobile/.DS_Store
+/build
+/captures
+/mobile/.externalNativeBuild
+/mobile/.cxx
+/mobile/local.properties
