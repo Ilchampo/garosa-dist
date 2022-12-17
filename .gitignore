@@ -4,16 +4,19 @@
 /server/.env
 
 # web
-/web/.DS_Store
 /web/node_modules
+/web/.pnp
+/web/.pnp.js
+/web/coverage
 /web/build
-/web/.svelte-kit
-/web/package
-/web/.env
-/web/.env.*
-/web/!.env.example
-/web/vite.config.js.timestamp-*
-/web/vite.config.ts.timestamp-*
+/web/.DS_Store
+/web/.env.local
+/web/.env.development.local
+/web/.env.test.local
+/web/.env.production.local
+/web/npm-debug.log*
+/web/yarn-debug.log*
+/web/yarn-error.log*
 
 # mobile
 /mobile/*.class

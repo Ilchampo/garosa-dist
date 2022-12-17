@@ -40,8 +40,13 @@ export async function LogInWeb(request: IUser): Promise<Response> {
 
 export async function GetAllUsers(): Promise<Response> {
     try {
-        const users = await User.findAll({ where: { deleted: false }, attributes: { exclude: ['password'] } });
-        if (!users) {
+        const selectQuery = 
+            `
+            SELECT u.id, u.firstName, u.lastName, u.email, u.createdOn, u.updatedOn, ua.roleId AS role
+            FROM user u JOIN user_access ua ON u.id = ua.userId WHERE u.deleted = 0
+            `;
+        const users = await User.sequelize?.query(selectQuery, { type: QueryTypes.SELECT });
+        if (users?.length === 0) {
             return new Response(404, 'Users not found', null);
         }
         return new Response(200, 'Retrieved user successfully', users);
