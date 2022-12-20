@@ -3,31 +3,39 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, TextField } from '
 
 export const SettingsPassword = (props) => {
   const [values, setValues] = useState({
-    password: '',
-    confirm: ''
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
   return (
     <form {...props}>
       <Card>
-        <CardHeader
-          subheader="Update password"
-          title="Password"
-        />
+        <CardHeader subheader="Update user password" title="User Password" />
         <Divider />
         <CardContent>
           <TextField
             fullWidth
-            label="Password"
+            label="Current Password"
             margin="normal"
-            name="password"
+            name="oldPassword"
+            onChange={handleChange}
+            type="password"
+            value={values.password}
+            variant="outlined"
+          />
+          <TextField
+            fullWidth
+            label="New Password"
+            margin="normal"
+            name="newPassword"
             onChange={handleChange}
             type="password"
             value={values.password}
@@ -37,7 +45,7 @@ export const SettingsPassword = (props) => {
             fullWidth
             label="Confirm password"
             margin="normal"
-            name="confirm"
+            name="confirmPassword"
             onChange={handleChange}
             type="password"
             value={values.confirm}
@@ -49,14 +57,11 @@ export const SettingsPassword = (props) => {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            p: 2
+            p: 2,
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Update
+          <Button color="primary" variant="contained">
+            Change Password
           </Button>
         </Box>
       </Card>
