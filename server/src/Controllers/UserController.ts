@@ -3,10 +3,10 @@ import { IUser } from '../DAL/User';
 import * as User from '../BAL/bUser';
 
 export async function LogInWeb(req: Request, res: Response): Promise<Response> {
-    const user: IUser = {
+    const user: { email: string; password: string } = {
         email: req.body.email,
-        password: req.body.password
-    }
+        password: req.body.password,
+    };
     const result = await User.LogInWeb(user);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
@@ -29,7 +29,7 @@ export async function GetUserById(req: Request, res: Response): Promise<Response
 }
 
 export async function CreateUser(req: Request, res: Response): Promise<Response> {
-    const user: IUser = {
+    const user: { firstName: string; lastName: string; email: string } = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -39,7 +39,7 @@ export async function CreateUser(req: Request, res: Response): Promise<Response>
 }
 
 export async function EditUser(req: Request, res: Response): Promise<Response> {
-    const request: { id: any; data: IUser } = {
+    const request: { id: any; data: { firstName: string; lastName: string } } = {
         id: req.query.id,
         data: {
             firstName: req.body.firstName,

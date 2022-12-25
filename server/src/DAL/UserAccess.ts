@@ -2,12 +2,12 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
 export interface IUserAccess {
-    id?: number;
-    userId?: number;
-    roleId?: number;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    id: number;
+    userId: number;
+    roleId: number;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const UserAccess = sequelize.define(

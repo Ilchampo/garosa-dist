@@ -6,14 +6,14 @@ import { Log } from './Log';
 import { Route } from './Route';
 
 export interface IUser {
-    id?: number;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const User = sequelize.define(

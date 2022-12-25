@@ -2,20 +2,20 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
 export interface IRoutePoint {
-    id?: number;
-    routeId?: number;
-    pointId?: number;
-    reportTitle?: string;
-    reportDescription?: string;
-    status?: number;
+    id: number;
+    routeId: number;
+    pointId: number;
+    reportTitle: string;
+    reportDescription: string;
+    status: number;
     imageOne?: string;
     imageTwo?: string;
     imageThree?: string;
     startTime?: Date;
     endTime?: Date;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const RoutePoint = sequelize.define(

@@ -5,12 +5,12 @@ import { RolePermission } from './RolePermission';
 import { UserAccess } from './UserAccess';
 
 export interface IRole {
-    id?: number;
-    roleName?: string;
-    roleDescription?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    id: number;
+    roleName: string;
+    roleDescription: string;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const Role = sequelize.define(

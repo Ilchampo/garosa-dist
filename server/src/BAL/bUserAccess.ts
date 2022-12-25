@@ -4,87 +4,107 @@ import { Response } from '../DAL/Response';
 import * as vf from '../Helpers/ValidateFields';
 import * as enums from '../Helpers/StaticEnums';
 
-export async function CreateUserAccess(request: { user: any; role: any }): Promise<Response> {    
+export async function CreateUserAccess(request: { user: any; role: any }): Promise<Response> {
+    const response = new Response();
     const userId = vf.IsNumeric(request.user) ? parseInt(request.user) : null;
-    const roleId = vf.IsNumeric(request.role) ? parseInt(request.role) : null;
-    if (userId && roleId) {
-        if (roleId === enums.Roles.SUPERVISOR || roleId === enums.Roles.DISTRIBUTOR) {
-            try {
-                const userAccess = await UserAccess.findAll({ where: { userId: userId, deleted: false } });                
-                let isNewUserAccess = true;
-                if (userAccess) {
-                    for(let i = 0; i < userAccess.length; i++) {
-                        if (userAccess.at(i)?.dataValues.roleId === roleId) {
-                            isNewUserAccess = false;
-                            break;
-                        }
-                    }
-                }
-                if (isNewUserAccess) {
-                    const newUserAccess = await UserAccess.create({
-                        userId: userId,
-                        roleId: roleId,
-                        createdOn: Date.now(),
-                        updatedOn: Date.now(),
-                    });
-                    return new Response(200, 'Created user access successfully', userAccess);
-                }
-            } catch (error) {
-                console.log(error);
-                return new Response(500, 'Failed to create user access', error);
-            }
-        }
+    if (!userId) {
+        response.set(422, 'Invalid datatype for user id', null);
+        return response;
     }
-    return new Response(404, 'Failed to create user access', null);
+    const roleId = vf.IsNumeric(request.role) ? parseInt(request.role) : null;
+    if (!roleId) {
+        response.set(422, 'Invalid datatype for role id', null);
+        return response;
+    }
+    if (roleId !== enums.Roles.SUPERVISOR && roleId !== enums.Roles.DISTRIBUTOR) {
+        response.set(422, 'Can only create supervisor or distributor user access', null);
+        return response;
+    }
+    try {
+        const userAccess = await UserAccess.findAll({ where: { userId: userId, deleted: false } });
+        if (userAccess.length > 0) {
+            response.set(422, 'User already has a user access assigned', null);
+            return response;
+        }
+        const newUserAccess = await UserAccess.create({
+            userId: userId,
+            roleId: roleId,
+            createdOn: Date.now(),
+            updatedOn: Date.now(),
+        });
+        response.set(200, 'User access created successfully', { userId, roleId });
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while creating user access', error);
+        return response;
+    }
 }
 
 export async function GetUserAccessById(request: any): Promise<Response> {
-    const userId = vf.IsNumeric(request) ? parseInt(request) : null;
-    if (userId) {
-        try {
-            const userAccess = await UserAccess.findOne({ where: { userId: userId, deleted: false } });
-            if (userAccess) {
-                return new Response(200, 'Retrieved user access successfully', userAccess);
-            }
-        } catch (error) {
-            return new Response(500, 'Failed to retrieve user access', error);
-        }
+    const response = new Response();
+    const userId = vf.IsNumeric(request.user) ? parseInt(request.user) : null;
+    if (!userId) {
+        response.set(422, 'Invalid datatype for user id', null);
+        return response;
     }
-    return new Response(404, 'Failed to retrieve user access', null);
+    try {
+        const userAccess = await UserAccess.findOne({ where: { userId: userId, deleted: false } });
+        if (!userAccess) {
+            response.set(404, 'User access not found', null);
+            return response;
+        }
+        response.set(200, 'Getted user access by user id successfully', userAccess);
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while getting user access by user id', error);
+        return response;
+    }
 }
 
 export async function DeleteUserAccessById(request: any): Promise<Response> {
-    const userAccessId = vf.IsNumeric(request) ? parseInt(request) : null;
-    if (userAccessId) {
-        try {
-            const userAccess = await UserAccess.findOne({ where: { id: userAccessId, deleted: false } });
-            if (userAccess) {
-                userAccess.set({ deleted: true });
-                await userAccess.save();
-                return new Response(200, 'Deleted user access successfully', userAccess);
-            }
-        } catch (error) {
-            return new Response(500, 'Failed to delete user access', error);
-        }
+    const response = new Response();
+    const userAccessId = vf.IsNumeric(request.user) ? parseInt(request.user) : null;
+    if (!userAccessId) {
+        response.set(422, 'Invalid datatype for user access id', null);
+        return response;
     }
-    return new Response(404, 'Failed to delete user access', null);
+    try {
+        const userAccess = await UserAccess.findOne({ where: { id: userAccessId, deleted: false } });
+        if (!userAccess) {
+            response.set(404, 'User access not found', null);
+            return response;
+        }
+        userAccess.set({ deleted: true });
+        await userAccess.save();
+        response.set(200, 'Deleted user access by id successfully', { userAccessId });
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while deleting user access by id', null);
+        return response;
+    }
 }
 
 export async function DeleteAllUserAccess(request: any): Promise<Response> {
+    const response = new Response();
     const userId = vf.IsNumeric(request) ? parseInt(request) : null;
-    if (userId) {
-        try {
-            const userAccess = await UserAccess.findAll({ where: { userId: userId, deleted: false } });
-            if (userAccess) {
-                userAccess.forEach(async (access) => {
-                    access.set({ deleted: true });
-                    await access.save();
-                });
-                return new Response(200, 'Deleted user accesses successfully', userAccess);
-            }
-        } catch (error) {
-            return new Response(500, 'Failed to delete user accesses', error);
-        }
+    if (!userId) {
+        response.set(422, 'Invalid datatype for user id', null);
+        return response;
     }
-    return new Response(404, 'Failed to delete user accesses', null);
+    try {
+        const userAccess = await UserAccess.findAll({ where: { userId: userId, deleted: false } });
+        if (userAccess.length < 1) {
+            response.set(202, 'User accesses not found', null);
+            return response;
+        }
+        userAccess.forEach(async (access) => {
+            access.set({ deleted: true });
+            await access.save();
+        });
+        response.set(200, 'User accesses deleted successfully', { userId });
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while deleting all user accesses by user id', null);
+        return response;
+    }
 }

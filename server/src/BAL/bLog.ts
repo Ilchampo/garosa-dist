@@ -1,60 +1,95 @@
-import * as vf from '../Helpers/ValidateFields';
-import { Log, ILog } from '../DAL/Log';
+import { Log } from '../DAL/Log';
 import { Response } from '../DAL/Response';
 
-export async function CreateLog(request: ILog): Promise<Response> {
+import * as vf from '../Helpers/ValidateFields';
+
+export async function CreateLog(request: any): Promise<Response> {
+    const response = new Response();
+    const userId = vf.IsNumeric(request.userId) ? parseInt(request.userId) : null;
+    if (!userId) {
+        response.set(422, 'Invalid datatype for user id', null);
+        return response;
+    }
+    const logStatus = vf.IsNumeric(request.logStatus) ? parseInt(request.logStatus) : null;
+    if (!logStatus) {
+        response.set(422, 'Invalid datatype for log status', null);
+        return response;
+    }
+    if (!vf.IsAlpha(request.logName) || !vf.IsAlpha(request.logDescription)) {
+        response.set(422, 'Invalid datatype for log name and/or log description', null);
+        return response;
+    }
     try {
-        const newLog = await Log.create({
-            userId: request.userId,
+        const log = await Log.create({
+            userId,
             logName: request.logName,
             logDescription: request.logDescription,
             logSource: request.logSource,
             logStatus: request.logStatus,
+            createdOn: Date.now(),
+            updatedOn: Date.now(),
             deleted: false,
         });
-        return new Response(200, 'Log created successfully', newLog);
+        response.set(200, 'Created log successfully', log);
+        return response;
     } catch (error) {
-        return new Response(500, 'Error while creating a new log', null);
+        response.set(500, 'Server error while creating log', error);
+        return response;
     }
 }
 
 export async function GetAllLogs(): Promise<Response> {
+    const response = new Response();
     try {
-        const allLogs = await Log.findAll({ where: { deleted: false } });
-        if (!allLogs) {
-            return new Response(200, 'Logs not found', null);
+        const logs = await Log.findAll({ where: { deleted: false } });
+        if (!logs) {
+            response.set(404, 'Logs not found', null);
+            return response;
         }
-        return new Response(200, 'Retrieved all logs successfully', allLogs);
+        response.set(200, 'Getted all the logs successfully', logs);
+        return response;
     } catch (error) {
-        return new Response(500, 'Error while creating all logs', null);
+        response.set(500, 'Server error while getting all the logs', error);
+        return response;
     }
 }
 
 export async function DeleteLogById(request: any): Promise<Response> {
-    let logId = typeof request === 'string' ? parseInt(request) : null;
-    if (logId) {
-        try {
-            const log = await Log.findOne({ where: { id: logId } });
-            if (!log) {
-                return new Response(400, 'Log not found', null);
-            }
-            log.set({
-                updatedOn: Date.now(),
-                deleted: true,
-            });
-            await log.save();
-            return new Response(200, 'Log deleted successfully', log);
-        } catch (error) {
-            return new Response(500, 'Error while deleting log by id', null);
-        }
+    const response = new Response();
+    const logId = vf.IsAlpha(request) ? parseInt(request) : null;
+    if (!logId) {
+        response.set(422, 'Invalid datatype for log id', null);
+        return response;
     }
-    return new Response(400, 'Failed to delete log by id due invalid field', null);
+    try {
+        const log = await Log.findOne({ where: { id: logId, deleted: false } });
+        if (!log) {
+            response.set(404, 'Log not found', null);
+            return response;
+        }
+        log.set({ deleted: true });
+        await log.save();
+        response.set(500, 'Delete log bi id successfully', log);
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while deleting log by id', error);
+        return response;
+    }
 }
 
 export async function DeleteLogsByUserId(request: any): Promise<Response> {
-    let userId = typeof request === 'string' ? parseInt(request) : null;
-    if (userId) {
-        
+    const response = new Response();
+    const userId = vf.IsAlpha(request) ? parseInt(request) : null;
+    if (!userId) {
+        response.set(422, 'Invalid datatype for user id', null);
+        return response;
     }
-    return new Response(400, 'Failed to delete logs by user id due invalid field', null);
+    try {
+        await Log.update({ deleted: true }, { where: { userId } });
+        response.set(200, 'Deleted all logs by user id successfully', userId);
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while deleting all logs by user id', error);
+        return response;
+    }
 }

@@ -2,15 +2,15 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
 export interface ILog {
-    id?: number;
-    userId?: number;
-    logName?: string;
-    logDescription?: string;
-    logSource?: string;
-    logStatus?: number;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    id: number;
+    userId: number;
+    logName: string;
+    logDescription: string;
+    logSource: string;
+    logStatus: number;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const Log = sequelize.define(
@@ -27,8 +27,8 @@ export const Log = sequelize.define(
             allowNull: false,
             references: {
                 model: 'User',
-                key: 'id'
-            }
+                key: 'id',
+            },
         },
         logName: {
             type: DataTypes.STRING,

@@ -5,5 +5,6 @@ export const appConfiguration = {
     app: {
         environment: process.env.NODE_ENV || 'development',
         port: process.env.PORT || 3000,
+        key: process.env.KEY || 'secret'
     },
 };

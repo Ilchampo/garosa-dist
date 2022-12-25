@@ -1,0 +1,24 @@
+GAROSA DIST SERVER APPLICATION:
+    User:
+        CRUD:
+            ☐ Create User
+                ☐ Create Single User Access
+                ☐ Create Log
+            ☐ Read All Users
+            ☐ Read All Users by Role
+            ☐ Read User By Id
+            ☐ Update User Information
+                Create Log
+            ☐ Update User Password
+            ☐ Delete User
+                ☐ Delete User Access
+                ☐ Create Log
+        Core:
+            ☐ Log In Web
+                ☐ Create User Token
+                    ☐ Get All Role Permissions
+            ☐ Log In
+                ☐ Create User Token
+                    ☐ Get All Role Permissions
+            ☐ Recover User Password
+    

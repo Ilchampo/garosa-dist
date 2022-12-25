@@ -2,13 +2,13 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
 export interface IApplicationConfiguration {
-    id?: number;
-    language?: string;
-    maxRadius?: number;
-    maxPointsPerRoute?: number;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    id: number;
+    language: string;
+    maxRadius: number;
+    maxPointsPerRoute: number;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const ApplicationConfiguration = sequelize.define(

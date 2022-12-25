@@ -8,7 +8,7 @@ export async function GetApplicationConfiguration(req: Request, res: Response): 
 }
 
 export async function UpdateApplicationConfiguration(req: Request, res: Response): Promise<Response> {
-    const data: IApplicationConfiguration = {
+    const data: any = {
         language: req.body.language,
         maxRadius: req.body.maxRadius,
         maxPointsPerRoute: req.body.maxPointsPerRoute,

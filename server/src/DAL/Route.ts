@@ -4,17 +4,17 @@ import { sequelize } from '../Infrastructure/Database/Database';
 import { RoutePoint } from './RoutePoint';
 
 export interface IRoute {
-    id?: number;
-    supervisorId?: number;
-    distributorId?: number;
-    routeTitle?: string;
-    routeDescription?: string;
-    routeStatus?: number;
+    id: number;
+    supervisorId: number;
+    distributorId: number;
+    routeTitle: string;
+    routeDescription: string;
+    routeStatus: number;
     startTime?: Date;
     endTime?: Date;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const Route = sequelize.define(

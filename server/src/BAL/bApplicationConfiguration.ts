@@ -1,38 +1,65 @@
-import * as vf from '../Helpers/ValidateFields';
-import { ApplicationConfiguration, IApplicationConfiguration } from '../DAL/ApplicationConfiguration';
+import { ApplicationConfiguration } from '../DAL/ApplicationConfiguration';
 import { Response } from '../DAL/Response';
 
+import * as vf from '../Helpers/ValidateFields';
+
 export async function GetApplicationConfiguration(): Promise<Response> {
+    const response = new Response();
     try {
-        const appConfig = await ApplicationConfiguration.findOne({
-            where: { id: 1 },
-        });
+        const appConfig = await ApplicationConfiguration.findOne({ where: { id: 1, deleted: false } });
         if (!appConfig) {
-            return new Response(400, 'Application configuration not found', null);
+            response.set(404, 'Application configuration not found', null);
+            return response;
         }
-        return new Response(200, 'Application configuration retrieved successfully', appConfig);
+        response.set(200, 'Getted application configuration successfully', appConfig);
+        return response;
     } catch (error) {
-        return new Response(500, 'Error while retrieving application configuration', error);
+        response.set(500, 'Server error while getting application configuration', error);
+        return response;
     }
 }
 
-export async function UpdateApplicationConfiguration(request: IApplicationConfiguration): Promise<Response> {
-    if (vf.IsAlpha(request.language)) {
-        if (vf.IsNumeric(request.maxRadius) && vf.IsNumeric(request.maxPointsPerRoute)) {
-            const appConfig = await ApplicationConfiguration.findOne({
-                where: { id: 1 },
-            });
-            if (!appConfig) {
-                return new Response(400, 'Application configuration not found', null);
-            }
-            appConfig.set({
-                language: request.language,
-                maxRadius: request.maxRadius,
-                maxPointsPerRoute: request.maxPointsPerRoute,
-            });
-            await appConfig.save();
-            return new Response(200, 'Application configuration saved successfully', appConfig);
-        }
+export async function UpdateApplicationConfiguration(request: any): Promise<Response> {
+    const response = new Response();
+    if (!vf.IsAlphanumeric(request.language)) {
+        response.set(422, 'Invalid datatype for language', null);
+        return response;
     }
-    return new Response(400, 'Failed to update application configuration due invalid fields', request);
+    const maxRadius = vf.IsNumeric(request.maxRadius) ? parseInt(request.maxRadius) : null;
+    if (!maxRadius) {
+        response.set(422, 'Invalid datatype for max radius', null);
+        return response;
+    }
+    if (maxRadius < 1 || maxRadius > 10000) {
+        response.set(422, 'Max radius cannot be less than 1 or greater than 10000', maxRadius);
+        return response;
+    }
+    const maxPointsPerRoute = vf.IsNumeric(request.maxPointsPerRoute) ? parseInt(request.maxPointsPerRoute) : null;
+    if (!maxPointsPerRoute) {
+        response.set(422, 'Invalid datatype for max points per route', null);
+        return response;
+    }
+    if (maxPointsPerRoute < 1 || maxPointsPerRoute > 20) {
+        response.set(422, 'Max points per route cannot be less than 1 or greater than 20', maxPointsPerRoute);
+        return response;
+    }
+    try {
+        const appConfig = await ApplicationConfiguration.findOne({ where: { deleted: false } });
+        if (!appConfig) {
+            response.set(404, 'Application configuration not found', null);
+            return response;
+        }
+        appConfig.set({
+            language: request.language,
+            maxRadius,
+            maxPointsPerRoute,
+            updatedOn: Date.now(),
+        });
+        await appConfig.save();
+        response.set(200, 'Updated application configuration successfully', appConfig);
+        return response;
+    } catch (error) {
+        response.set(500, 'Server error while updating application configuration', error);
+        return response;
+    }
 }

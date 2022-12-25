@@ -2,13 +2,13 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
 export interface IRolePermission {
-    id?: number;
-    roleId?: number;
-    permissionName?: string;
+    id: number;
+    roleId: number;
+    permissionName: string;
     permissionDefault: boolean;
-    createdOn?: Date;
-    updatedOn?: Date;
-    deleted?: boolean;
+    createdOn: Date;
+    updatedOn: Date;
+    deleted: boolean;
 }
 
 export const RolePermission = sequelize.define(
@@ -25,8 +25,8 @@ export const RolePermission = sequelize.define(
             allowNull: false,
             references: {
                 model: 'Role',
-                key: 'id'
-            }
+                key: 'id',
+            },
         },
         permissionName: {
             type: DataTypes.STRING,
