@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { IUser } from '../DAL/User';
 import * as User from '../BAL/bUser';
 
 export async function LogInWeb(req: Request, res: Response): Promise<Response> {

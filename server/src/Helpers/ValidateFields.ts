@@ -38,8 +38,18 @@ export const IsNumeric = (value: any): boolean => {
     return false;
 };
 
+export const IsDecimal = (value: any): boolean => {
+    if (value) {
+        if (typeof value === 'number') {
+            return true;
+        }
+        return validator.isDecimal(value);
+    }
+    return false;
+};
+
 export const IsPassword = (value: any): boolean => {
-    if (typeof(value) === 'string') {
+    if (typeof value === 'string') {
         return value.trim().length >= PASSWORD_LENGTH;
     }
     return false;
