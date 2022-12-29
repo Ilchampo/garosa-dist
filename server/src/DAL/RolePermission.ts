@@ -5,6 +5,7 @@ export interface IRolePermission {
     id: number;
     roleId: number;
     permissionName: string;
+    permissionDescription: string;
     permissionDefault: boolean;
     createdOn: Date;
     updatedOn: Date;
@@ -29,6 +30,11 @@ export const RolePermission = sequelize.define(
             },
         },
         permissionName: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
+        },
+        permissionDescription: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,

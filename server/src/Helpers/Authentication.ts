@@ -1,10 +1,23 @@
+import jwt from 'jsonwebtoken';
+
 import { GetRolePermissionByRoleId } from '../BAL/bRolePermission';
-import { IRolePermission } from '../DAL/RolePermission';
 import { Response } from '../DAL/Response';
 import { appConfiguration } from '../Application.config';
-import jwt from 'jsonwebtoken';
-import * as vf from './ValidateFields';
 import { IUser } from '../DAL/User';
+
+import * as vf from './ValidateFields';
+
+export function GetUserTokenId(header: string | undefined): number {
+    if (typeof header !== 'undefined') {
+        const token = header.split(' ')[1];
+        const validToken = jwt.verify(token, appConfiguration.app.key);
+        if (validToken) {
+            const tokenObject = JSON.parse(JSON.stringify(validToken));
+            return tokenObject.userId ? parseInt(tokenObject.userId) : 0;
+        }
+    }
+    return 0;
+}
 
 export async function GenerateToken(request: { user: IUser; roleId: any }): Promise<Response> {
     const response = new Response();

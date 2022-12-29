@@ -5,8 +5,9 @@ import passport from 'passport';
 import { appConfiguration } from './Application.config';
 
 import passportStrategy from './Middlewares/Passport';
+import appConfigRouter from './Routes/ApplicationConfigurationRoutes';
 import userRouter from './Routes/UserRoutes';
-import userAccessRouter from './Routes/UserAccessRoutes';
+import logRouter from './Routes/LogRoutes';
 import pointRouter from './Routes/PointRoutes';
 
 const path = '/api/v1';
@@ -19,9 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 
+app.use(`${path}/appconfig`, appConfigRouter);
 app.use(`${path}/users`, userRouter);
-app.use(`${path}/accesses`, userAccessRouter);
 app.use(`${path}/points`, pointRouter);
+app.use(`${path}/logs`, logRouter);
 
 passport.use(passportStrategy);
 

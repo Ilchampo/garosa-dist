@@ -1,6 +1,7 @@
-import * as dotenv from 'dotenv';
 import { Database } from './Database.model';
 import { appConfiguration } from '../../Application.config';
+
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 

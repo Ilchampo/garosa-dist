@@ -15,10 +15,6 @@ export async function CreateLog(request: any): Promise<Response> {
         response.set(422, 'Invalid datatype for log status', null);
         return response;
     }
-    if (!vf.IsAlpha(request.logName) || !vf.IsAlpha(request.logDescription)) {
-        response.set(422, 'Invalid datatype for log name and/or log description', null);
-        return response;
-    }
     try {
         const log = await Log.create({
             userId,

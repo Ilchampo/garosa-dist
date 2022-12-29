@@ -21,7 +21,7 @@ export async function GetApplicationConfiguration(): Promise<Response> {
 
 export async function UpdateApplicationConfiguration(request: any): Promise<Response> {
     const response = new Response();
-    if (!vf.IsAlphanumeric(request.language)) {
+    if (!request.language) {
         response.set(422, 'Invalid datatype for language', null);
         return response;
     }

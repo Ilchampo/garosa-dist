@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { IApplicationConfiguration } from '../DAL/ApplicationConfiguration';
 import * as ApplicationConfiguration from '../BAL/bApplicationConfiguration';
 
 export async function GetApplicationConfiguration(req: Request, res: Response): Promise<Response> {

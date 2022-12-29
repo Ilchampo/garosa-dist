@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
+import { GetUserTokenId } from '../Helpers/Authentication';
 import * as Point from '../BAL/bPoint';
 
 export async function CreatePoint(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const request: any = {
+        actionUser,
         pointName: req.body.pointName,
         pointDescription: req.body.pointDescription,
         pointImage: req.body.pointImage,
@@ -25,8 +28,10 @@ export async function GetPointById(req: Request, res: Response): Promise<Respons
 }
 
 export async function UpdatePointById(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const pointId = req.query.id;
     const request = {
+        actionUser,
         pointId,
         data: {
             pointName: req.body.pointName,
@@ -39,7 +44,8 @@ export async function UpdatePointById(req: Request, res: Response): Promise<Resp
 }
 
 export async function DeletePointById(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const pointId = req.query.id;
-    const result = await Point.DeletePointById(pointId);
+    const result = await Point.DeletePointById({ actionUser, pointId });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }

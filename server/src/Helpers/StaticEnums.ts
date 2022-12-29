@@ -1,6 +1,6 @@
 export enum LogStatus {
-    SUCCESSS = 0,
-    FAILED = 1,
+    FAILED = 0,
+    SUCCESSS = 1,
 }
 
 export enum RoutePointStatus {

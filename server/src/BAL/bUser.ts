@@ -4,11 +4,13 @@ import { Response } from '../DAL/Response';
 import { User, IUser } from '../DAL/User';
 import { QueryTypes } from 'sequelize';
 import { GenerateToken } from '../Helpers/Authentication';
+import { appConfiguration } from '../Application.config';
 
 import * as vf from '../Helpers/ValidateFields';
 import * as gen from '../Helpers/Generators';
 import * as enums from '../Helpers/StaticEnums';
 import * as bUserAccess from './bUserAccess';
+import * as bLog from './bLog';
 
 export async function LogInWeb(request: { email: string; password: string }): Promise<Response> {
     const response = new Response();
@@ -65,7 +67,7 @@ export async function LogInMobile(request: { email: string; password: string }):
         response.set(422, 'Invalid values for emails and/or password', null);
         return response;
     }
-    if (vf.IsEmail(request.email) && vf.IsPassword(request.password)) {
+    if (!vf.IsEmail(request.email) && !vf.IsPassword(request.password)) {
         response.set(422, 'Invalid datatypes for emails and/or password', null);
         return response;
     }
@@ -178,6 +180,7 @@ export async function GetUserById(request: any): Promise<Response> {
 }
 
 export async function CreateUser(request: {
+    actionUser: number;
     role: any;
     data: { firstName: string; lastName: string; email: string };
 }): Promise<Response> {
@@ -223,10 +226,26 @@ export async function CreateUser(request: {
         const linkedUserAccess = await bUserAccess.CreateUserAccess(userAccess);
         if (linkedUserAccess.status !== 200) {
             await User.update({ deleted: true }, { where: { id: newUser.dataValues.id } });
+            const log = await bLog.CreateLog({
+                userId: request.actionUser,
+                logName: 'CREATE USER',
+                logDescription: `Failed to create new user ${newUser.dataValues.email}`,
+                logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
+                logStatus: enums.LogStatus.FAILED,
+            });
+            console.log(Date.now(), '-', log.payload.dataValues.logDescription);
             response.set(linkedUserAccess.status, linkedUserAccess.message, linkedUserAccess.payload);
             return response;
         }
-        response.set(200, 'User created successfully', { email: request.data.email, password: encrypted });
+        const log = await bLog.CreateLog({
+            userId: request.actionUser,
+            logName: 'CREATE USER',
+            logDescription: `Create new user ${newUser.dataValues.email}`,
+            logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
+            logStatus: enums.LogStatus.SUCCESSS,
+        });
+        console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+        response.set(200, 'User created successfully', { email: request.data.email, password });
         return response;
     } catch (error) {
         response.set(500, 'Server error while creating a new user', error);
@@ -234,11 +253,19 @@ export async function CreateUser(request: {
     }
 }
 
-export async function EditUser(request: { id: any; data: { firstName: string; lastName: string } }): Promise<Response> {
+export async function EditUser(request: {
+    id: any;
+    actionUser: number;
+    data: { firstName: string; lastName: string };
+}): Promise<Response> {
     const response = new Response();
     const userId = vf.IsNumeric(request.id) ? parseInt(request.id) : null;
     if (!userId) {
         response.set(422, 'Invalid datatype for user id', null);
+        return response;
+    }
+    if (!vf.IsAlpha(request.data.firstName) || !vf.IsAlpha(request.data.lastName)) {
+        response.set(422, 'Invalid datatype for firstname and/or lastname', null);
         return response;
     }
     try {
@@ -256,6 +283,14 @@ export async function EditUser(request: { id: any; data: { firstName: string; la
             updatedOn: Date.now(),
         });
         await user.save();
+        const log = await bLog.CreateLog({
+            userId: request.actionUser,
+            logName: 'UPDATE USER',
+            logDescription: `Update user ${user.dataValues.email}`,
+            logSource: `DB: ${appConfiguration.db.name}; TB: user`,
+            logStatus: enums.LogStatus.SUCCESSS,
+        });
+        console.log(Date.now(), '-', log.payload.dataValues.logDescription);
         response.set(200, 'User password recovered successfully', {
             email: user.dataValues.email,
             name: `${request.data.firstName} ${request.data.lastName}`,
@@ -268,6 +303,7 @@ export async function EditUser(request: { id: any; data: { firstName: string; la
 }
 
 export async function ChangePassword(request: {
+    actionUser: number;
     id: any;
     currentPassword: string;
     newPassword: string;
@@ -277,6 +313,10 @@ export async function ChangePassword(request: {
     const userId = vf.IsNumeric(request.id) ? parseInt(request.id) : null;
     if (!userId) {
         response.set(422, 'Invalid datatype for user id', null);
+        return response;
+    }
+    if (request.actionUser !== userId) {
+        response.set(401, 'Invalid user authorization', null);
         return response;
     }
     if (request.newPassword !== request.confirmPassword) {
@@ -309,9 +349,9 @@ export async function ChangePassword(request: {
     }
 }
 
-export async function RecoverPassword(request: any): Promise<Response> {
+export async function RecoverPassword(request: { actionUser: number; userId: any }): Promise<Response> {
     const response = new Response();
-    const userId = vf.IsNumeric(request) ? parseInt(request) : null;
+    const userId = vf.IsNumeric(request.userId) ? parseInt(request.userId) : null;
     if (!userId) {
         response.set(422, 'Invalid datatype for user id', null);
         return response;
@@ -330,6 +370,14 @@ export async function RecoverPassword(request: any): Promise<Response> {
         const encrypted = await bcrypt.hash(password, salt);
         user.set({ password: encrypted, updatedOn: Date.now() });
         await user.save();
+        const log = await bLog.CreateLog({
+            userId: request.actionUser,
+            logName: 'UPDATE USER',
+            logDescription: `Recover password for user ${user.dataValues.email}`,
+            logSource: `DB: ${appConfiguration.db.name}; TB: user`,
+            logStatus: enums.LogStatus.SUCCESSS,
+        });
+        console.log(Date.now(), '-', log.payload.dataValues.logDescription);
         response.set(200, 'User password recovered successfully', { email: user.dataValues.email, password: password });
         return response;
     } catch (error) {
@@ -338,9 +386,9 @@ export async function RecoverPassword(request: any): Promise<Response> {
     }
 }
 
-export async function DeleteUser(request: any): Promise<Response> {
+export async function DeleteUser(request: { actionUser: number; userId: any }): Promise<Response> {
     const response = new Response();
-    const userId = vf.IsNumeric(request) ? parseInt(request) : null;
+    const userId = vf.IsNumeric(request.userId) ? parseInt(request.userId) : null;
     if (!userId) {
         response.set(422, 'Invalid datatype for user id', null);
         return response;
@@ -359,8 +407,21 @@ export async function DeleteUser(request: any): Promise<Response> {
             response.set(userAccess.status, userAccess.message, userAccess.payload);
             return response;
         }
+        const userLogs = await bLog.DeleteLogsByUserId(userId);
+        if (userLogs.status !== 200) {
+            response.set(userLogs.status, userLogs.message, userLogs.payload);
+            return response;
+        }
         user.set({ updatedOn: Date.now(), deleted: true });
         await user.save();
+        const log = await bLog.CreateLog({
+            userId: request.actionUser,
+            logName: 'DELETE USER',
+            logDescription: `Delete existing user ${user.dataValues.email}`,
+            logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
+            logStatus: enums.LogStatus.SUCCESSS,
+        });
+        console.log(Date.now(), '-', log.payload.dataValues.logDescription);
         response.set(200, 'User deleted successfully', user.dataValues.email);
         return response;
     } catch (error) {

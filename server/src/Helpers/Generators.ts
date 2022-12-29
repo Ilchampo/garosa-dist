@@ -10,7 +10,7 @@ export function GenerateHash(): string {
         result += chars.charAt(Math.floor(Math.random() * charsLength));
     }
     return result;
-};
+}
 
 export function GeneratePassword() {
     const chars: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321!@#$%^&*()';
@@ -21,4 +21,4 @@ export function GeneratePassword() {
         result += chars.charAt(Math.floor(Math.random() * charsLength));
     }
     return result;
-};
+}

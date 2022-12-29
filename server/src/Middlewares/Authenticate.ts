@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 
 import { NextFunction, Response, Request } from 'express';
 import { appConfiguration } from '../Application.config';
-import e from 'cors';
 
 export function userAuthentication(permissions: string[]) {
     return (req: Request, res: Response, next: NextFunction) => {

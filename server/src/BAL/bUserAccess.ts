@@ -1,4 +1,4 @@
-import { UserAccess, IUserAccess } from '../DAL/UserAccess';
+import { UserAccess } from '../DAL/UserAccess';
 import { Response } from '../DAL/Response';
 
 import * as vf from '../Helpers/ValidateFields';

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as User from '../BAL/bUser';
+import { GetUserTokenId } from '../Helpers/Authentication';
 
 export async function LogInWeb(req: Request, res: Response): Promise<Response> {
     const user: { email: string; password: string } = {
@@ -7,6 +8,15 @@ export async function LogInWeb(req: Request, res: Response): Promise<Response> {
         password: req.body.password,
     };
     const result = await User.LogInWeb(user);
+    return res.status(result.status).json({ msg: result.message, payload: result.payload });
+}
+
+export async function LogInMobile(req: Request, res: Response): Promise<Response> {
+    const user: { email: string; password: string } = {
+        email: req.body.email,
+        password: req.body.password,
+    };
+    const result = await User.LogInMobile(user);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
@@ -28,18 +38,21 @@ export async function GetUserById(req: Request, res: Response): Promise<Response
 }
 
 export async function CreateUser(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const user: { firstName: string; lastName: string; email: string } = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
     };
-    const result = await User.CreateUser({ role: req.body.role, data: user });
+    const result = await User.CreateUser({ actionUser, role: req.body.role, data: user });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function EditUser(req: Request, res: Response): Promise<Response> {
-    const request: { id: any; data: { firstName: string; lastName: string } } = {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
+    const request: { id: any; actionUser: number; data: { firstName: string; lastName: string } } = {
         id: req.query.id,
+        actionUser,
         data: {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -50,7 +63,15 @@ export async function EditUser(req: Request, res: Response): Promise<Response> {
 }
 
 export async function ChangePassword(req: Request, res: Response): Promise<Response> {
-    const request: { id: any; currentPassword: string; newPassword: string; confirmPassword: string } = {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
+    const request: {
+        actionUser: number;
+        id: any;
+        currentPassword: string;
+        newPassword: string;
+        confirmPassword: string;
+    } = {
+        actionUser,
         id: req.query.id,
         currentPassword: req.body.currentPassword,
         newPassword: req.body.newPassword,
@@ -61,13 +82,15 @@ export async function ChangePassword(req: Request, res: Response): Promise<Respo
 }
 
 export async function RecoverPassword(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const userId = req.query.id;
-    const result = await User.RecoverPassword(userId);
+    const result = await User.RecoverPassword({ actionUser, userId });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function DeleteUser(req: Request, res: Response): Promise<Response> {
+    const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const userId = req.query.id;
-    const result = await User.DeleteUser(userId);
+    const result = await User.DeleteUser({ actionUser, userId });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
