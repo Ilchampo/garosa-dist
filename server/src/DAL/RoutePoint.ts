@@ -45,11 +45,11 @@ export const RoutePoint = sequelize.define(
         },
         reportTitle: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         reportDescription: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         routePointStatus: {
             type: DataTypes.INTEGER,
