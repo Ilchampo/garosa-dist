@@ -11,6 +11,7 @@ import logRouter from './Routes/LogRoutes';
 import pointRouter from './Routes/PointRoutes';
 import roleRouter from './Routes/RoleRoutes';
 import rolePermissionRouter from './Routes/RolePermissionRoutes';
+import routePointRouter from './Routes/RoutePointRoutes';
 import userRouter from './Routes/UserRoutes';
 import userAccessRouter from './Routes/UserAccessRoutes';
 
@@ -29,8 +30,9 @@ app.use(`${version}/logs`, logRouter);
 app.use(`${version}/points`, pointRouter);
 app.use(`${version}/roles`, roleRouter);
 app.use(`${version}/permissions`, rolePermissionRouter);
+app.use(`${version}/points`, routePointRouter);
 app.use(`${version}/users`, userRouter);
-app.use(`${version}/access`, userAccessRouter);
+app.use(`${version}/accesses`, userAccessRouter);
 
 passport.use(passportStrategy);
 

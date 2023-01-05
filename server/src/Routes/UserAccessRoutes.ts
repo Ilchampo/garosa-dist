@@ -11,9 +11,9 @@ const userAccessRouter = Router();
 // @param  [userId: user Id] [roleId: role Id]
 // @perms  None
 userAccessRouter.post(
-    '/create',
-    userAuthentication([permission.createUserAccess]),
-    UserAccessController.CreateUserAccess
+	'/create',
+	userAuthentication([permission.createUserAccess]),
+	UserAccessController.CreateUserAccess
 );
 
 // @route  GET /access/get/access?id
@@ -21,9 +21,9 @@ userAccessRouter.post(
 // @param  [id: access Id]
 // @perms  None
 userAccessRouter.get(
-    '/get/access',
-    userAuthentication([permission.getUserAccessById]),
-    UserAccessController.GetUserAccessById
+	'/get/access',
+	userAuthentication([permission.getUserAccessById]),
+	UserAccessController.GetUserAccessById
 );
 
 // @route  DELETE /access/delete/access?id
@@ -31,9 +31,9 @@ userAccessRouter.get(
 // @param  [id: access Id]
 // @perms  None
 userAccessRouter.delete(
-    '/delete/access',
-    userAuthentication([permission.deleteUserAccessById]),
-    UserAccessController.DeleteUserAccessById
+	'/delete/access',
+	userAuthentication([permission.deleteUserAccessById]),
+	UserAccessController.DeleteUserAccessById
 );
 
 // @route  DELETE /access/delete/user?id
@@ -41,9 +41,9 @@ userAccessRouter.delete(
 // @param  [id: user Id]
 // @perms  None
 userAccessRouter.delete(
-    '/delete/user',
-    userAuthentication([permission.deleteAllUserAccess]),
-    UserAccessController.DeleteAllUserAccess
+	'/delete/user',
+	userAuthentication([permission.deleteAllUserAccess]),
+	UserAccessController.DeleteAllUserAccess
 );
 
 export default userAccessRouter;

@@ -11,9 +11,9 @@ const rolePermissionRouter = Router();
 // @param  [id: role permission Id]
 // @perms  getRolePermissionByRoleId
 rolePermissionRouter.get(
-    '/get/permission',
-    userAuthentication([permission.getRolePermissionByRoleId]),
-    RolePermissionController.GetRolePermissionByRoleId
+	'/get/permission',
+	userAuthentication([permission.getRolePermissionByRoleId]),
+	RolePermissionController.GetRolePermissionByRoleId
 );
 
 // @route  PUT /permissions/edit/permission?id
@@ -21,9 +21,9 @@ rolePermissionRouter.get(
 // @param  [id: role permission Id]
 // @perms  toggleRolePermissionById
 rolePermissionRouter.put(
-    '/edit/permission',
-    userAuthentication([permission.toggleRolePermissionById]),
-    RolePermissionController.ToggleRolePermissionById
+	'/edit/permission',
+	userAuthentication([permission.toggleRolePermissionById]),
+	RolePermissionController.ToggleRolePermissionById
 );
 
 // @route  DELETE /permissions/delete/permission?id
@@ -31,9 +31,9 @@ rolePermissionRouter.put(
 // @param  [id: role permission Id]
 // @perms  deleteRolePermissionById
 rolePermissionRouter.delete(
-    '/delete/permission',
-    userAuthentication([permission.deleteRolePermissionById]),
-    RolePermissionController.DeleteRolePermissionById
+	'/delete/permission',
+	userAuthentication([permission.deleteRolePermissionById]),
+	RolePermissionController.DeleteRolePermissionById
 );
 
 // @route  DELETE /permissions/delete/role?id
@@ -41,9 +41,9 @@ rolePermissionRouter.delete(
 // @param  [id: role Id]
 // @perms  deleteAllRolePermissionByRole
 rolePermissionRouter.delete(
-    '/delete/role',
-    userAuthentication([permission.deleteAllRolePermissionByRole]),
-    RolePermissionController.DeleteAllRolePermissionByRole
+	'/delete/role',
+	userAuthentication([permission.deleteAllRolePermissionByRole]),
+	RolePermissionController.DeleteAllRolePermissionByRole
 );
 
 export default rolePermissionRouter;
