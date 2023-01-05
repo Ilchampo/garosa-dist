@@ -6,64 +6,64 @@ import * as UserController from '../Controllers/UserController';
 
 const userRouter = Router();
 
-// @routes  POST /users/login/web
-// @descri  Log in user on web app
-// @params  None
-// @access  Administrator, Supervisor
+// @route  POST /users/login/web
+// @descr  Log in user on web app
+// @param  None
+// @perms  None
 userRouter.post('/login/web', UserController.LogInWeb);
 
-// @routes  POST /users/login/mobile
-// @descri  Log in user on mobile app
-// @params  None
-// @access  Distributor
+// @route  POST /users/login/mobile
+// @descr  Log in user on mobile app
+// @param  None
+// @perms  None
 userRouter.post('/login/mobile', UserController.LogInMobile);
 
-// @routes  GET /users/get/all
-// @descri  Get all the users
-// @params  None
-// @access  Administrator, Supervisor, Distributor
-userRouter.get('/get/all', userAuthentication([permission.readUser]), UserController.GetAllUsers);
+// @route  GET /users/get/all
+// @descr  Get all the users
+// @param  None
+// @perms  getAllUsers
+userRouter.get('/get/all', userAuthentication([permission.getAllUsers]), UserController.GetAllUsers);
 
-// @routes  GET /users/get/role?id
-// @descri  Get all the users within a role
-// @params  {id}: Role Id
-// @access  Administrator, Supervisor, Distributor
-userRouter.get('/get/role', userAuthentication([permission.readUser]), UserController.GetAllUsersByRole);
+// @route  GET /users/get/role?id
+// @descr  Get all the users within a role
+// @param  [id: user Id]
+// @perms  getAllUsersByRole
+userRouter.get('/get/role', userAuthentication([permission.getAllUsersByRole]), UserController.GetAllUsersByRole);
 
-// @routes  GET /users/get/user?id
-// @descri  Get user
-// @params  {id}: User Id
-// @access  Administrator, Supervisor, Distributor
-userRouter.get('/get/user', userAuthentication([permission.readUser]), UserController.GetUserById);
+// @route  GET /users/get/user?id
+// @descr  Get user
+// @param  [id: user Id]
+// @perms  getUserById
+userRouter.get('/get/user', userAuthentication([permission.getUserById]), UserController.GetUserById);
 
-// @routes  POST /users/create/
-// @descri  Create a user
-// @params  None
-// @access  Administrator
+// @route  POST /users/create/
+// @descr  Create a user
+// @param  None
+// @perms  createUser
 userRouter.post('/create', userAuthentication([permission.createUser]), UserController.CreateUser);
 
-// @routes  PUT /users/edit/user?id
-// @descri  Edit a user
-// @params  {id}: User Id
-// @access  Administrator
-userRouter.put('/edit/user', userAuthentication([permission.updateUser]), UserController.EditUser);
+// @route  PUT /users/edit/user?id
+// @descr  Edit a user
+// @param  [id: user Id]
+// @perms  editUser
+userRouter.put('/edit/user', userAuthentication([permission.editUser]), UserController.EditUser);
 
-// @routes  PUT /users/edit/password?id
-// @descri  Update user password
-// @params  {id}: User Id
-// @access  Administrator, Supervisor, Distributor
-userRouter.put('/edit/password', userAuthentication([]), UserController.ChangePassword);
+// @route  PUT /users/edit/password?id
+// @descr  Update user password
+// @param  [id: user Id]
+// @perms  changePassword
+userRouter.put('/edit/password', userAuthentication([permission.changePassword]), UserController.ChangePassword);
 
-// @routes  PUT /users/edit/recover?id
-// @descri  Create new user password and update user
-// @params  {id}: User Id
-// @access  Administrator
+// @route  PUT /users/edit/recover?id
+// @descr  Create new user password and update user
+// @param  [id: user Id]
+// @perms  recoverPassword
 userRouter.put('/edit/recover', userAuthentication([permission.recoverPassword]), UserController.RecoverPassword);
 
-// @routes  DELETE /users/delete/user?id
-// @descri  Delete a user
-// @params  {id}: User Id
-// @access  Administrator
+// @route  DELETE /users/delete/user?id
+// @descr  Delete a user
+// @param  [id: user Id]
+// @perms  deleteUser
 userRouter.delete('/delete/user', userAuthentication([permission.deleteUser]), UserController.DeleteUser);
 
 export default userRouter;

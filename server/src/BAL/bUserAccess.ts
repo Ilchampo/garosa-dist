@@ -32,10 +32,10 @@ export async function CreateUserAccess(request: { user: any; role: any }): Promi
             createdOn: Date.now(),
             updatedOn: Date.now(),
         });
-        response.set(200, 'User access created successfully', { userId, roleId });
+        response.set(200, 'User access created', newUserAccess.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while creating user access', error);
+        response.set(500, 'Server error at bUserAccess.CreateUserAccess', error);
         return response;
     }
 }
@@ -53,10 +53,10 @@ export async function GetUserAccessById(request: any): Promise<Response> {
             response.set(404, 'User access not found', null);
             return response;
         }
-        response.set(200, 'Getted user access by user id successfully', userAccess);
+        response.set(200, 'Found user access', userAccess.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while getting user access by user id', error);
+        response.set(500, 'Server error at bUserAccess.GetUserAccessById', error);
         return response;
     }
 }
@@ -76,10 +76,10 @@ export async function DeleteUserAccessById(request: any): Promise<Response> {
         }
         userAccess.set({ deleted: true });
         await userAccess.save();
-        response.set(200, 'Deleted user access by id successfully', { userAccessId });
+        response.set(200, 'Deleted user access', userAccess.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while deleting user access by id', null);
+        response.set(500, 'Server error at bUserAccess.DeleteUserAccessById', error);
         return response;
     }
 }
@@ -101,10 +101,10 @@ export async function DeleteAllUserAccess(request: any): Promise<Response> {
             access.set({ deleted: true });
             await access.save();
         });
-        response.set(200, 'User accesses deleted successfully', { userId });
+        response.set(200, 'User accesses deleted', { userId });
         return response;
     } catch (error) {
-        response.set(500, 'Server error while deleting all user accesses by user id', null);
+        response.set(500, 'Server error at bUserAccess.DeleteAllUserAccess', error);
         return response;
     }
 }

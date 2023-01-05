@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as User from '../BAL/bUser';
+import * as bUser from '../BAL/bUser';
 import { GetUserTokenId } from '../Helpers/Authentication';
 
 export async function LogInWeb(req: Request, res: Response): Promise<Response> {
@@ -7,7 +7,7 @@ export async function LogInWeb(req: Request, res: Response): Promise<Response> {
         email: req.body.email,
         password: req.body.password,
     };
-    const result = await User.LogInWeb(user);
+    const result = await bUser.LogInWeb(user);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
@@ -16,24 +16,24 @@ export async function LogInMobile(req: Request, res: Response): Promise<Response
         email: req.body.email,
         password: req.body.password,
     };
-    const result = await User.LogInMobile(user);
+    const result = await bUser.LogInMobile(user);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
-export async function GetAllUsers(req: Request, res: Response): Promise<Response> {
-    const result = await User.GetAllUsers();
+export async function GetAllUsers(_req: Request, res: Response): Promise<Response> {
+    const result = await bUser.GetAllUsers();
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function GetAllUsersByRole(req: Request, res: Response): Promise<Response> {
     const roleId = req.query.id;
-    const result = await User.GetAllUsersByRole(roleId);
+    const result = await bUser.GetAllUsersByRole(roleId);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function GetUserById(req: Request, res: Response): Promise<Response> {
     const userId = req.query.id;
-    const result = await User.GetUserById(userId);
+    const result = await bUser.GetUserById(userId);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
@@ -44,7 +44,7 @@ export async function CreateUser(req: Request, res: Response): Promise<Response>
         lastName: req.body.lastName,
         email: req.body.email,
     };
-    const result = await User.CreateUser({ actionUser, role: req.body.role, data: user });
+    const result = await bUser.CreateUser({ actionUser, role: req.body.role, data: user });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
@@ -58,7 +58,7 @@ export async function EditUser(req: Request, res: Response): Promise<Response> {
             lastName: req.body.lastName,
         },
     };
-    const result = await User.EditUser(request);
+    const result = await bUser.EditUser(request);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
@@ -77,20 +77,20 @@ export async function ChangePassword(req: Request, res: Response): Promise<Respo
         newPassword: req.body.newPassword,
         confirmPassword: req.body.confirmPassword,
     };
-    const result = await User.ChangePassword(request);
+    const result = await bUser.ChangePassword(request);
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function RecoverPassword(req: Request, res: Response): Promise<Response> {
     const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const userId = req.query.id;
-    const result = await User.RecoverPassword({ actionUser, userId });
+    const result = await bUser.RecoverPassword({ actionUser, userId });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
 export async function DeleteUser(req: Request, res: Response): Promise<Response> {
     const actionUser: number = GetUserTokenId(req.header('Authorization'));
     const userId = req.query.id;
-    const result = await User.DeleteUser({ actionUser, userId });
+    const result = await bUser.DeleteUser({ actionUser, userId });
     return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }

@@ -14,11 +14,7 @@ import * as enums from '../Helpers/StaticEnums';
 
 export async function LogInWeb(request: { email: string; password: string }): Promise<Response> {
     const response = new Response();
-    if (!request.email || !request.password) {
-        response.set(422, 'Invalid values for emails and/or password', null);
-        return response;
-    }
-    if (!vf.IsEmail(request.email) && !vf.IsPassword(request.password)) {
+    if (!request.email || !request.password || !vf.IsEmail(request.email) || !vf.IsPassword(request.password)) {
         response.set(422, 'Invalid datatypes for emails and/or password', null);
         return response;
     }
@@ -56,18 +52,14 @@ export async function LogInWeb(request: { email: string; password: string }): Pr
         response.set(200, 'User logged in successfully', token.payload);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while log in user', error);
+        response.set(500, 'Server error at bUser.LogInWeb', error);
         return response;
     }
 }
 
 export async function LogInMobile(request: { email: string; password: string }): Promise<Response> {
     const response = new Response();
-    if (!request.email || !request.password) {
-        response.set(422, 'Invalid values for emails and/or password', null);
-        return response;
-    }
-    if (!vf.IsEmail(request.email) && !vf.IsPassword(request.password)) {
+    if (!request.email || !request.password || !vf.IsEmail(request.email) || !vf.IsPassword(request.password)) {
         response.set(422, 'Invalid datatypes for emails and/or password', null);
         return response;
     }
@@ -105,7 +97,7 @@ export async function LogInMobile(request: { email: string; password: string }):
         response.set(200, 'User logged in successfully', token.payload);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while log in user', error);
+        response.set(500, 'Server error at bUser.LogInMobile', error);
         return response;
     }
 }
@@ -120,10 +112,10 @@ export async function GetAllUsers(): Promise<Response> {
             response.set(404, 'Users not found', null);
             return response;
         }
-        response.set(200, 'Getted all users successfully', users);
+        response.set(200, 'Found users', users);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while getting all the users', error);
+        response.set(500, 'Server error at bUser.GetAllUsers', error);
         return response;
     }
 }
@@ -147,10 +139,10 @@ export async function GetAllUsersByRole(request: any): Promise<Response> {
             response.set(404, 'Users not found', null);
             return response;
         }
-        response.set(200, 'Getted users by role id successfully', users);
+        response.set(200, 'Found users', users);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while getting users by role id', error);
+        response.set(500, 'Server error at bUser.GetAllUsersByRole', error);
         return response;
     }
 }
@@ -171,10 +163,10 @@ export async function GetUserById(request: any): Promise<Response> {
             response.set(404, 'User not found', null);
             return response;
         }
-        response.set(200, 'Getted user by id successfully', user);
+        response.set(200, 'User found', user.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while getting user by id', error);
+        response.set(500, 'Server error at bUser.GetUserById', error);
         return response;
     }
 }
@@ -195,7 +187,7 @@ export async function CreateUser(request: {
         return response;
     }
     if (!vf.IsAlpha(request.data.firstName) || !vf.IsAlpha(request.data.lastName) || !vf.IsEmail(request.data.email)) {
-        response.set(422, 'Invalid fields for firstname, lastname and/or email', null);
+        response.set(422, 'Invalid datatype for firstname, lastname and/or email', null);
         return response;
     }
     try {
@@ -245,10 +237,10 @@ export async function CreateUser(request: {
             logStatus: enums.LogStatus.SUCCESSS,
         });
         console.log(Date.now(), '-', log.payload.dataValues.logDescription);
-        response.set(200, 'User created successfully', { email: request.data.email, password });
+        response.set(200, 'User created', { email: request.data.email, password });
         return response;
     } catch (error) {
-        response.set(500, 'Server error while creating a new user', error);
+        response.set(500, 'Server error at bUser.CreateUser', error);
         return response;
     }
 }
@@ -291,7 +283,7 @@ export async function EditUser(request: {
             logStatus: enums.LogStatus.SUCCESSS,
         });
         console.log(Date.now(), '-', log.payload.dataValues.logDescription);
-        response.set(200, 'User password recovered successfully', {
+        response.set(200, 'User updated', {
             email: user.dataValues.email,
             name: `${request.data.firstName} ${request.data.lastName}`,
         });
@@ -316,11 +308,11 @@ export async function ChangePassword(request: {
         return response;
     }
     if (request.actionUser !== userId) {
-        response.set(401, 'Invalid user authorization', null);
+        response.set(401, 'Cannot change password of other user', null);
         return response;
     }
     if (request.newPassword !== request.confirmPassword) {
-        response.set(422, 'New password does not match with confirmation', null);
+        response.set(422, 'New password does not match with confirmation password', null);
         return response;
     }
     try {
@@ -331,7 +323,7 @@ export async function ChangePassword(request: {
         }
         const passwordMatch = await bcrypt.compare(request.currentPassword, user.dataValues.password);
         if (!passwordMatch) {
-            response.set(422, 'New password does not match with confirmation', null);
+            response.set(422, 'Current password is incorrect', null);
             return response;
         }
         const salt = await bcrypt.genSalt();
@@ -341,10 +333,10 @@ export async function ChangePassword(request: {
             updatedOn: Date.now(),
         });
         await user.save();
-        response.set(200, 'User password changed successfully', { email: user.dataValues.email });
+        response.set(200, 'User password changed', { email: user.dataValues.email });
         return response;
     } catch (error) {
-        response.set(500, 'Server error while changing user password', error);
+        response.set(500, 'Server error at bUser.ChangePassword', error);
         return response;
     }
 }
@@ -378,10 +370,10 @@ export async function RecoverPassword(request: { actionUser: number; userId: any
             logStatus: enums.LogStatus.SUCCESSS,
         });
         console.log(Date.now(), '-', log.payload.dataValues.logDescription);
-        response.set(200, 'User password recovered successfully', { email: user.dataValues.email, password: password });
+        response.set(200, 'User password recovered', { email: user.dataValues.email, password: password });
         return response;
     } catch (error) {
-        response.set(500, 'Server error while recovering user password', error);
+        response.set(500, 'Server error at bUser.RecoverPassword', error);
         return response;
     }
 }
@@ -422,10 +414,10 @@ export async function DeleteUser(request: { actionUser: number; userId: any }): 
             logStatus: enums.LogStatus.SUCCESSS,
         });
         console.log(Date.now(), '-', log.payload.dataValues.logDescription);
-        response.set(200, 'User deleted successfully', user.dataValues.email);
+        response.set(200, 'User deleted', user.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while deleting a user', null);
+        response.set(500, 'Server error at bUser.DeleteUser', error);
         return response;
     }
 }

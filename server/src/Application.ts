@@ -12,6 +12,7 @@ import pointRouter from './Routes/PointRoutes';
 import roleRouter from './Routes/RoleRoutes';
 import rolePermissionRouter from './Routes/RolePermissionRoutes';
 import userRouter from './Routes/UserRoutes';
+import userAccessRouter from './Routes/UserAccessRoutes';
 
 const version = '/api/v1';
 const app = express();
@@ -29,6 +30,7 @@ app.use(`${version}/points`, pointRouter);
 app.use(`${version}/roles`, roleRouter);
 app.use(`${version}/permissions`, rolePermissionRouter);
 app.use(`${version}/users`, userRouter);
+app.use(`${version}/access`, userAccessRouter);
 
 passport.use(passportStrategy);
 
