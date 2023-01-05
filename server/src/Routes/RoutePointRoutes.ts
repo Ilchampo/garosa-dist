@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { userAuthentication } from '../Middlewares/Authenticate';
 import { permission } from '../Library/Permissions';
 
-import * as PointRouteController from '../Controllers/RoutePointcontroller';
+import * as RoutePointController from '../Controllers/RoutePointController';
 
 const routePointRouter = Router();
 
@@ -13,7 +13,7 @@ const routePointRouter = Router();
 routePointRouter.post(
 	'/create',
 	userAuthentication([permission.createRoutePoint]),
-	PointRouteController.CreateRoutePoint
+	RoutePointController.CreateRoutePoint
 );
 
 // @route  GET /points/get/route?id
@@ -23,7 +23,7 @@ routePointRouter.post(
 routePointRouter.get(
 	'/get/route',
 	userAuthentication([permission.getAllRoutePointsByRouteId]),
-	PointRouteController.GetAllRoutePointsByRouteId
+	RoutePointController.GetAllRoutePointsByRouteId
 );
 
 // @route  GET /points/get/point?id
@@ -33,7 +33,7 @@ routePointRouter.get(
 routePointRouter.get(
 	'/get/point',
 	userAuthentication([permission.getRoutePointById]),
-	PointRouteController.GetRoutePointById
+	RoutePointController.GetRoutePointById
 );
 
 // @route  PUT /points/edit/start?pointId&latitude&longitude
@@ -43,7 +43,7 @@ routePointRouter.get(
 routePointRouter.put(
 	'/edit/start',
 	userAuthentication([permission.startRoutePointById]),
-	PointRouteController.StartRoutePointById
+	RoutePointController.StartRoutePointById
 );
 
 // @route  PUT /points/edit/upload?pointId&latitude&longitude
@@ -53,7 +53,27 @@ routePointRouter.put(
 routePointRouter.put(
 	'/edit/upload',
 	userAuthentication([permission.uploadRoutePointReport]),
-	PointRouteController.UploadRoutePointReport
+	RoutePointController.UploadRoutePointReport
+);
+
+// @route  DELETE /points/delete/route?id
+// @descr  Delete all the route points by route id
+// @param  [id: route Id]
+// @perms  deleteAllRoutePointsByRouteId
+routePointRouter.delete(
+	'/delete/route',
+	userAuthentication([permission.deleteAllRoutePointsByRouteId]),
+	RoutePointController.DeleteAllRoutePointsByRouteId
+);
+
+// @route  GET /points/validate/route?id
+// @descr  Validate that all route points are completed
+// @param  [id: route Id]
+// @perms  validateCompleteRoutePoints
+routePointRouter.get(
+	'/validate/route',
+	userAuthentication([permission.validateCompleteRoutePoints]),
+	RoutePointController.ValidateCompleteRoutePoints
 );
 
 export default routePointRouter;

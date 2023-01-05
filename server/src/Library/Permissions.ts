@@ -40,6 +40,8 @@ export const permission = {
 	getRoutePointById: 'getRoutePointById',
 	startRoutePointById: 'startRoutePointById',
 	uploadRoutePointReport: 'uploadRoutePointReport',
+	deleteAllRoutePointsByRouteId: 'deleteAllRoutePointsByRouteId',
+	validateCompleteRoutePoints: 'validateCompleteRoutePoints',
 
 	// Users Permissions
 	getAllUsers: 'getAllUsers',

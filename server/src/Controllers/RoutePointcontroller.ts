@@ -45,3 +45,15 @@ export async function UploadRoutePointReport(req: Request, res: Response): Promi
 	const result = await bRoutePoint.UploadRoutePointReport(request);
 	return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
+
+export async function DeleteAllRoutePointsByRouteId(req: Request, res: Response): Promise<Response> {
+	const request = req.query.id;
+	const result = await bRoutePoint.DeleteAllRoutePointsByRouteId(request);
+	return res.status(result.status).json({ msg: result.message, payload: result.payload });
+}
+
+export async function ValidateCompleteRoutePoints(req: Request, res: Response): Promise<Response> {
+	const request = req.query.id;
+	const result = await bRoutePoint.ValidateCompleteRoutePoints(request);
+	return res.status(result.status).json({ msg: result.message, payload: result.payload });
+}

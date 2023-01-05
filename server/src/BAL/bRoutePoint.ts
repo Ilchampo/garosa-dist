@@ -215,3 +215,60 @@ export async function UploadRoutePointReport(request: {
 		return response;
 	}
 }
+
+export async function DeleteAllRoutePointsByRouteId(request: any): Promise<Response> {
+	const response = new Response();
+	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
+	if (!routeId) {
+		response.set(422, 'Invalid datatype for route id', null);
+		return response;
+	}
+	try {
+		const routePoints = await RoutePoint.findAll({ where: { routeId, deleted: false } });
+		if (routePoints.length < 1) {
+			response.set(404, 'Route points not found', null);
+			return response;
+		}
+		routePoints.forEach(async (point) => {
+			point.set({ updatedOn: Date.now(), deleted: true });
+			await point.save();
+		});
+		response.set(200, 'Route points deleted', routePoints);
+		return response;
+	} catch (error) {
+		response.set(500, 'Server error at bRoutePoint.DeleteAllRoutePointsByRouteId', error);
+		return response;
+	}
+}
+
+export async function ValidateCompleteRoutePoints(request: any): Promise<Response> {
+	const response = new Response();
+	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
+	if (!routeId) {
+		response.set(422, 'Invalid datatype for route id', null);
+		return response;
+	}
+	try {
+		const routePoints = await RoutePoint.findAll({ where: { routeId, deleted: false } });
+		if (routePoints.length < 1) {
+			response.set(404, 'Route points not found', null);
+			return response;
+		}
+		let success = true;
+		for (let i = 0; i < routePoints.length; i++) {
+			if (routePoints[i].dataValues.routeStatus !== enums.RoutePointStatus.FINISHED) {
+				success = false;
+				break;
+			}
+		}
+		if (!success) {
+			response.set(400, 'Pending route points', null);
+			return response;
+		}
+		response.set(200, 'Completed route points', routePoints);
+		return response;
+	} catch (error) {
+		response.set(500, 'Server error at bRoutePoint.ValidateCompleteRoutePoints', error);
+		return response;
+	}
+}

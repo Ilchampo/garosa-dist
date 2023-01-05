@@ -1,3 +1,3 @@
 # Database
 
-![Entity Relationship Diagram](/docs/Database/source/entity_relationship.svg)
+![Entity Relationship Diagram](source\entity_relationship.svg)
