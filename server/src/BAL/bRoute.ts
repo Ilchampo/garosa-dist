@@ -142,9 +142,36 @@ export async function GetAllRoutesByDistributor(request: any): Promise<Response>
 	}
 }
 
-// export async function UpdateRoute(request: any): Promise<Response> {}
-
-// export async function DeleteRoute(request: any): Promise<Response> {}
+export async function DeleteRoute(request: any): Promise<Response> {
+	const response = new Response();
+	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
+	if (!routeId) {
+		response.set(422, 'Invalid datatype for route id', null);
+		return response;
+	}
+	try {
+		const route = await Route.findOne({ where: { id: routeId, deleted: false } });
+		if (!route) {
+			response.set(404, 'Route not found', null);
+			return response;
+		}
+		const routePoints = await bRoutePoint.DeleteAllRoutePointsByRouteId(route.dataValues.id);
+		if (routePoints.status !== 200) {
+			response.set(routePoints.status, routePoints.message, routePoints.payload);
+			return response;
+		}
+		route.set({
+			updatedOn: Date.now(),
+			deleted: true,
+		});
+		await route.save();
+		response.set(200, 'Route deleted', route.dataValues);
+		return response;
+	} catch (error) {
+		response.set(500, 'Server error at bRoute.DeleteRoute', error);
+		return response;
+	}
+}
 
 export async function CompleteRoute(request: { actionUser: any; routeId: any }): Promise<Response> {
 	const response = new Response();

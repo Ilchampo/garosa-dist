@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as bUser from '../BAL/bUser';
 import { GetUserTokenId } from '../Helpers/Authentication';
+import * as bUser from '../BAL/bUser';
 
 export async function LogInWeb(req: Request, res: Response): Promise<Response> {
 	const user: { email: string; password: string } = {

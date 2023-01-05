@@ -33,6 +33,12 @@ export const permission = {
 	deleteAllRolePermissionByRole: 'deleteAllRolePermissionByRole',
 
 	// Distribution Routes Permissions
+	createRoute: 'createRoute',
+	getAllRoutes: 'getAllRoutes',
+	getAllRoutesBySupervisor: 'getAllRoutesBySupervisor',
+	getAllRoutesByDistributor: 'getAllRoutesByDistributor',
+	deleteRoute: 'deleteRoute',
+	completeRoute: 'completeRoute',
 
 	// Distribution Route Points Permissions
 	createRoutePoint: 'createRoutePoint',
