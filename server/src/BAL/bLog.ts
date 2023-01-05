@@ -26,10 +26,10 @@ export async function CreateLog(request: any): Promise<Response> {
             updatedOn: Date.now(),
             deleted: false,
         });
-        response.set(200, 'Created log successfully', log);
+        response.set(200, 'Created log', log.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while creating log', error);
+        response.set(500, 'Server error at bLog.CreateLog', error);
         return response;
     }
 }
@@ -38,11 +38,11 @@ export async function GetAllLogs(): Promise<Response> {
     const response = new Response();
     try {
         const logs = await Log.findAll({ where: { deleted: false } });
-        if (!logs) {
+        if (logs.length < 1) {
             response.set(404, 'Logs not found', null);
             return response;
         }
-        response.set(200, 'Getted all the logs successfully', logs);
+        response.set(200, 'Logs found', logs);
         return response;
     } catch (error) {
         response.set(500, 'Server error while getting all the logs', error);
@@ -63,12 +63,12 @@ export async function DeleteLogById(request: any): Promise<Response> {
             response.set(404, 'Log not found', null);
             return response;
         }
-        log.set({ deleted: true });
+        log.set({ updatedOn: Date.now(), deleted: true });
         await log.save();
-        response.set(500, 'Delete log bi id successfully', log);
+        response.set(500, 'Deleted log', log.dataValues);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while deleting log by id', error);
+        response.set(500, 'Server error at bLog.DeleteLogById', error);
         return response;
     }
 }
@@ -81,11 +81,11 @@ export async function DeleteLogsByUserId(request: any): Promise<Response> {
         return response;
     }
     try {
-        await Log.update({ deleted: true }, { where: { userId } });
-        response.set(200, 'Deleted all logs by user id successfully', userId);
+        await Log.update({ userId: 0, updatedOn: Date.now(), deleted: true }, { where: { userId } });
+        response.set(200, 'Deleted all user logs', userId);
         return response;
     } catch (error) {
-        response.set(500, 'Server error while deleting all logs by user id', error);
+        response.set(500, 'Server error at bLog.DeleteLogsByUserId', error);
         return response;
     }
 }

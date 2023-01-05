@@ -1,11 +1,10 @@
-import { Response } from '../DAL/Response';
 import { QueryTypes } from 'sequelize';
-
+import { Response } from '../DAL/Response';
 import { Route } from '../DAL/Route';
 
+import * as bLog from './bLog';
 import * as vf from '../Helpers/ValidateFields';
 import * as enums from '../Helpers/StaticEnums';
-import * as bLog from './bLog';
 import * as bRoutePoint from './bRoutePoint';
 
 export async function CreateRoute(request: {

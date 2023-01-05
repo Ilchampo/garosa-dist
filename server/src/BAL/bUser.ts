@@ -1,16 +1,16 @@
 import bcrypt from 'bcrypt';
 
+import { QueryTypes } from 'sequelize';
 import { Response } from '../DAL/Response';
 import { User, IUser } from '../DAL/User';
-import { QueryTypes } from 'sequelize';
 import { GenerateToken } from '../Helpers/Authentication';
 import { appConfiguration } from '../Application.config';
 
+import * as bUserAccess from './bUserAccess';
+import * as bLog from './bLog';
 import * as vf from '../Helpers/ValidateFields';
 import * as gen from '../Helpers/Generators';
 import * as enums from '../Helpers/StaticEnums';
-import * as bUserAccess from './bUserAccess';
-import * as bLog from './bLog';
 
 export async function LogInWeb(request: { email: string; password: string }): Promise<Response> {
     const response = new Response();

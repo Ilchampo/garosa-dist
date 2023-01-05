@@ -3,7 +3,6 @@ import { RoutePoint } from '../DAL/RoutePoint';
 
 import * as bPoint from './bPoint';
 import * as bApplicationConfiguration from './bApplicationConfiguration';
-
 import * as vf from '../Helpers/ValidateFields';
 import * as enums from '../Helpers/StaticEnums';
 

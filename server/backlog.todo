@@ -1,25 +1,10 @@
-TODO DECEMBER 29, 2022:
-    Distribution Routes:
-        ☐ Create Distribution Route
-            ☐ Select distribution points
-            ☐ Validate max points per route
-            ☐ Assign to only distributor user
-                ☐ Verify distributor is not busy
-        ☐ Read Distribution Route
-        ☐ Update Distribution Route
-            ☐ Verify status is not on progress
-        ☐ Delete Distribution Route
-        
-        Complete Distribution Route:
-            ☐ Change status
-            Route Points:
-                ☐ Verify that all reports are created
-                Report:
-                    ☐ Create Report
-                        ☐ Verify that is on radius
-                    ☐ Read Report
-                    ☐ Update Report
-                    ☐ Delete Report
-        
-            
-        
+Refactor & Linting:
+    ✔ Application Configuration @done (12/29/2022, 11:54:04 PM)
+    ✔ Logs @done (12/30/2022, 12:12:05 AM)
+    ✔ Distribution Points @done (12/30/2022, 12:40:51 AM)
+    ✔ Roles @done (12/29/2022, 10:47:34 PM)
+    ✔ Role Permissions @done (12/30/2022, 1:17:12 AM)
+    ☐ Distribution Routes
+    ☐ Route Points
+    ☐ Users
+    ☐ User Access

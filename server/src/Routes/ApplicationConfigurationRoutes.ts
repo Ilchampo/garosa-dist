@@ -6,24 +6,44 @@ import * as AppConfigController from '../Controllers/ApplicationConfigurationCon
 
 const appConfigRouter = Router();
 
-// @routes  GET /appconfig/get
-// @descri  Get application configuration
-// @params  None
-// @access  Administrator
+// @route  POST /appconfig/get
+// @descr  Create application configuration
+// @param  None
+// @perms  createApplicationConfiguration
+appConfigRouter.post(
+    '/create',
+    userAuthentication([permission.createApplicationConfiguration]),
+    AppConfigController.CreateApplicationConfiguration
+);
+
+// @route  GET /appconfig/get
+// @descr  Get application configuration
+// @param  None
+// @perms  getApplicationConfiguration
 appConfigRouter.get(
     '/get',
-    userAuthentication([permission.readAppConfig]),
+    userAuthentication([permission.getApplicationConfiguration]),
     AppConfigController.GetApplicationConfiguration
 );
 
-// @routes  PUT /appconfig/update
-// @descri  Update application configuration
-// @params  None
-// @access  Administrator
+// @route  PUT /appconfig/update
+// @descr  Update application configuration
+// @param  None
+// @perms  updateApplicationConfiguration
 appConfigRouter.put(
     '/update',
-    userAuthentication([permission.updateAppConfig]),
+    userAuthentication([permission.updateApplicationConfiguration]),
     AppConfigController.UpdateApplicationConfiguration
+);
+
+// @route  DELETE /appconfig/get
+// @descr  Delete application configuration
+// @param  None
+// @perms  deleteApplicationConfiguration
+appConfigRouter.delete(
+    '/delete',
+    userAuthentication([permission.deleteApplicationConfiguration]),
+    AppConfigController.DeleteApplicationConfiguration
 );
 
 export default appConfigRouter;

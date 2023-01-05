@@ -6,10 +6,28 @@ import * as LogController from '../Controllers/LogController';
 
 const logRouter = Router();
 
-// @routes  GET /logs/get/all
-// @descri  Get logs
-// @params  None
-// @access  Administrator
-logRouter.get('/get/all', userAuthentication([permission.readLog]), LogController.GetAllLogs);
+// @route  POST /logs/create
+// @descr  Create log
+// @param  None
+// @perms  createLog
+logRouter.post('/create', userAuthentication([permission.createLog]), LogController.CreateLog);
+
+// @route  GET /logs/get/all
+// @descr  Get all logs
+// @param  None
+// @perms  getAllLogs
+logRouter.get('/get/all', userAuthentication([permission.getAllLogs]), LogController.GetAllLogs);
+
+// @route  DELETE /logs/delete/log?id
+// @descr  Delete log by id
+// @param  [id: log Id]
+// @perms  deleteLogById
+logRouter.delete('/delete/log', userAuthentication([permission.deleteLogById]), LogController.DeleteLogById);
+
+// @route  DELETE /logs/delete/user?id
+// @descr  Delete all user logs
+// @param  [id: user Id]
+// @perms  deleteLogsByUserId
+logRouter.delete('/delete/user', userAuthentication([permission.deleteLogsByUserId]), LogController.DeleteLogsByUserId);
 
 export default logRouter;

@@ -5,12 +5,15 @@ import passport from 'passport';
 import { appConfiguration } from './Application.config';
 
 import passportStrategy from './Middlewares/Passport';
+
 import appConfigRouter from './Routes/ApplicationConfigurationRoutes';
-import userRouter from './Routes/UserRoutes';
 import logRouter from './Routes/LogRoutes';
 import pointRouter from './Routes/PointRoutes';
+import roleRouter from './Routes/RoleRoutes';
+import rolePermissionRouter from './Routes/RolePermissionRoutes';
+import userRouter from './Routes/UserRoutes';
 
-const path = '/api/v1';
+const version = '/api/v1';
 const app = express();
 
 app.set('port', appConfiguration.app.port);
@@ -20,10 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 
-app.use(`${path}/appconfig`, appConfigRouter);
-app.use(`${path}/users`, userRouter);
-app.use(`${path}/points`, pointRouter);
-app.use(`${path}/logs`, logRouter);
+app.use(`${version}/appconfig`, appConfigRouter);
+app.use(`${version}/logs`, logRouter);
+app.use(`${version}/points`, pointRouter);
+app.use(`${version}/roles`, roleRouter);
+app.use(`${version}/permissions`, rolePermissionRouter);
+app.use(`${version}/users`, userRouter);
 
 passport.use(passportStrategy);
 
