@@ -126,7 +126,7 @@ export async function StartRoutePointById(request: { routePointId: any; location
 			response.set(404, 'Route point not found', null);
 			return response;
 		}
-		const point = await bPoint.GetPointById({ where: { id: routePoint.dataValues.pointId, deleted: false } });
+		const point = await bPoint.GetPointById(routePoint.dataValues.pointId);
 		if (!point) {
 			response.set(404, 'Point not found', null);
 			return response;
@@ -184,7 +184,7 @@ export async function UploadRoutePointReport(request: {
 			response.set(404, 'Route point not found', null);
 			return response;
 		}
-		const point = await bPoint.GetPointById({ where: { id: routePoint.dataValues.pointId, deleted: false } });
+		const point = await bPoint.GetPointById(routePoint.dataValues.pointId);
 		if (!point) {
 			response.set(404, 'Point not found', null);
 			return response;
@@ -230,7 +230,7 @@ export async function DeleteAllRoutePointsByRouteId(request: any): Promise<Respo
 			return response;
 		}
 		routePoints.forEach(async (point) => {
-			point.set({ updatedOn: Date.now(), deleted: true });
+			point.set({ routePointStatus: enums.RoutePointStatus.CANCELED, updatedOn: Date.now(), deleted: true });
 			await point.save();
 		});
 		response.set(200, 'Route points deleted', routePoints);
@@ -254,15 +254,14 @@ export async function ValidateCompleteRoutePoints(request: any): Promise<Respons
 			response.set(404, 'Route points not found', null);
 			return response;
 		}
-		let success = true;
+		let payload = [];
 		for (let i = 0; i < routePoints.length; i++) {
-			if (routePoints[i].dataValues.routeStatus !== enums.RoutePointStatus.FINISHED) {
-				success = false;
-				break;
+			if (routePoints[i].dataValues.routePointStatus !== enums.RoutePointStatus.FINISHED) {
+				payload.push(routePoints[i].dataValues);
 			}
 		}
-		if (!success) {
-			response.set(400, 'Pending route points', null);
+		if (payload.length > 0) {
+			response.set(400, 'Pending route points', payload);
 			return response;
 		}
 		response.set(200, 'Completed route points', routePoints);

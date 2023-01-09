@@ -42,7 +42,7 @@ routeRouter.get(
 // @descr  Delete route
 // @param  [id: route id]
 // @perms  deleteRoute
-routeRouter.delete('/delete/route?id', userAuthentication([permission.deleteRoute]), RouteController.DeleteRoute);
+routeRouter.delete('/delete/route', userAuthentication([permission.deleteRoute]), RouteController.DeleteRoute);
 
 // @route  PUT /routes/complete/route?id
 // @descr  Complete route

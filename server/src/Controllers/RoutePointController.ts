@@ -21,7 +21,7 @@ export async function GetRoutePointById(req: Request, res: Response): Promise<Re
 }
 
 export async function StartRoutePointById(req: Request, res: Response): Promise<Response> {
-	const request = { routePointId: req.query.pointId, location: [req.query.latiude, req.query.longitude] };
+	const request = { routePointId: req.query.pointId, location: [req.query.latitude, req.query.longitude] };
 	const result = await bRoutePoint.StartRoutePointById(request);
 	return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }

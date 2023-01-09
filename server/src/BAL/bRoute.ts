@@ -43,9 +43,8 @@ export async function CreateRoute(request: {
 			deleted: false,
 		});
 		let success = true;
-		let routePoint;
 		for (let i = 0; i < request.routePoints.length; i++) {
-			routePoint = await bRoutePoint.CreateRoutePoint({
+			const routePoint = await bRoutePoint.CreateRoutePoint({
 				routeId: route.dataValues.id,
 				pointId: request.routePoints[i],
 			});
@@ -56,7 +55,7 @@ export async function CreateRoute(request: {
 		}
 		if (!success) {
 			await bRoutePoint.DeleteAllRoutePointsByRouteId(route.dataValues.id);
-			route.set({ updatedOn: Date.now(), deleted: true });
+			route.set({ routeStatus: enums.RouteStatus.CANCELED, updatedOn: Date.now(), deleted: true });
 			await route.save();
 			const log = await bLog.CreateLog({
 				userId: request.supervisorId,
