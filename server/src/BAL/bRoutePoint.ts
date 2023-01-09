@@ -254,7 +254,7 @@ export async function ValidateCompleteRoutePoints(request: any): Promise<Respons
 			response.set(404, 'Route points not found', null);
 			return response;
 		}
-		let payload = [];
+		const payload = [];
 		for (let i = 0; i < routePoints.length; i++) {
 			if (routePoints[i].dataValues.routePointStatus !== enums.RoutePointStatus.FINISHED) {
 				payload.push(routePoints[i].dataValues);
