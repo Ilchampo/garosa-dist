@@ -1,10 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
-import { UserAccess } from './UserAccess';
-import { Log } from './Log';
-import { Route } from './Route';
-
 export interface IUser {
 	id: number;
 	firstName: string;
@@ -45,12 +41,12 @@ export const User = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,
@@ -63,31 +59,3 @@ export const User = sequelize.define(
 		timestamps: false,
 	}
 );
-
-User.hasMany(UserAccess);
-UserAccess.belongsTo(User, {
-	foreignKey: 'userId',
-	targetKey: 'id',
-	as: 'user_access_user_FK',
-});
-
-User.hasMany(Route);
-Route.belongsTo(User, {
-	foreignKey: 'supervisorId',
-	targetKey: 'id',
-	as: 'route_supervisor_FK',
-});
-
-User.hasMany(Route);
-Route.belongsTo(User, {
-	foreignKey: 'distributorId',
-	targetKey: 'id',
-	as: 'route_distributor_FK',
-});
-
-User.hasMany(Log);
-Log.belongsTo(User, {
-	foreignKey: 'userId',
-	targetKey: 'id',
-	as: 'log_user_FK',
-});

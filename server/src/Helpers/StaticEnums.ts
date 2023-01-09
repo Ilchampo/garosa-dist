@@ -23,4 +23,5 @@ export enum Roles {
 	ADMINISTRATOR = 1,
 	SUPERVISOR = 2,
 	DISTRIBUTOR = 3,
+	MASTER = 4,
 }

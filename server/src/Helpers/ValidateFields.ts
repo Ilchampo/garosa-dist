@@ -29,7 +29,7 @@ export const IsAlphanumeric = (value: any): boolean => {
 };
 
 export const IsNumeric = (value: any): boolean => {
-	if (value) {
+	if (value || value === 0) {
 		if (typeof value === 'number') {
 			return true;
 		}

@@ -26,7 +26,7 @@ export const Log = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'User',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -49,12 +49,12 @@ export const Log = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,

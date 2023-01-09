@@ -34,7 +34,7 @@ export async function CreateApplicationConfiguration(request: {
 			const log = await bLog.CreateLog({
 				userId: actionUser,
 				logName: 'CREATE APP CONFIG',
-				logDescription: 'Failted to create application configuration',
+				logDescription: 'Failed to create application configuration',
 				logSource: `DB: ${appConfiguration.db.name}; TB: application_configuration`,
 				logStatus: enums.LogStatus.FAILED,
 			});

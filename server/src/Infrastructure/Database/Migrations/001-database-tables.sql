@@ -1,6 +1,9 @@
+CREATE DATABASE garosa_dist_prod;
+USE garosa_dist_prod;
+
 -- garosa_dist_dev.application_configuration definition
 
-CREATE TABLE `application_configuration` (
+CREATE TABLE IF NOT EXISTS `application_configuration` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for application configuration',
   `language` varchar(100) NOT NULL COMMENT 'Language of the application',
   `maxRadius` decimal(10,0) NOT NULL COMMENT 'Maximum radius from the distribution point',
@@ -14,7 +17,7 @@ CREATE TABLE `application_configuration` (
 
 -- garosa_dist_dev.`point` definition
 
-CREATE TABLE `point` (
+CREATE TABLE IF NOT EXISTS `point` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for distribution point',
   `pointName` varchar(100) NOT NULL COMMENT 'Name of the distribution point',
   `pointDescription` varchar(1000) NOT NULL COMMENT 'Description of the distribution point',
@@ -30,7 +33,7 @@ CREATE TABLE `point` (
 
 -- garosa_dist_dev.`role` definition
 
-CREATE TABLE `role` (
+CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for role',
   `roleName` varchar(100) NOT NULL COMMENT 'Name of the role',
   `roleDescription` varchar(1000) NOT NULL COMMENT 'Description of the role',
@@ -43,7 +46,7 @@ CREATE TABLE `role` (
 
 -- garosa_dist_dev.`user` definition
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for user',
   `firstName` varchar(100) NOT NULL COMMENT 'Firstname of the user',
   `lastName` varchar(100) NOT NULL COMMENT 'Lastname of the user',
@@ -59,7 +62,7 @@ CREATE TABLE `user` (
 
 -- garosa_dist_dev.log definition
 
-CREATE TABLE `log` (
+CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for log',
   `userId` int(11) NOT NULL COMMENT 'Foreign key for user unique identifier',
   `logName` varchar(100) NOT NULL COMMENT 'Name of the log',
@@ -77,7 +80,7 @@ CREATE TABLE `log` (
 
 -- garosa_dist_dev.role_permission definition
 
-CREATE TABLE `role_permission` (
+CREATE TABLE IF NOT EXISTS `role_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for the role permission',
   `roleId` int(11) NOT NULL COMMENT 'Foreign key for role unique identifier',
   `permissionName` varchar(100) NOT NULL COMMENT 'Name of the role permission',
@@ -94,15 +97,15 @@ CREATE TABLE `role_permission` (
 
 -- garosa_dist_dev.route definition
 
-CREATE TABLE `route` (
+CREATE TABLE IF NOT EXISTS `route` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for distribution route',
   `supervisorId` int(11) NOT NULL COMMENT 'Foreign key for supervisor unique identifier',
   `distributorId` int(11) NOT NULL COMMENT 'Foreign key for distributor unique identifier',
   `routeTitle` varchar(100) NOT NULL COMMENT 'Title of the route',
   `routeDescription` varchar(1000) NOT NULL COMMENT 'Description of the route',
   `routeStatus` int(11) NOT NULL COMMENT 'Status of the route',
-  `startTime` datetime NOT NULL COMMENT 'Start time of the route',
-  `endTime` datetime NOT NULL COMMENT 'End time of the route',
+  `startTime` datetime DEFAULT NULL COMMENT 'Start time of the route',
+  `endTime` datetime DEFAULT NULL COMMENT 'End time of the route',
   `createdOn` datetime NOT NULL COMMENT 'When the record was created',
   `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
   `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
@@ -110,14 +113,13 @@ CREATE TABLE `route` (
   KEY `route_distributor_FK` (`distributorId`),
   KEY `route_supervisor_FK` (`supervisorId`),
   CONSTRAINT `route_distributor_FK` FOREIGN KEY (`distributorId`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `route_supervisor_FK` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `route_user_FK` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`) ON DELETE CASCADE
+  CONSTRAINT `route_supervisor_FK` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application distribution routes created by Supervisors';
 
 
 -- garosa_dist_dev.route_point definition
 
-CREATE TABLE `route_point` (
+CREATE TABLE IF NOT EXISTS `route_point` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for route point',
   `pointId` int(11) NOT NULL COMMENT 'Foreign key for distribution point unique identifier',
   `routeId` int(11) NOT NULL COMMENT 'Foreign key for the distribution route unique identifier',
@@ -127,8 +129,8 @@ CREATE TABLE `route_point` (
   `reportImageOne` varchar(1000) DEFAULT NULL COMMENT 'First image of the report',
   `reportImageTwo` varchar(1000) DEFAULT NULL COMMENT 'Second image of the report',
   `reportImageThree` varchar(1000) DEFAULT NULL COMMENT 'Thrid image of the report',
-  `startTime` datetime NOT NULL COMMENT 'Start time of the route point',
-  `endTime` datetime NOT NULL COMMENT 'End time of the route point',
+  `startTime` datetime DEFAULT NULL COMMENT 'Start time of the route point',
+  `endTime` datetime DEFAULT NULL COMMENT 'End time of the route point',
   `createdOn` datetime NOT NULL COMMENT 'When the record was created',
   `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
   `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
@@ -141,7 +143,7 @@ CREATE TABLE `route_point` (
 
 -- garosa_dist_dev.user_access definition
 
-CREATE TABLE `user_access` (
+CREATE TABLE IF NOT EXISTS `user_access` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for user access',
   `userId` int(11) NOT NULL COMMENT 'Foreign key for user unique identifier',
   `roleId` int(11) NOT NULL COMMENT 'Foreign key for role unique identifier',

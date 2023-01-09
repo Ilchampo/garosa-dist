@@ -46,7 +46,7 @@ userRouter.post('/create', userAuthentication([permission.createUser]), UserCont
 // @descr  Edit a user
 // @param  [id: user Id]
 // @perms  editUser
-userRouter.put('/edit/user', userAuthentication([permission.editUser]), UserController.EditUser);
+userRouter.put('/edit/user', userAuthentication([permission.editUser]), UserController.UpdateUser);
 
 // @route  PUT /users/edit/password?id
 // @descr  Update user password

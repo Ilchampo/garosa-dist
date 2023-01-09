@@ -20,7 +20,7 @@ export async function LogInWeb(request: { email: string; password: string }): Pr
 	}
 	try {
 		const userQuery = `SELECT u.*, ac.roleId FROM user u JOIN user_access ac ON u.id = ac.userId 
-        WHERE ac.roleId IN (${enums.Roles.ADMINISTRATOR}, ${enums.Roles.SUPERVISOR}) 
+        WHERE ac.roleId IN (${enums.Roles.ADMINISTRATOR}, ${enums.Roles.SUPERVISOR}, ${enums.Roles.MASTER}) 
         AND u.email = '${request.email}' AND u.deleted = 0 LIMIT 1`;
 		const userResult = await User.sequelize?.query(userQuery, { type: QueryTypes.SELECT });
 		const user = userResult?.at(0);
@@ -225,7 +225,7 @@ export async function CreateUser(request: {
 				logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
 				logStatus: enums.LogStatus.FAILED,
 			});
-			console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+			console.log(Date.now(), '-', log.payload.logDescription);
 			response.set(linkedUserAccess.status, linkedUserAccess.message, linkedUserAccess.payload);
 			return response;
 		}
@@ -236,7 +236,7 @@ export async function CreateUser(request: {
 			logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'User created', { email: request.data.email, password });
 		return response;
 	} catch (error) {
@@ -245,7 +245,7 @@ export async function CreateUser(request: {
 	}
 }
 
-export async function EditUser(request: {
+export async function UpdateUser(request: {
 	id: any;
 	actionUser: number;
 	data: { firstName: string; lastName: string };
@@ -282,7 +282,7 @@ export async function EditUser(request: {
 			logSource: `DB: ${appConfiguration.db.name}; TB: user`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'User updated', {
 			email: user.dataValues.email,
 			name: `${request.data.firstName} ${request.data.lastName}`,
@@ -369,7 +369,7 @@ export async function RecoverPassword(request: { actionUser: number; userId: any
 			logSource: `DB: ${appConfiguration.db.name}; TB: user`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'User password recovered', { email: user.dataValues.email, password: password });
 		return response;
 	} catch (error) {
@@ -413,7 +413,7 @@ export async function DeleteUser(request: { actionUser: number; userId: any }): 
 			logSource: `DB: ${appConfiguration.db.name}; TB: user, user_access`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'User deleted', user.dataValues);
 		return response;
 	} catch (error) {

@@ -42,7 +42,7 @@ export async function CreateUserAccess(request: { user: any; role: any }): Promi
 
 export async function GetUserAccessById(request: any): Promise<Response> {
 	const response = new Response();
-	const userId = vf.IsNumeric(request.user) ? parseInt(request.user) : null;
+	const userId = vf.IsNumeric(request) ? parseInt(request) : null;
 	if (!userId) {
 		response.set(422, 'Invalid datatype for user id', null);
 		return response;

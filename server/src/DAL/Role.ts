@@ -1,9 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
-import { RolePermission } from './RolePermission';
-import { UserAccess } from './UserAccess';
-
 export interface IRole {
 	id: number;
 	roleName: string;
@@ -34,12 +31,12 @@ export const Role = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,
@@ -52,17 +49,3 @@ export const Role = sequelize.define(
 		timestamps: false,
 	}
 );
-
-Role.hasMany(UserAccess);
-UserAccess.belongsTo(Role, {
-	foreignKey: 'roleId',
-	targetKey: 'id',
-	as: 'user_access_role_FK',
-});
-
-Role.hasMany(RolePermission);
-RolePermission.belongsTo(Role, {
-	foreignKey: 'roleId',
-	targetKey: 'id',
-	as: 'role_permission_role_FK',
-});

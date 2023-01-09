@@ -33,7 +33,7 @@ export async function CreateRole(request: { actionUser: any; roleName: any; role
 			logSource: `DB: ${appConfiguration.db.name}; TB: role`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Created role', role.dataValues);
 		return response;
 	} catch (error) {
@@ -60,7 +60,7 @@ export async function GetAllRoles(): Promise<Response> {
 
 export async function GetRoleById(request: any): Promise<Response> {
 	const response = new Response();
-	const roleId = vf.IsNumeric(request.roleId) ? parseInt(request.roleId) : null;
+	const roleId = vf.IsNumeric(request) ? parseInt(request) : null;
 	if (!roleId) {
 		response.set(422, 'Invalid datatype for role id', null);
 		return response;
@@ -119,7 +119,7 @@ export async function UpdateRoleById(request: {
 			logSource: `DB: ${appConfiguration.db.name}; TB: role`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Updated role successfully', role);
 		return response;
 	} catch (error) {

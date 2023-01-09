@@ -48,7 +48,7 @@ export async function CreateUser(req: Request, res: Response): Promise<Response>
 	return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
-export async function EditUser(req: Request, res: Response): Promise<Response> {
+export async function UpdateUser(req: Request, res: Response): Promise<Response> {
 	const actionUser: number = GetUserTokenId(req.header('Authorization'));
 	const request: { id: any; actionUser: number; data: { firstName: string; lastName: string } } = {
 		id: req.query.id,
@@ -58,7 +58,7 @@ export async function EditUser(req: Request, res: Response): Promise<Response> {
 			lastName: req.body.lastName,
 		},
 	};
-	const result = await bUser.EditUser(request);
+	const result = await bUser.UpdateUser(request);
 	return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 

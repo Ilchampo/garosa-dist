@@ -31,7 +31,7 @@ export const RoutePoint = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'Route',
+				model: 'route',
 				key: 'id',
 			},
 		},
@@ -39,7 +39,7 @@ export const RoutePoint = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'Point',
+				model: 'point',
 				key: 'id',
 			},
 		},
@@ -78,12 +78,12 @@ export const RoutePoint = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,

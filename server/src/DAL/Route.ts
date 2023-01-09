@@ -1,8 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
-import { RoutePoint } from './RoutePoint';
-
 export interface IRoute {
 	id: number;
 	supervisorId: number;
@@ -30,7 +28,7 @@ export const Route = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'User',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -38,11 +36,11 @@ export const Route = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'User',
+				model: 'user',
 				key: 'id',
 			},
 		},
-		routeName: {
+		routeTitle: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
@@ -65,12 +63,12 @@ export const Route = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,
@@ -83,10 +81,3 @@ export const Route = sequelize.define(
 		timestamps: false,
 	}
 );
-
-Route.hasMany(RoutePoint);
-RoutePoint.belongsTo(Route, {
-	foreignKey: 'routeId',
-	targetKey: 'id',
-	as: 'route_point_route_FK',
-});

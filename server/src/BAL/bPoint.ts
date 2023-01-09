@@ -35,7 +35,7 @@ export async function CreatePoint(request: {
 				logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 				logStatus: enums.LogStatus.FAILED,
 			});
-			console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+			console.log(Date.now(), '-', log.payload.logDescription);
 			response.set(422, 'Distribution point already exists', point.dataValues);
 			return response;
 		}
@@ -56,7 +56,7 @@ export async function CreatePoint(request: {
 			logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Created point successfully', newPoint.dataValues);
 		return response;
 	} catch (error) {
@@ -128,7 +128,7 @@ export async function UpdatePointById(request: { actionUser: any; pointId: any; 
 				logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 				logStatus: enums.LogStatus.FAILED,
 			});
-			console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+			console.log(Date.now(), '-', log.payload.logDescription);
 			response.set(404, 'Point not found', null);
 			return response;
 		}
@@ -146,7 +146,7 @@ export async function UpdatePointById(request: { actionUser: any; pointId: any; 
 			logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Updated distribution point successfully', point);
 		return response;
 	} catch (error) {
@@ -177,7 +177,7 @@ export async function DeletePointById(request: { actionUser: any; pointId: any }
 				logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 				logStatus: enums.LogStatus.FAILED,
 			});
-			console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+			console.log(Date.now(), '-', log.payload.logDescription);
 			response.set(404, 'Point not found', null);
 			return response;
 		}
@@ -190,7 +190,7 @@ export async function DeletePointById(request: { actionUser: any; pointId: any }
 			logSource: `DB: ${appConfiguration.db.name}; TB: point`,
 			logStatus: enums.LogStatus.SUCCESSS,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Deleted distribution point', point.dataValues);
 		return response;
 	} catch (error) {

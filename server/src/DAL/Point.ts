@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../Infrastructure/Database/Database';
 
-import { RoutePoint } from './RoutePoint';
+// import { RoutePoint } from './RoutePoint';
 
 export interface IPoint {
 	id: number;
@@ -47,12 +47,12 @@ export const Point = sequelize.define(
 		createdOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		updatedOn: {
 			type: DataTypes.DATE,
 			allowNull: false,
-			defaultValue: Date.now(),
+			defaultValue: DataTypes.NOW,
 		},
 		deleted: {
 			type: DataTypes.BOOLEAN,
@@ -65,10 +65,3 @@ export const Point = sequelize.define(
 		timestamps: false,
 	}
 );
-
-Point.hasMany(RoutePoint);
-RoutePoint.belongsTo(Point, {
-	foreignKey: 'pointId',
-	targetKey: 'id',
-	as: 'route_point_point_FK',
-});

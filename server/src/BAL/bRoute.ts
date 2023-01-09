@@ -43,8 +43,9 @@ export async function CreateRoute(request: {
 			deleted: false,
 		});
 		let success = true;
+		let routePoint;
 		for (let i = 0; i < request.routePoints.length; i++) {
-			const routePoint = await bRoutePoint.CreateRoutePoint({
+			routePoint = await bRoutePoint.CreateRoutePoint({
 				routeId: route.dataValues.id,
 				pointId: request.routePoints[i],
 			});
@@ -64,7 +65,7 @@ export async function CreateRoute(request: {
 				logSource: `DB: ${appConfiguration.db.name}; TB: route, route_point`,
 				logStatus: enums.RouteStatus.CANCELED,
 			});
-			console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+			console.log(Date.now(), '-', log.payload.logDescription);
 			response.set(400, 'Could not create route', null);
 			return response;
 		}
@@ -75,7 +76,7 @@ export async function CreateRoute(request: {
 			logSource: `DB: ${appConfiguration.db.name}; TB: route, route_point`,
 			logStatus: enums.RouteStatus.ACTIVE,
 		});
-		console.log(Date.now(), '-', log.payload.dataValues.logDescription);
+		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Route created', route);
 		return response;
 	} catch (error) {

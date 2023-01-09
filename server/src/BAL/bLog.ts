@@ -11,7 +11,7 @@ export async function CreateLog(request: any): Promise<Response> {
 		return response;
 	}
 	const logStatus = vf.IsNumeric(request.logStatus) ? parseInt(request.logStatus) : null;
-	if (!logStatus) {
+	if (logStatus === null) {
 		response.set(422, 'Invalid datatype for log status', null);
 		return response;
 	}
@@ -21,7 +21,7 @@ export async function CreateLog(request: any): Promise<Response> {
 			logName: request.logName,
 			logDescription: request.logDescription,
 			logSource: request.logSource,
-			logStatus: request.logStatus,
+			logStatus: logStatus,
 			createdOn: Date.now(),
 			updatedOn: Date.now(),
 			deleted: false,
@@ -52,7 +52,7 @@ export async function GetAllLogs(): Promise<Response> {
 
 export async function DeleteLogById(request: any): Promise<Response> {
 	const response = new Response();
-	const logId = vf.IsAlpha(request) ? parseInt(request) : null;
+	const logId = vf.IsNumeric(request) ? parseInt(request) : null;
 	if (!logId) {
 		response.set(422, 'Invalid datatype for log id', null);
 		return response;
@@ -75,13 +75,13 @@ export async function DeleteLogById(request: any): Promise<Response> {
 
 export async function DeleteLogsByUserId(request: any): Promise<Response> {
 	const response = new Response();
-	const userId = vf.IsAlpha(request) ? parseInt(request) : null;
+	const userId = vf.IsNumeric(request) ? parseInt(request) : null;
 	if (!userId) {
 		response.set(422, 'Invalid datatype for user id', null);
 		return response;
 	}
 	try {
-		await Log.update({ userId: 0, updatedOn: Date.now(), deleted: true }, { where: { userId } });
+		await Log.update({ updatedOn: Date.now(), deleted: true }, { where: { userId } });
 		response.set(200, 'Deleted all user logs', userId);
 		return response;
 	} catch (error) {
