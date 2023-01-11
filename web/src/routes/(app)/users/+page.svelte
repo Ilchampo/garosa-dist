@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { modalStore } from '@skeletonlabs/skeleton';
+	export let data: PageData;
 	import {
 		createDataTableStore,
 		dataTableHandler,
@@ -8,7 +8,6 @@
 		tableA11y,
 		Paginator
 	} from '@skeletonlabs/skeleton';
-	export let data: PageData;
 	const dataSource: any[] = data.payload;
 	const dataTableStore = createDataTableStore(dataSource, {
 		search: '',
@@ -18,7 +17,7 @@
 	dataTableStore.subscribe((model) => dataTableHandler(model));
 </script>
 
-<div class="card w-full">
+<div class="card w-full max-h-full">
 	<div class="card-header">
 		<h2>Users</h2>
 		<p>Information about the current users on Garosa Dist</p>
@@ -50,7 +49,7 @@
 										}}
 									/></th
 								>
-								<th data-sort="id">ID</th>
+								<th data-sort="role">Role</th>
 								<th>Full Name</th>
 								<th>Email</th>
 								<th data-sort="createdOn">Created On</th>
@@ -65,7 +64,15 @@
 										<input type="checkbox" bind:checked={row.dataTableChecked} />
 									</td>
 									<td role="gridcell" aria-colindex={1} tabindex="0">
-										<em class="opacity-50">{row.id}</em>
+										{#if row.role === 1}
+											<span class="badge w-full badge-filled-primary">Administrator</span>
+										{:else if row.role === 2}
+											<span class="badge w-full badge-filled-secondary">Supervisor</span>
+										{:else if row.role === 3}
+											<span class="badge w-full badge-filled-tertiary">Distributor</span>
+										{:else}
+											<span class="badge w-full badge-filled-surface">Master</span>
+										{/if}
 									</td>
 									<td
 										role="gridcell"
@@ -75,31 +82,22 @@
 									>
 										{row.firstName}
 										{row.lastName}
-										{#if row.role === 1}
-											<span class="badge badge-filled-primary">Administrator</span>
-										{:else if row.role === 2}
-											<span class="badge badge-filled-secondary">Supervisor</span>
-										{:else if row.role === 3}
-											<span class="badge badge-filled-tertiary">Distributor</span>
-										{:else}
-											<span class="badge badge-filled-surface">Master</span>
-										{/if}
 									</td>
 									<td role="gridcell" aria-colindex={3} tabindex="0" class="md:!whitespace-normal">
 										{row.email}
 									</td>
 									<td role="gridcell" aria-colindex={4} tabindex="0" class="md:!whitespace-normal">
-										{row.createdOn}
+										{ new Date(row.createdOn).toLocaleString('en-GB') }
 									</td>
 									<td role="gridcell" aria-colindex={5} tabindex="0" class="md:!whitespace-normal">
-										{row.updatedOn}
+										{ new Date(row.updatedOn).toLocaleString('en-GB') }
 									</td>
 									<td role="gridcell" aria-colindex={6} tabindex="0" class="table-cell-fit">
 										{#if row.role === 1 || row.role === 4}
 											<b>No actions available</b>
 										{:else}
 											<button class="btn btn-filled-secondary btn-base">Update</button>
-											<button class="btn btn-filled-primary btn-base">Delete</button>
+											<button class="btn btn-filled-error btn-base">Delete</button>
 										{/if}
 									</td>
 								</tr>

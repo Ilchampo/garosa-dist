@@ -1,11 +1,11 @@
 import type { ResponseInterface } from '$lib/interfaces/responseInterface';
 import type { Actions, PageServerLoad } from './$types';
-import { getAllUsers } from '$lib/repository/user';
 import { redirect, error } from '@sveltejs/kit';
+import * as userRepo from '$lib/repositories/user';
 
 export const load: PageServerLoad = async (event) => {
 	const token = event.cookies.get('Authorization');
-	const request: ResponseInterface = await getAllUsers(token);
+	const request: ResponseInterface = await userRepo.getAllUsers(token);
 	if (!request) {
 		throw error(401, 'Something went wrong when getting all users');
 	}
