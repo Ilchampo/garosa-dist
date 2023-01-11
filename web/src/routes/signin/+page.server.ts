@@ -1,7 +1,7 @@
+import type { ResponseInterface } from '$lib/interfaces/responseInterface';
 import type { Actions } from './$types';
 import { redirect, error } from '@sveltejs/kit';
 import { logInWeb } from '$lib/repository/user';
-import type { ResponseInterface } from '$lib/interfaces/responseInterface';
 
 export const actions: Actions = {
 	default: async (event) => {
