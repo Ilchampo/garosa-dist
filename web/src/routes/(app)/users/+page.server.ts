@@ -1,6 +1,6 @@
 import type { ResponseInterface } from '$lib/interfaces/responseInterface';
-import type { Actions, PageServerLoad } from './$types';
-import { redirect, error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import { error } from '@sveltejs/kit';
 import * as userRepo from '$lib/repositories/user';
 
 export const load: PageServerLoad = async (event) => {
@@ -12,9 +12,9 @@ export const load: PageServerLoad = async (event) => {
 	return request;
 };
 
-export const actions: Actions = {
-	create: async (event) => {},
-	update: async (event) => {},
-	recover: async (event) => {},
-	delete: async (event) => {}
-};
+// export const actions: Actions = {
+// 	create: async (event) => {},
+// 	update: async (event) => {},
+// 	recover: async (event) => {},
+// 	delete: async (event) => {}
+// };

@@ -5,7 +5,7 @@
 	const storeValue: Writable<number> = writable(1);
 </script>
 
-<AppRail selected={storeValue} width='w-12'>
+<AppRail selected={storeValue} width="w-12">
 	<AppRailTile tag="a" href="/" value={1}>
 		<SvgIcon name="house" width="w-6" height="h-6" fill="fill-primary-400" />
 	</AppRailTile>

@@ -3,7 +3,7 @@ import type { ResponseInterface } from '$lib/interfaces/responseInterface';
 import { appConfig } from '$lib/config';
 
 export async function getAllLogs(token?: string): Promise<ResponseInterface> {
-    if (token) {
+	if (token) {
 		const config = {
 			method: 'get',
 			url: appConfig.url + '/logs/get/all',

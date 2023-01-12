@@ -74,12 +74,7 @@
 											<span class="badge w-full badge-filled-surface">Master</span>
 										{/if}
 									</td>
-									<td
-										role="gridcell"
-										aria-colindex={2}
-										tabindex="0"
-										class="md:!whitespace-normal capitalize"
-									>
+									<td role="gridcell" aria-colindex={2} tabindex="0" class="md:!whitespace-normal capitalize">
 										{row.firstName}
 										{row.lastName}
 									</td>
@@ -87,10 +82,10 @@
 										{row.email}
 									</td>
 									<td role="gridcell" aria-colindex={4} tabindex="0" class="md:!whitespace-normal">
-										{ new Date(row.createdOn).toLocaleString('en-GB') }
+										{new Date(row.createdOn).toLocaleString('en-GB')}
 									</td>
 									<td role="gridcell" aria-colindex={5} tabindex="0" class="md:!whitespace-normal">
-										{ new Date(row.updatedOn).toLocaleString('en-GB') }
+										{new Date(row.updatedOn).toLocaleString('en-GB')}
 									</td>
 									<td role="gridcell" aria-colindex={6} tabindex="0" class="table-cell-fit">
 										{#if row.role === 1 || row.role === 4}
