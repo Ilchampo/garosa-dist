@@ -5,8 +5,8 @@
 </script>
 
 <div class="content-container">
-	<div class="card h-full overflow-y-scroll md:max-h-full">
-		<div class="card-header">
+	<div class="card flex flex-col h-full justify-between">
+		<div class="card-header bg-white">
 			<div class="flex items-center">
 				<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-primary-500" />
 				<div class="ml-4">
@@ -16,5 +16,55 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="flex flex-col bg-black h-full relative">
+			<div class="overflow-y-scroll">
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+				<h2>Content</h2>
+			</div>
+		</div>
+
+		<div class="card-footer bg-white">
+			<h2>Footer</h2>
+		</div>
 	</div>
 </div>
+
+<style>
+	.testing {
+		background: red;
+	}
+</style>

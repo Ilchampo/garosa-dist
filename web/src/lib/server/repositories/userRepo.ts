@@ -1,7 +1,10 @@
 import axios from 'axios';
-import type { ResponseInterface } from '$lib/interfaces/responseInterface';
-import type { UserInterface } from '$lib/interfaces/userInterface';
+
+import type { ResponseInterface } from '$lib/server/interfaces/responseInterface';
+import type { UserInterface } from '$lib/server/interfaces/userInterface';
+
 import { appConfig } from '$lib/config';
+import bundle from '$lib/translations/en-Us.json';
 
 export async function logInWeb(email: string, password: string): Promise<ResponseInterface> {
 	const config = {
@@ -20,7 +23,7 @@ export async function logInWeb(email: string, password: string): Promise<Respons
 			return response.data;
 		})
 		.catch((error) => {
-			return { code: 500, msg: 'Something went wrong when log in user', payload: error };
+			return { code: 500, msg: bundle.repositories.user.log_in.error, payload: error };
 		});
 	return result;
 }
@@ -40,19 +43,61 @@ export async function getAllUsers(token?: string): Promise<ResponseInterface> {
 				return response.data;
 			})
 			.catch((error) => {
-				return { code: 500, msg: 'Something went wrong when getting all users', payload: error };
+				return { code: 500, msg: bundle.repositories.user.get_all_users.error, payload: error };
 			});
 		return result;
 	}
-	return { code: 500, msg: 'Something went wrong when getting all users', payload: null };
+	return { code: 500, msg: bundle.repositories.user.get_all_users.error, payload: null };
 }
 
 export async function getAllUsersByRole(role: number, token?: string): Promise<ResponseInterface> {
-	
+	if (token) {
+		const config = {
+			method: 'get',
+			url: appConfig.url + '/users/get/role',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: token
+			},
+			params: {
+				id: role
+			}
+		};
+		const result: ResponseInterface = await axios(config)
+			.then((response) => {
+				return response.data;
+			})
+			.catch((error) => {
+				return { code: 500, msg: bundle.repositories.user.get_all_users_by_role.error, payload: error };
+			});
+		return result;
+	}
+	return { code: 500, msg: bundle.repositories.user.get_all_users_by_role.error, payload: null };
 }
 
 export async function getUserById(user: number, token?: string): Promise<ResponseInterface> {
-
+	if (token) {
+		const config = {
+			method: 'get',
+			url: appConfig.url + '/users/get/user',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: token
+			},
+			params: {
+				id: user
+			}
+		};
+		const result: ResponseInterface = await axios(config)
+			.then((response) => {
+				return response.data;
+			})
+			.catch((error) => {
+				return { code: 500, msg: bundle.repositories.user.get_all_users_by_role.error, payload: error };
+			});
+		return result;
+	}
+	return { code: 500, msg: bundle.repositories.user.get_all_users_by_role.error, payload: null };
 }
 
 export async function createUser(user: UserInterface, role: number, token?: string): Promise<ResponseInterface> {
@@ -76,11 +121,11 @@ export async function createUser(user: UserInterface, role: number, token?: stri
 				return response.data;
 			})
 			.catch((error) => {
-				return { code: 500, msg: 'Something went wrong when creating a user', payload: error };
+				return { code: 500, msg: bundle.repositories.user.create_user.error, payload: error };
 			});
 		return result;
 	}
-	return { code: 500, msg: 'Something went wrong when creating a user', payload: null };
+	return { code: 500, msg: bundle.repositories.user.create_user.error, payload: null };
 }
 
 export async function updateUser(user: UserInterface, token?: string): Promise<ResponseInterface> {
@@ -105,11 +150,11 @@ export async function updateUser(user: UserInterface, token?: string): Promise<R
 				return response.data;
 			})
 			.catch((error) => {
-				return { code: 500, msg: 'Something went wrong when updating a user', payload: error };
+				return { code: 500, msg: bundle.repositories.user.update_user.error, payload: error };
 			});
 		return result;
 	}
-	return { code: 500, msg: 'Something went wrong when updating a user', payload: null };
+	return { code: 500, msg: bundle.repositories.user.update_user.error, payload: null };
 }
 
 export async function changePassword(
@@ -142,12 +187,12 @@ export async function changePassword(
 					return response.data;
 				})
 				.catch((error) => {
-					return { code: 500, msg: 'Something went wrong when changing user password', payload: error };
+					return { code: 500, msg: bundle.repositories.user.change_password.error, payload: error };
 				});
 			return result;
 		}
 	}
-	return { code: 500, msg: 'Something went wrong when changing user password', payload: null };
+	return { code: 500, msg: bundle.repositories.user.change_password.error, payload: null };
 }
 
 export async function recoverPassword(user: number, token?: string): Promise<ResponseInterface> {
@@ -168,11 +213,11 @@ export async function recoverPassword(user: number, token?: string): Promise<Res
 				return response.data;
 			})
 			.catch((error) => {
-				return { code: 500, msg: 'Something went wrong when recovering user password', payload: error };
+				return { code: 500, msg: bundle.repositories.user.recover_password.error, payload: error };
 			});
 		return result;
 	}
-	return { code: 500, msg: 'Something went wrong when recovering user password', payload: null };
+	return { code: 500, msg: bundle.repositories.user.recover_password.error, payload: null };
 }
 
 export async function deleteUser(user: number, token?: string): Promise<ResponseInterface> {
@@ -193,9 +238,9 @@ export async function deleteUser(user: number, token?: string): Promise<Response
 				return response.data;
 			})
 			.catch((error) => {
-				return { code: 500, msg: 'Something went wrong when deleting user', payload: error };
+				return { code: 500, msg: bundle.repositories.user.delete_user.error, payload: error };
 			});
 		return result;
 	}
-	return { code: 500, msg: 'Something went wrong when deleting user', payload: null };
+	return { code: 500, msg: bundle.repositories.user.delete_user.error, payload: null };
 }
