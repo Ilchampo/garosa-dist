@@ -6,9 +6,11 @@
 
 <AppBar>
 	<svelte:fragment slot="lead">
-		<GradientHeading tag="h2" direction="bg-gradient-to-r" from="from-primary-500" to="to-secondary-500">
-			Garosa Dist Web
-		</GradientHeading>
+		<a href="/">
+			<GradientHeading tag="h3" direction="bg-gradient-to-r" from="from-primary-500" to="to-secondary-500">
+				G A R O S A D I S T
+			</GradientHeading>
+		</a>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<LightSwitch />
