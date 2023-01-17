@@ -1,6 +1,6 @@
 {
-    "name": "mobile",
-    "short_name": "mobile",
+    "name": "garosadist",
+    "short_name": "garosadist",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

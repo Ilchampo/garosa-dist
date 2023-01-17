@@ -1,9 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mobile">
+    package="com.example.garosadist">
    <application
-        android:label="mobile"
+        android:label="garosadist"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBi7ZTaAN5mNDti1sywfub76cSGl7b3WBE"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
