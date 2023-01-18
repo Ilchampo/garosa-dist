@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AppRail, AppRailTile } from '@skeletonlabs/skeleton';
 	import { writable, type Writable } from 'svelte/store';
-	import SvgIcon from '../SvgIcon/SvgIcon.svelte';
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	const storeValue: Writable<number> = writable(1);
 </script>
 

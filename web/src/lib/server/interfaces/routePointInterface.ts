@@ -8,9 +8,9 @@ export interface RoutePointInterface {
 	imageOne?: string;
 	imageTwo?: string;
 	imageThree?: string;
-	startTime?: Date;
-	endTime?: Date;
-	createdOn: Date;
-	updatedOn: Date;
+	startTime?: number;
+	endTime?: number;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

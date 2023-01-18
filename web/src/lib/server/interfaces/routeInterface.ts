@@ -5,9 +5,9 @@ export interface RouteInterface {
 	routeTitle: string;
 	routeDescription: string;
 	routeStatus: number;
-	startTime?: Date;
-	endTime?: Date;
-	createdOn: Date;
-	updatedOn: Date;
+	startTime?: number;
+	endTime?: number;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

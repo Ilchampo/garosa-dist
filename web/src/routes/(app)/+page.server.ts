@@ -1,5 +1,6 @@
 import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+
 import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = (event) => {

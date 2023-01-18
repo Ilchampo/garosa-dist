@@ -3,7 +3,7 @@ export interface ApplicationInterface {
 	language: string;
 	maxRadius: number;
 	maxPointsPerRoute: number;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

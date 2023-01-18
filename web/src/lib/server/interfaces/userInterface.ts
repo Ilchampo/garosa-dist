@@ -4,7 +4,7 @@ export interface UserInterface {
 	lastName: string;
 	email: string;
 	password: string;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

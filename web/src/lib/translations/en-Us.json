@@ -1,80 +1,129 @@
 {
-    "repositories": {
-        "application": {},
-        "log": {},
-        "point": {},
-        "role_permission": {},
-        "role": {},
-        "route_point": {
-            "create_route_point": {
-                "error": "Something went wrong while create distribution route point!"
-            },
-            "get_all_route_points_by_route_id": {
-                "error": "Something went wrong while getting all distribution route points by route Id!"
-            },
-            "get_route_point_by_id": {
-                "error": "Something went wrong while getting distribution route points by Id!"
-            },
-            "delete_all_route_points_by_route_id": {
-                "error": "Something went wrong while deleting all distribution route points by route Id!"
-            }
-        },
-        "route": {
-            "create_route": {
-                "error": "Something went wrong while creating distribution route!"
-            },
-            "get_all_routes": {
-                "error": "Something went wrong while getting all the distribution routes!"
-            },
-            "get_all_routes_by_supervisor": {
-                "error": "Something went wrong while getting all supervisor's distribution routes!"
-            },
-            "delete_route": {
-                "error": "Something went wrong while deleting distribution route!"
-            }
-        },
-        "user_access": {
-            "create_user_access": {
-                "error": "Something went wrong while creating user access!"
-            },
-            "get_user_access_by_id": {
-                "error": "Something went wrong while getting user access by Id!"
-            },
-            "delete_user_access_by_id": {
-                "error": "Something went wrong while delete user access by Id!"
-            },
-            "delete_all_user_access": {
-                "error": "Something went wrong while deleting all user accessess of user!"
-            }
-        },
-        "user": {
-            "log_in": {
-                "error": "Something went wrong while logging in user!"
-            },
-            "get_all_users": {
-                "error": "Something went wrong while getting all users!"
-            },
-            "get_all_users_by_role": {
-                "error": "Something went wrong while getting users by Role!"
-            },
-            "get_user_by_id": {
-                "error": "Something went wrong while getting user by Id!"
-            },
-            "create_user": {
-                "error": "Something went wrong while creating user!"
-            },
-            "update_user": {
-                "error": "Something went wrong while updating user!"
-            },
-            "change_password": {
-                "error": "Something went wrong while changing password!"
-            },
-            "recover_password": {
-                "error": "Something went wrong while recovering password!"
-            },
-            "delete_user": {
-                "error": "Something went wrong while deleting user!"
-            }
-        }
-    }
+	"components": {
+		"global": {
+			"header": {
+				"title": "G A R O S A D I S T"
+			},
+			"loader": {
+				"title": "Just a second!",
+				"retrieving": "Retrieving data from server..."
+			}
+		}
+	},
+	"repositories": {
+		"application": {
+			"get_application_configuration": {
+				"error": "Something went wrong while getting application configuration!"
+			},
+			"update_application_configuration": {
+				"error": "Something went wrong while updateing application configuration!"
+			}
+		},
+		"log": {
+			"get_all_logs": {
+				"error": "Something went wrong while getting all logs!"
+			}
+		},
+		"point": {
+			"create_point": {
+				"error": "Something went wrong while creating distribution point!"
+			},
+			"get_all_points": {
+				"error": "Something went wrong while getting all distribution points!"
+			},
+			"get_point_by_id": {
+				"error": "Something went wrong while getting distribution point by Id!"
+			},
+			"update_point_by_id": {
+				"error": "Something went wrong while updating distribution point by Id!"
+			},
+			"delete_point_by_id": {
+				"error": "Something went wrong while deleting distribution point by Id!"
+			}
+		},
+		"role_permission": {
+			"get_role_permission_by_role_id": {
+				"error": "Something went wrong while getting permissions by role Id!"
+			}
+		},
+		"role": {
+			"get_all_roles": {
+				"error": "Something went wrong while getting all roles!"
+			},
+			"get_role_by_id": {
+				"error": "Something went wrong while getting role by Id!"
+			}
+		},
+		"route_point": {
+			"create_route_point": {
+				"error": "Something went wrong while create distribution route point!"
+			},
+			"get_all_route_points_by_route_id": {
+				"error": "Something went wrong while getting all distribution route points by route Id!"
+			},
+			"get_route_point_by_id": {
+				"error": "Something went wrong while getting distribution route points by Id!"
+			},
+			"delete_all_route_points_by_route_id": {
+				"error": "Something went wrong while deleting all distribution route points by route Id!"
+			}
+		},
+		"route": {
+			"create_route": {
+				"error": "Something went wrong while creating distribution route!"
+			},
+			"get_all_routes": {
+				"error": "Something went wrong while getting all the distribution routes!"
+			},
+			"get_all_routes_by_supervisor": {
+				"error": "Something went wrong while getting all supervisor's distribution routes!"
+			},
+			"delete_route": {
+				"error": "Something went wrong while deleting distribution route!"
+			}
+		},
+		"user_access": {
+			"create_user_access": {
+				"error": "Something went wrong while creating user access!"
+			},
+			"get_user_access_by_id": {
+				"error": "Something went wrong while getting user access by Id!"
+			},
+			"delete_user_access_by_id": {
+				"error": "Something went wrong while delete user access by Id!"
+			},
+			"delete_all_user_access": {
+				"error": "Something went wrong while deleting all user accessess of user!"
+			}
+		},
+		"user": {
+			"log_in": {
+				"error": "Something went wrong while logging in user!"
+			},
+			"get_all_users": {
+				"error": "Something went wrong while getting all users!"
+			},
+			"get_all_users_by_role": {
+				"error": "Something went wrong while getting users by Role!"
+			},
+			"get_user_by_id": {
+				"error": "Something went wrong while getting user by Id!"
+			},
+			"create_user": {
+				"error": "Something went wrong while creating user!"
+			},
+			"update_user": {
+				"error": "Something went wrong while updating user!"
+			},
+			"change_password": {
+				"error": "Something went wrong while changing password!"
+			},
+			"recover_password": {
+				"error": "Something went wrong while recovering password!"
+			},
+			"delete_user": {
+				"error": "Something went wrong while deleting user!"
+			}
+		}
+	}
 }

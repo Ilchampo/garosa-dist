@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import SvgIcon from '../../components/SvgIcon/SvgIcon.svelte';
+
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+	
 	export let data: PageData;
 </script>
 

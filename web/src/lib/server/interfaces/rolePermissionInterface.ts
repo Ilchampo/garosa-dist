@@ -4,7 +4,7 @@ export interface RolePermissionInterface {
 	permissionName: string;
 	permissionDescription: string;
 	permissionDefault: boolean;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

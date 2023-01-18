@@ -5,7 +5,7 @@ export interface LogInterface {
 	logDescription: string;
 	logSource: string;
 	logStatus: number;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

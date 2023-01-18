@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
+
 import type { Handle } from '@sveltejs/kit';
-import type { TokenInterface } from '$lib/interfaces/tokenInterface';
+import type { TokenInterface } from '$lib/server/interfaces/tokenInterface';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const authCookie = event.cookies.get('Authorization');

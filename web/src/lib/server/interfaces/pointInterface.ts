@@ -5,7 +5,7 @@ export interface PointInterface {
 	pointImage?: string;
 	longitude: number;
 	latitude: number;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

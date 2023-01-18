@@ -1,13 +1,12 @@
-import type { ResponseInterface } from '$lib/interfaces/responseInterface';
+import type { ResponseInterface } from '$lib/server/interfaces/responseInterface';
 import type { PageServerLoad } from './$types';
+
 import { error } from '@sveltejs/kit';
-import * as logRepository from '$lib/repositories/log';
+import { getAllLogs } from '$lib/server/repositories/logRepo';
 
 export const load: PageServerLoad = async (event) => {
 	const token = event.cookies.get('Authorization');
-	const request: ResponseInterface = await logRepository.getAllLogs(token);
-	if (!request) {
-		throw error(401, 'Something went wrong when getting all logs');
-	}
+	const request: ResponseInterface = await getAllLogs(token);
+	if (request.code === 500) throw error(500, request.msg);
 	return request;
 };

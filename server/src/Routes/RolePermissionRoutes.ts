@@ -11,7 +11,7 @@ const rolePermissionRouter = Router();
 // @param  [id: role permission Id]
 // @perms  getRolePermissionByRoleId
 rolePermissionRouter.get(
-	'/get/permission',
+	'/get/role',
 	userAuthentication([permission.getRolePermissionByRoleId]),
 	RolePermissionController.GetRolePermissionByRoleId
 );

@@ -1,7 +1,8 @@
-import type { ResponseInterface } from '$lib/interfaces/responseInterface';
+import type { ResponseInterface } from '$lib/server/interfaces/responseInterface';
 import type { Actions } from './$types';
+
 import { redirect, error } from '@sveltejs/kit';
-import { logInWeb } from '$lib/repositories/user';
+import { logInWeb } from '$lib/server/repositories/userRepo';
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -11,8 +12,8 @@ export const actions: Actions = {
 		}
 		const { email, password } = formData as { email: string; password: string };
 		const request: ResponseInterface = await logInWeb(email, password);
-		if (!request) {
-			throw error(401, 'Something went wrong when log in user');
+		if (request.code === 500) {
+			throw error(401, request.msg);
 		}
 		event.cookies.set('Authorization', `Bearer ${request.payload}`, {
 			httpOnly: true,

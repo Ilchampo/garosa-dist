@@ -2,7 +2,7 @@ export interface RoleInterface {
 	id?: number;
 	roleName: string;
 	roleDescription: string;
-	createdOn: Date;
-	updatedOn: Date;
+	createdOn: number;
+	updatedOn: number;
 	deleted: boolean;
 }

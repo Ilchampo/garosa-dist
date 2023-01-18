@@ -63,7 +63,11 @@
 			{:else}
 				<div class="flex mb-4">
 					<button on:click={clearParams} class="btn btn-filled-surface btn-base">Clear</button>
-					<input bind:value={$dataTableStore.search} type="search" placeholder="Search Distribution Point..." />
+					<input
+						bind:value={$dataTableStore.search}
+						type="search"
+						placeholder="Search Distribution Point..."
+					/>
 					<button class="btn btn-filled-primary btn-base ml-4">Create</button>
 				</div>
 				<table class="table" role="grid" use:tableInteraction use:tableA11y>
@@ -84,7 +88,12 @@
 					<tbody>
 						{#each $dataTableStore.filtered as row, rowIndex}
 							<tr aria-rowindex={rowIndex + 1}>
-								<td role="gridcell" aria-colindex={0} tabindex="0" class="md:!whitespace-normal capitalize">
+								<td
+									role="gridcell"
+									aria-colindex={0}
+									tabindex="0"
+									class="md:!whitespace-normal capitalize"
+								>
 									<div class="flex items-center">
 										<img class="table-image" src={row.pointImage} alt={row.pointName} />
 										<div
@@ -98,7 +107,12 @@
 										</div>
 									</div>
 								</td>
-								<td role="gridcell" aria-colindex={1} tabindex="0" class="md:!whitespace-normal capitalize">
+								<td
+									role="gridcell"
+									aria-colindex={1}
+									tabindex="0"
+									class="md:!whitespace-normal capitalize"
+								>
 									{row.pointDescription}
 								</td>
 								<td role="gridcell" aria-colindex={2} tabindex="0">

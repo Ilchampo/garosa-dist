@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
-	import Loader from '../../../components/common/Loader.svelte';
-	import SvgIcon from '../../../components/SvgIcon/SvgIcon.svelte';
+
+	import Loader from '$lib/components/global/Loader.svelte';
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 
 	export let data: PageData;
+
 	let isLoading = true;
-	onMount(async () => {
-		isLoading = data ? false : true;
-	});
+
+	onMount(async () => (isLoading = data ? false : true));
 </script>
 
 <div class="content-container">
