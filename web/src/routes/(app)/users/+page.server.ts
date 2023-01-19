@@ -37,7 +37,7 @@ export const actions: Actions = {
 		};
 		const request: ResponseInterface = await userRepo.createUser(user, parseInt(roleId), token);
 		if (request.code === 500) throw error(500, request.msg);
-		return request;
+		return { request };
 	}
 	// update: async (event) => {},
 	// recover: async (event) => {},
