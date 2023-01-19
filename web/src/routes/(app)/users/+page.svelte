@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
+	import type { ModalSettings, ModalComponent, ToastSettings } from '@skeletonlabs/skeleton';
 	import type { UserInterface } from '$lib/server/interfaces/userInterface';
 	import type { PageData } from './$types';
 	import type { ActionData } from './$types';
@@ -19,6 +19,7 @@
 
 	export let data: PageData;
 	export let form: ActionData;
+	
 	interface UserGridInterface extends UserInterface {
 		role: number;
 	}
@@ -30,9 +31,13 @@
 			isLoading = false;
 		}
 	});
-	
-	const pagination = { offset: 0, limit: 7, size: 0, amounts: [5, 7, 10] };	
-	const dataTableStore = createDataTableStore(data.payload as UserGridInterface[], { search: '', sort: '', pagination });
+
+	const pagination = { offset: 0, limit: 5, size: 0, amounts: [5, 7, 10] };
+	const dataTableStore = createDataTableStore(data.payload as UserGridInterface[], {
+		search: '',
+		sort: '',
+		pagination
+	});
 	dataTableStore.subscribe((model) => dataTableHandler(model));
 
 	function clearSearchParams(): void {
@@ -69,7 +74,7 @@
 
 	function roleClass(role: number): string {
 		let cssClass = 'badge w-full ';
-		switch(role) {
+		switch (role) {
 			case Roles.MASTER:
 				cssClass += 'badge-filled-primary';
 				break;
@@ -89,7 +94,7 @@
 
 	function roleName(role: number): string {
 		let roleName = 'Undefined';
-		switch(role) {
+		switch (role) {
 			case Roles.MASTER:
 				roleName = 'Master';
 				break;
@@ -106,20 +111,9 @@
 		return roleName;
 	}
 
-	function openResultModal(modal: UserModal) {
-		let component: ModalComponent;
-		let settings: ModalSettings;
-		
-		switch(modal) {
-			case UserModal.CREATE:
-				component = { ref: ModalRead };
-				settings = { type: 'component', component, meta: { form } };
-				modalStore.trigger(settings);
-				break;
-		}
-
+	function actionEnable(role: Roles): boolean {
+		return role === Roles.MASTER || role === Roles.ADMINISTRATOR;
 	}
-
 </script>
 
 <div class="card card-container">
@@ -140,23 +134,67 @@
 	{:else}
 		<!-- Body -->
 		<div class="card-body">
+			{#if form}
+				<div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
+					<div class="flex">
+						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
+						<div class="flex flex-col ml-4">
+							<h3>{form.request.msg}</h3>
+							<p>User: <b>{ form.request.payload.email }</b>
+								{#if form.request.payload.password}
+									/ Password: <b>{form.request.payload.password}</b>
+								{/if}
+							</p>
+						</div>
+					</div>
+					<button
+						class="btn-icon btn-filled-secondary"
+						use:tooltip={{ content: 'Dismiss', position: 'left' }}
+						on:click={() => {
+							location.reload();
+						}}
+					>
+						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+					</button>
+				</div>
+			{/if}
+
 			<div class="card-table">
-				
 				<!-- Table Search Bar -->
 				<div class="card-table_bar">
 					<div class="flex flex-1">
 						<button on:click={clearSearchParams} class="btn btn-filled-surface btn-base">Clear</button>
-						<input bind:value={$dataTableStore.search} type="search" placeholder="Search Distribution Point..." />
+						<input bind:value={$dataTableStore.search} type="search" placeholder="Search User..." />
 					</div>
-					<button class="btn-icon btn-filled-primary" use:tooltip={{ content: 'Create User', position: 'left' }} on:click={() => { openModal(UserModal.CREATE); }} >
+					<button
+						class="btn-icon btn-filled-primary"
+						use:tooltip={{ content: 'Create User', position: 'left' }}
+						on:click={() => {
+							openModal(UserModal.CREATE);
+						}}
+					>
 						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+					</button>
+					<button
+						class="btn-icon btn-filled-secondary"
+						use:tooltip={{ content: 'Reload', position: 'left' }}
+						on:click={() => {
+							location.reload();
+						}}
+					>
+						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
 					</button>
 				</div>
 
 				<!-- Table Content -->
-				<div class="card-table_content"> 
+				<div class="card-table_content">
 					<table class="table" role="grid" use:tableInteraction use:tableA11y>
-						<thead on:click={(e) => { dataTableStore.sort(e) }} on:keypress>
+						<thead
+							on:click={(e) => {
+								dataTableStore.sort(e);
+							}}
+							on:keypress
+						>
 							<tr>
 								<th>Full Name</th>
 								<th>User Role</th>
@@ -170,14 +208,21 @@
 							{#each $dataTableStore.filtered as row, rowIndex}
 								<tr aria-rowindex={rowIndex + 1}>
 									<td role="gridcell" aria-colindex={0} tabindex="0">
-										<div class="text-link" on:click={() => { openModal(UserModal.READ, row); }} on:keydown> 
-											{row.firstName} {row.lastName}
+										<div
+											class="text-link"
+											on:click={() => {
+												openModal(UserModal.READ, row);
+											}}
+											on:keydown
+										>
+											{row.firstName}
+											{row.lastName}
 										</div>
 									</td>
 									<td role="gridcell" aria-colindex={1} tabindex="0">
 										<span class={roleClass(row.role)}>{roleName(row.role)}</span>
 									</td>
-									<td role="gridcell" aria-colindex={2} tabindex="0"> 
+									<td role="gridcell" aria-colindex={2} tabindex="0">
 										{row.email}
 									</td>
 									<td role="gridcell" aria-colindex={3} tabindex="0">
@@ -188,16 +233,40 @@
 									</td>
 									<td role="gridcell" aria-colindex={5} tabindex="0">
 										<div class="flex gap-4">
-											{#if row.role !== Roles.MASTER && row.role !== Roles.ADMINISTRATOR}
-												<button class="btn-icon btn-filled-secondary" use:tooltip={{ content: 'Update User', position: 'left' }} on:click={() => { openModal(UserModal.UPDATE, row); }} >
-													<span> <SvgIcon name="pencil" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
-												</button>
-												<button class="btn-icon btn-filled-tertiary" use:tooltip={{ content: 'Delete User', position: 'left' }} on:click={() => { openModal(UserModal.DELETE, row); }} >
-													<span> <SvgIcon name="trash" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
-												</button>
-											{:else}
-												<b>Actions Disabled</b>
-											{/if}
+											<button
+												class="btn-icon btn-filled-secondary"
+												disabled={actionEnable(row.role)}
+												use:tooltip={{ content: 'Update User', position: 'left' }}
+												on:click={() => {
+													openModal(UserModal.UPDATE, row);
+												}}
+											>
+												<span>
+													<SvgIcon
+														name="pencil"
+														width="w-8"
+														height="h-6"
+														fill="fill-primary-400"
+													/>
+												</span>
+											</button>
+											<button
+												class="btn-icon btn-filled-tertiary"
+												disabled={actionEnable(row.role)}
+												use:tooltip={{ content: 'Delete User', position: 'left' }}
+												on:click={() => {
+													openModal(UserModal.DELETE, row);
+												}}
+											>
+												<span>
+													<SvgIcon
+														name="trash"
+														width="w-8"
+														height="h-6"
+														fill="fill-primary-400"
+													/>
+												</span>
+											</button>
 										</div>
 									</td>
 								</tr>

@@ -192,7 +192,7 @@ export async function CreateUser(request: {
 	}
 	try {
 		const user = await User.findOne({
-			where: { email: request.data.email },
+			where: { email: request.data.email, deleted: false },
 			attributes: { exclude: ['password'] },
 		});
 		if (user) {

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import SvgIcon from '../../../components/SvgIcon/SvgIcon.svelte';
-	export let data: PageData;
+	// import type { PageData } from './$types';
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+	// export let data: PageData;
 </script>
 
 <div class="content-container">
@@ -62,9 +62,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.testing {
-		background: red;
-	}
-</style>

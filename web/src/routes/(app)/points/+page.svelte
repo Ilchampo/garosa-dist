@@ -1,15 +1,15 @@
 <script lang="ts">
 	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import type { PointInterface } from '$lib/interfaces/pointInterface';
+	import type { PointInterface } from '$lib/server/interfaces/pointInterface';
 	import { onMount } from 'svelte';
 	import { createDataTableStore, dataTableHandler } from '@skeletonlabs/skeleton';
 	import { tableInteraction, tableA11y, Paginator } from '@skeletonlabs/skeleton';
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import Loader from '../../../components/common/Loader.svelte';
-	import SvgIcon from '../../../components/SvgIcon/SvgIcon.svelte';
-	import ModalRead from '../../../components/points/ModalRead.svelte';
-	import ModalUpdated from '../../../components/points/ModalUpdate.svelte';
+	import Loader from '$lib/components/global/Loader.svelte';
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+	import ModalRead from '$lib/components/point/ModalRead.svelte';
+	import ModalUpdated from '$lib/components/point/ModalUpdate.svelte';
 
 	export let data: PageData;
 	let isLoading = true;

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	// import type { PageData } from './$types';
 
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	
-	export let data: PageData;
+	// export let data: PageData;
 </script>
 
 <div class="content-container">
