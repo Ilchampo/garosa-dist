@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { UserModal } from '$lib/enums';
-	import { modalStore } from '@skeletonlabs/skeleton';
-
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	export let parent: any;
 </script>

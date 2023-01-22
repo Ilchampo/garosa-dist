@@ -81,6 +81,7 @@
 	{#if isLoading}
 		<Loader />
 	{:else}
+		<!-- Body -->
 		<div class="card-body">
 			<div class="card-table">
 				<!-- Table Search Bar -->
