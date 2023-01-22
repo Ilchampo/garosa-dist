@@ -3,5 +3,6 @@ dotenv.config();
 
 export const appConfig = {
 	url: process.env.URL ?? 'no-url-defined',
-	port: process.env.PORT || 5173
+	port: process.env.PORT || 5173,
+	key: process.env.KEY || 'no-key-defined'
 };

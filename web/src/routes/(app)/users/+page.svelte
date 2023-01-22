@@ -5,7 +5,7 @@
 	import type { PageData } from './$types';
 	import type { ActionData } from './$types';
 
-	import { UserModal, Roles } from '$lib/enums';
+	import { Modals, Roles } from '$lib/enums';
 	import { createDataTableStore, dataTableHandler } from '@skeletonlabs/skeleton';
 	import { tableInteraction, tableA11y, Paginator } from '@skeletonlabs/skeleton';
 	import { modalStore, tooltip } from '@skeletonlabs/skeleton';
@@ -46,27 +46,27 @@
 		$dataTableStore.search = '';
 	}
 
-	function openModal(option: UserModal, user?: UserInterface): void {
+	function openModal(option: Modals, user?: UserInterface): void {
 		let component: ModalComponent;
 		let settings: ModalSettings;
 
 		switch (option) {
-			case UserModal.CREATE:
+			case Modals.CREATE:
 				component = { ref: ModalCreate };
 				settings = { type: 'component', component };
 				modalStore.trigger(settings);
 				break;
-			case UserModal.READ:
+			case Modals.READ:
 				component = { ref: ModalRead };
 				settings = { type: 'component', component, meta: { user } };
 				modalStore.trigger(settings);
 				break;
-			case UserModal.UPDATE:
+			case Modals.UPDATE:
 				component = { ref: ModalUpdate };
 				settings = { type: 'component', component, meta: { user } };
 				modalStore.trigger(settings);
 				break;
-			case UserModal.DELETE:
+			case Modals.DELETE:
 				component = { ref: ModalDelete };
 				settings = { type: 'component', component, meta: { user } };
 				modalStore.trigger(settings);
@@ -174,7 +174,7 @@
 						disabled={!perms?.createUser}
 						use:tooltip={{ content: 'Create User', position: 'left' }}
 						on:click={() => {
-							openModal(UserModal.CREATE);
+							openModal(Modals.CREATE);
 						}}
 					>
 						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
@@ -215,7 +215,7 @@
 										<div
 											class="text-link"
 											on:click={() => {
-												openModal(UserModal.READ, row);
+												openModal(Modals.READ, row);
 											}}
 											on:keydown
 										>
@@ -242,7 +242,7 @@
 												disabled={actionEnable(row.role) || !perms?.editUser}
 												use:tooltip={{ content: 'Update User', position: 'left' }}
 												on:click={() => {
-													openModal(UserModal.UPDATE, row);
+													openModal(Modals.UPDATE, row);
 												}}
 											>
 												<span>
@@ -259,7 +259,7 @@
 												disabled={actionEnable(row.role) || !perms?.deleteUser}
 												use:tooltip={{ content: 'Delete User', position: 'left' }}
 												on:click={() => {
-													openModal(UserModal.DELETE, row);
+													openModal(Modals.DELETE, row);
 												}}
 											>
 												<span>

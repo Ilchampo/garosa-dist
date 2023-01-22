@@ -7,14 +7,7 @@ body {
 }
 
 .card-body {
-	@apply flex-1
-}
-
-.text-link {
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-weight: bold;
-	cursor: pointer;
+	@apply flex flex-col overflow-y-auto p-4 flex-1
 }
 
 .card-table_bar {
@@ -25,47 +18,10 @@ body {
 	@apply my-4 overflow-y-auto
 }
 
+.card-table_image {
+	@apply h-10 w-10 mr-4 rounded
+}
 
-
-.content-container {
-	width: 100%;
-	height: 100%;
-	padding: 1rem;
-}
-.card-body {
-	display: flex;
-	flex-direction: column;
-	overflow-y: scroll;
-	padding: 1rem;
-}
-.not-found {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	justify-content: center;
-}
-.table-image {
-	margin-right: 1rem;
-	border-radius: 0.5rem;
-	width: 2.5rem;
-	height: 2.5rem;
-}
-.point_image {
-	border-radius: 1rem;
-	object-fit: contain;
-	height: 80px;
-}
-.text_clickable {
-	text-transform: uppercase;
-	font-weight: bold;
-	cursor: pointer;
-}
-.map-content {
-	margin: 1rem;
-	height: 450px;
-	max-height: 450px;
-	max-width: 600px;
-	border-radius: 1rem;
+.text-link {
+	@apply tracking-tight uppercase font-bold cursor-pointer
 }

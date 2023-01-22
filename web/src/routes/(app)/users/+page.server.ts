@@ -14,9 +14,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 	const token = event.cookies.get('Authorization');
 	const request: ResponseInterface = await userRepo.getAllUsers(token);
-	if (request.code === 500) {
-		throw error(request.code, request.msg);
-	}
+	if (request.code === 500) throw error(request.code, request.msg);
 	request.payload = { user: event.locals.user, users: request.payload as UserInterface[] };
 	return request;
 };

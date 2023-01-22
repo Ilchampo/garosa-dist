@@ -1,158 +1,163 @@
+-- create database and use database
 CREATE DATABASE garosa_dist_prod;
 USE garosa_dist_prod;
 
--- garosa_dist_dev.application_configuration definition
+-- garosa_dist_prod.application_configuration definition
 
-CREATE TABLE IF NOT EXISTS `application_configuration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for application configuration',
-  `language` varchar(100) NOT NULL COMMENT 'Language of the application',
-  `maxRadius` decimal(10,0) NOT NULL COMMENT 'Maximum radius from the distribution point',
-  `maxPointsPerRoute` int(11) NOT NULL COMMENT 'Max distribution points per distribution route',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of record',
+CREATE TABLE `application_configuration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `language` varchar(255) NOT NULL,
+  `maxRadius` decimal(10,0) NOT NULL,
+  `maxPointsPerRoute` int(11) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application configuration, single record that should not be deleted';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.`point` definition
+-- garosa_dist_prod.`point` definition
 
-CREATE TABLE IF NOT EXISTS `point` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for distribution point',
-  `pointName` varchar(100) NOT NULL COMMENT 'Name of the distribution point',
-  `pointDescription` varchar(1000) NOT NULL COMMENT 'Description of the distribution point',
-  `pointImage` varchar(1000) DEFAULT NULL COMMENT 'Image of the distribution point',
-  `longitude` decimal(10,8) NOT NULL COMMENT 'Longitude of the distribution point',
-  `latitude` decimal(10,8) NOT NULL COMMENT 'Latitude of the distribution point',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `point` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pointName` varchar(255) NOT NULL,
+  `pointDescription` varchar(255) NOT NULL,
+  `pointImage` varchar(255) DEFAULT NULL,
+  `longitude` decimal(10,0) NOT NULL,
+  `latitude` decimal(10,0) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application distribution points';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.`role` definition
+-- garosa_dist_prod.`role` definition
 
-CREATE TABLE IF NOT EXISTS `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for role',
-  `roleName` varchar(100) NOT NULL COMMENT 'Name of the role',
-  `roleDescription` varchar(1000) NOT NULL COMMENT 'Description of the role',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the roles of the application';
-
-
--- garosa_dist_dev.`user` definition
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for user',
-  `firstName` varchar(100) NOT NULL COMMENT 'Firstname of the user',
-  `lastName` varchar(100) NOT NULL COMMENT 'Lastname of the user',
-  `email` varchar(100) NOT NULL COMMENT 'Email of the user',
-  `password` varchar(1000) NOT NULL COMMENT 'Password of the user',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleName` varchar(255) NOT NULL,
+  `roleDescription` varchar(255) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `user_email_IDX` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application users';
+  UNIQUE KEY `roleName` (`roleName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.log definition
+-- garosa_dist_prod.`user` definition
 
-CREATE TABLE IF NOT EXISTS `log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for log',
-  `userId` int(11) NOT NULL COMMENT 'Foreign key for user unique identifier',
-  `logName` varchar(100) NOT NULL COMMENT 'Name of the log',
-  `logDescription` varchar(100) NOT NULL COMMENT 'Description of the log',
-  `logSource` varchar(1000) NOT NULL COMMENT 'Source of the log',
-  `logStatus` int(11) NOT NULL COMMENT 'Status of the log',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `log_user_FK` (`userId`),
-  CONSTRAINT `log_user_FK` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application logs';
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.role_permission definition
+-- garosa_dist_prod.log definition
 
-CREATE TABLE IF NOT EXISTS `role_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for the role permission',
-  `roleId` int(11) NOT NULL COMMENT 'Foreign key for role unique identifier',
-  `permissionName` varchar(100) NOT NULL COMMENT 'Name of the role permission',
-  `permissionDescription` varchar(100) NOT NULL COMMENT 'Description of role permission',
-  `permissionDefault` tinyint(1) NOT NULL COMMENT 'Default value for the role permission',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `logName` varchar(255) NOT NULL,
+  `logDescription` varchar(255) NOT NULL,
+  `logSource` varchar(255) NOT NULL,
+  `logStatus` int(11) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `role_permission_role_FK` (`roleId`),
-  CONSTRAINT `role_permission_role_FK` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the permissions for each role of the application';
+  KEY `userId` (`userId`),
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.route definition
+-- garosa_dist_prod.role_permission definition
 
-CREATE TABLE IF NOT EXISTS `route` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for distribution route',
-  `supervisorId` int(11) NOT NULL COMMENT 'Foreign key for supervisor unique identifier',
-  `distributorId` int(11) NOT NULL COMMENT 'Foreign key for distributor unique identifier',
-  `routeTitle` varchar(100) NOT NULL COMMENT 'Title of the route',
-  `routeDescription` varchar(1000) NOT NULL COMMENT 'Description of the route',
-  `routeStatus` int(11) NOT NULL COMMENT 'Status of the route',
-  `startTime` datetime DEFAULT NULL COMMENT 'Start time of the route',
-  `endTime` datetime DEFAULT NULL COMMENT 'End time of the route',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleId` int(11) NOT NULL,
+  `permissionName` varchar(255) NOT NULL,
+  `permissionDescription` varchar(255) NOT NULL,
+  `permissionDefault` tinyint(1) NOT NULL DEFAULT 0,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `route_distributor_FK` (`distributorId`),
-  KEY `route_supervisor_FK` (`supervisorId`),
-  CONSTRAINT `route_distributor_FK` FOREIGN KEY (`distributorId`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `route_supervisor_FK` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application distribution routes created by Supervisors';
+  UNIQUE KEY `permissionName` (`permissionName`),
+  UNIQUE KEY `permissionDescription` (`permissionDescription`),
+  KEY `roleId` (`roleId`),
+  CONSTRAINT `role_permission_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.route_point definition
+-- garosa_dist_prod.route definition
 
-CREATE TABLE IF NOT EXISTS `route_point` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for route point',
-  `pointId` int(11) NOT NULL COMMENT 'Foreign key for distribution point unique identifier',
-  `routeId` int(11) NOT NULL COMMENT 'Foreign key for the distribution route unique identifier',
-  `reportTitle` varchar(100) DEFAULT NULL COMMENT 'Title of the report',
-  `reportDescription` varchar(1000) DEFAULT NULL COMMENT 'Description of the report',
-  `routePointStatus` int(11) NOT NULL COMMENT 'Status of the route point',
-  `reportImageOne` varchar(1000) DEFAULT NULL COMMENT 'First image of the report',
-  `reportImageTwo` varchar(1000) DEFAULT NULL COMMENT 'Second image of the report',
-  `reportImageThree` varchar(1000) DEFAULT NULL COMMENT 'Thrid image of the report',
-  `startTime` datetime DEFAULT NULL COMMENT 'Start time of the route point',
-  `endTime` datetime DEFAULT NULL COMMENT 'End time of the route point',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `route` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `supervisorId` int(11) NOT NULL,
+  `distributorId` int(11) NOT NULL,
+  `routeTitle` varchar(255) NOT NULL,
+  `routeDescription` varchar(255) NOT NULL,
+  `routeStatus` int(11) NOT NULL,
+  `startTime` datetime DEFAULT NULL,
+  `endTime` datetime DEFAULT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `route_point_route_FK` (`pointId`),
-  CONSTRAINT `route_point_point_FK` FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `route_point_route_FK` FOREIGN KEY (`pointId`) REFERENCES `route` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the application route points of a distribution route';
+  KEY `supervisorId` (`supervisorId`),
+  KEY `distributorId` (`distributorId`),
+  CONSTRAINT `route_ibfk_1` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`),
+  CONSTRAINT `route_ibfk_2` FOREIGN KEY (`distributorId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- garosa_dist_dev.user_access definition
+-- garosa_dist_prod.route_point definition
 
-CREATE TABLE IF NOT EXISTS `user_access` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for user access',
-  `userId` int(11) NOT NULL COMMENT 'Foreign key for user unique identifier',
-  `roleId` int(11) NOT NULL COMMENT 'Foreign key for role unique identifier',
-  `createdOn` datetime NOT NULL COMMENT 'When the record was created',
-  `updatedOn` datetime NOT NULL COMMENT 'When the record was last updated',
-  `deleted` tinyint(1) NOT NULL COMMENT 'Activeness of the record',
+CREATE TABLE `route_point` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `routeId` int(11) NOT NULL,
+  `pointId` int(11) NOT NULL,
+  `reportTitle` varchar(255) DEFAULT NULL,
+  `reportDescription` varchar(255) DEFAULT NULL,
+  `routePointStatus` int(11) NOT NULL,
+  `reportImageOne` varchar(255) DEFAULT NULL,
+  `reportImageTwo` varchar(255) DEFAULT NULL,
+  `reportImageThree` varchar(255) DEFAULT NULL,
+  `startTime` datetime DEFAULT NULL,
+  `endTime` datetime DEFAULT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `user_access_role_FK` (`roleId`),
-  KEY `user_access_user_FK` (`userId`),
-  CONSTRAINT `user_access_role_FK` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `user_access_user_FK` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table to store the user access of the application';
+  KEY `routeId` (`routeId`),
+  KEY `pointId` (`pointId`),
+  CONSTRAINT `route_point_ibfk_1` FOREIGN KEY (`routeId`) REFERENCES `route` (`id`),
+  CONSTRAINT `route_point_ibfk_2` FOREIGN KEY (`pointId`) REFERENCES `point` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- garosa_dist_prod.user_access definition
+
+CREATE TABLE `user_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL,
+  `createdOn` datetime NOT NULL,
+  `updatedOn` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `roleId` (`roleId`),
+  CONSTRAINT `user_access_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  CONSTRAINT `user_access_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

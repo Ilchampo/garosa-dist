@@ -1,4 +1,4 @@
-export enum UserModal {
+export enum Modals {
 	CREATE = 0,
 	READ = 1,
 	UPDATE = 2,
