@@ -20,7 +20,7 @@
 
 	export let data: PageData;
 	export let form: ActionData;
-	
+
 	interface UserGridInterface extends UserInterface {
 		role: number;
 	}
@@ -116,9 +116,6 @@
 	function actionEnable(role: Roles): boolean {
 		return role === Roles.MASTER || role === Roles.ADMINISTRATOR;
 	}
-
-	
-
 </script>
 
 <div class="card card-container">
@@ -145,7 +142,8 @@
 						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
 						<div class="flex flex-col ml-4">
 							<h3>{form.request.msg}</h3>
-							<p>User: <b>{ form.request.payload.email }</b>
+							<p>
+								User: <b>{form.request.payload.email}</b>
 								{#if form.request.payload.password}
 									/ Password: <b>{form.request.payload.password}</b>
 								{/if}

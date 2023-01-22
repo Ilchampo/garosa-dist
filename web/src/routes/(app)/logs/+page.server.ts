@@ -1,12 +1,21 @@
 import type { ResponseInterface } from '$lib/server/interfaces/responseInterface';
+import type { LogInterface } from '$lib/server/interfaces/logInterface';
 import type { PageServerLoad } from './$types';
 
-import { error } from '@sveltejs/kit';
-import { getAllLogs } from '$lib/server/repositories/logRepo';
+import { redirect, error } from '@sveltejs/kit';
+
+import * as logRepo from '$lib/server/repositories/logRepo';
 
 export const load: PageServerLoad = async (event) => {
+	const user = event.locals.user;
+	if (!user) {
+		throw redirect(302, '/signin');
+	}
 	const token = event.cookies.get('Authorization');
-	const request: ResponseInterface = await getAllLogs(token);
-	if (request.code === 500) throw error(500, request.msg);
+	const request: ResponseInterface = await logRepo.getAllLogs(token);
+	if (request.code === 500) {
+		throw error(request.code, request.msg);
+	}
+	request.payload = { user: event.locals.user, logs: request.payload as LogInterface[] };
 	return request;
 };

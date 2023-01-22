@@ -11,3 +11,8 @@ export enum Roles {
 	DISTRIBUTOR = 3,
 	MASTER = 4
 }
+
+export enum LogStatus {
+	FAILED = 0,
+	SUCCESS = 1
+}

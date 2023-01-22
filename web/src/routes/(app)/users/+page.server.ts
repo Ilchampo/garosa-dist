@@ -15,9 +15,9 @@ export const load: PageServerLoad = async (event) => {
 	const token = event.cookies.get('Authorization');
 	const request: ResponseInterface = await userRepo.getAllUsers(token);
 	if (request.code === 500) {
-		throw error(401, request.msg);
+		throw error(request.code, request.msg);
 	}
-	request.payload = { user: event.locals.user, users: request.payload as UserInterface[]};
+	request.payload = { user: event.locals.user, users: request.payload as UserInterface[] };
 	return request;
 };
 
@@ -45,7 +45,7 @@ export const actions: Actions = {
 			deleted: false
 		};
 		const request: ResponseInterface = await userRepo.createUser(user, parseInt(roleId), token);
-		if (request.code === 500) throw error(500, request.msg);
+		if (request.code === 500) throw error(request.code, request.msg);
 		return { request };
 	},
 	update: async (event) => {
@@ -63,7 +63,7 @@ export const actions: Actions = {
 			deleted: false
 		};
 		const request: ResponseInterface = await userRepo.updateUser(user, token);
-		if (request.code === 500) throw error(500, request.msg);
+		if (request.code === 500) throw error(request.code, request.msg);
 		return { request };
 	},
 	recover: async (event) => {
@@ -71,7 +71,7 @@ export const actions: Actions = {
 		const formData = Object.fromEntries(await event.request.formData());
 		const { userId } = formData as { userId: string };
 		const request: ResponseInterface = await userRepo.recoverPassword(parseInt(userId), token);
-		if (request.code === 500) throw error(500, request.msg);
+		if (request.code === 500) throw error(request.code, request.msg);
 		return { request };
 	},
 	delete: async (event) => {
@@ -79,7 +79,7 @@ export const actions: Actions = {
 		const formData = Object.fromEntries(await event.request.formData());
 		const { user } = formData as { user: string };
 		const request: ResponseInterface = await userRepo.deleteUser(parseInt(user), token);
-		if (request.code === 500) throw error(500, request.msg);
+		if (request.code === 500) throw error(request.code, request.msg);
 		return { request };
 	}
 };
