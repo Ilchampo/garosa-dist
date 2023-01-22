@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ModalSettings, ModalComponent, ToastSettings } from '@skeletonlabs/skeleton';
+	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
 	import type { UserInterface } from '$lib/server/interfaces/userInterface';
 	import type { PermissionInterface } from '$lib/server/interfaces/permissionInterface';
 	import type { PageData } from './$types';
