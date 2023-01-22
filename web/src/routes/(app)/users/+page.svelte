@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ModalSettings, ModalComponent, ToastSettings } from '@skeletonlabs/skeleton';
 	import type { UserInterface } from '$lib/server/interfaces/userInterface';
+	import type { PermissionInterface } from '$lib/server/interfaces/permissionInterface';
 	import type { PageData } from './$types';
 	import type { ActionData } from './$types';
 
@@ -23,17 +24,18 @@
 	interface UserGridInterface extends UserInterface {
 		role: number;
 	}
-
+	let perms: PermissionInterface | null = null;
 	let isLoading = true;
 
 	onMount(async () => {
-		if (data.payload) {
+		if (data.payload.users) {
 			isLoading = false;
+			perms = data.payload.user as PermissionInterface;
 		}
 	});
 
 	const pagination = { offset: 0, limit: 5, size: 0, amounts: [5, 7, 10] };
-	const dataTableStore = createDataTableStore(data.payload as UserGridInterface[], {
+	const dataTableStore = createDataTableStore(data.payload.users as UserGridInterface[], {
 		search: '',
 		sort: '',
 		pagination
@@ -114,6 +116,9 @@
 	function actionEnable(role: Roles): boolean {
 		return role === Roles.MASTER || role === Roles.ADMINISTRATOR;
 	}
+
+	
+
 </script>
 
 <div class="card card-container">
@@ -168,6 +173,7 @@
 					</div>
 					<button
 						class="btn-icon btn-filled-primary"
+						disabled={!perms?.createUser}
 						use:tooltip={{ content: 'Create User', position: 'left' }}
 						on:click={() => {
 							openModal(UserModal.CREATE);
@@ -235,7 +241,7 @@
 										<div class="flex gap-4">
 											<button
 												class="btn-icon btn-filled-secondary"
-												disabled={actionEnable(row.role)}
+												disabled={actionEnable(row.role) || !perms?.editUser}
 												use:tooltip={{ content: 'Update User', position: 'left' }}
 												on:click={() => {
 													openModal(UserModal.UPDATE, row);
@@ -252,7 +258,7 @@
 											</button>
 											<button
 												class="btn-icon btn-filled-tertiary"
-												disabled={actionEnable(row.role)}
+												disabled={actionEnable(row.role) || !perms?.deleteUser}
 												use:tooltip={{ content: 'Delete User', position: 'left' }}
 												on:click={() => {
 													openModal(UserModal.DELETE, row);

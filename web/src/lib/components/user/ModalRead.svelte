@@ -1,11 +1,15 @@
 <script lang="ts">
-	// import type { UserInterface } from '$lib/server/interfaces/userInterface';
+	import type { UserInterface } from '$lib/server/interfaces/userInterface';
 	import { Roles } from '$lib/enums';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	export let parent: any;
 
-	const data = $modalStore[0].meta.user;
+	interface UserReadInterface extends UserInterface {
+		role: number;
+	}
+
+	const data = $modalStore[0].meta.user as UserReadInterface;
 
 	function roleName(role: number): string {
 		let roleName = 'Undefined';
@@ -47,8 +51,9 @@
 			</div>
 			<div class="flex flex-col justify-between w-full pl-4">
 				<div class="w-full">
+					
 					<label for="createdOn">Created On</label>
-					<input type="text" disabled placeholder={new Date(data.updatedOn).toLocaleString('en-GB')}>
+					<input type="text" disabled placeholder={new Date(data.createdOn).toLocaleString('en-GB')}>
 				</div>
 				<div>
 					<label for="createdOn">Updated On</label>

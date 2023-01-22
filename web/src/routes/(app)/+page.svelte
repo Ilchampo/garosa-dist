@@ -2,7 +2,6 @@
 	// import type { PageData } from './$types';
 
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
-	
 	// export let data: PageData;
 </script>
 

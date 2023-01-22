@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { AppRail, AppRailTile } from '@skeletonlabs/skeleton';
 	import { writable, type Writable } from 'svelte/store';
+	import { enhance } from '$app/forms';
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	const storeValue: Writable<number> = writable(1);
 </script>
@@ -35,8 +36,12 @@
 	</AppRailTile>
 
 	<svelte:fragment slot="trail">
-		<AppRailTile tag="a" href="/signin">
-			<SvgIcon name="right-to-bracket" width="w-6" height="h-6" fill="fill-primary-400" />
+		<AppRailTile>
+			<form use:enhance method="POST" action="/users?/signout">
+				<button type="submit">
+					<SvgIcon name="right-to-bracket" width="w-6" height="h-6" fill="fill-primary-400" />
+				</button>
+			</form>
 		</AppRailTile>
 	</svelte:fragment>
 </AppRail>
