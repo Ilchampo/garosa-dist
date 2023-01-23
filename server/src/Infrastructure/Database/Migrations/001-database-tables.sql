@@ -14,7 +14,7 @@ CREATE TABLE `application_configuration` (
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `application_configuration` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.`point` definition
 
@@ -30,7 +30,7 @@ CREATE TABLE `point` (
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `point` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.`role` definition
 
@@ -44,7 +44,7 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `roleName` (`roleName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `role` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.`user` definition
 
@@ -60,7 +60,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `user` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.log definition
 
@@ -76,9 +76,9 @@ CREATE TABLE `log` (
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
-  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `log_user_id_FK` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `log` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.role_permission definition
 
@@ -95,9 +95,9 @@ CREATE TABLE `role_permission` (
   UNIQUE KEY `permissionName` (`permissionName`),
   UNIQUE KEY `permissionDescription` (`permissionDescription`),
   KEY `roleId` (`roleId`),
-  CONSTRAINT `role_permission_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
+  CONSTRAINT `role_permission_role_id_FK` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `role_permission` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.route definition
 
@@ -116,10 +116,10 @@ CREATE TABLE `route` (
   PRIMARY KEY (`id`),
   KEY `supervisorId` (`supervisorId`),
   KEY `distributorId` (`distributorId`),
-  CONSTRAINT `route_ibfk_1` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`),
-  CONSTRAINT `route_ibfk_2` FOREIGN KEY (`distributorId`) REFERENCES `user` (`id`)
+  CONSTRAINT `route_supervisor_id_FK` FOREIGN KEY (`supervisorId`) REFERENCES `user` (`id`),
+  CONSTRAINT `route_distributor_id_FK` FOREIGN KEY (`distributorId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `route` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.route_point definition
 
@@ -141,10 +141,10 @@ CREATE TABLE `route_point` (
   PRIMARY KEY (`id`),
   KEY `routeId` (`routeId`),
   KEY `pointId` (`pointId`),
-  CONSTRAINT `route_point_ibfk_1` FOREIGN KEY (`routeId`) REFERENCES `route` (`id`),
-  CONSTRAINT `route_point_ibfk_2` FOREIGN KEY (`pointId`) REFERENCES `point` (`id`)
+  CONSTRAINT `route_point_route_id_FK` FOREIGN KEY (`routeId`) REFERENCES `route` (`id`),
+  CONSTRAINT `route_point_point_id_FK` FOREIGN KEY (`pointId`) REFERENCES `point` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ALTER TABLE `route_point` AUTO_INCREMENT=1;
 
 -- garosa_dist_prod.user_access definition
 
@@ -158,6 +158,7 @@ CREATE TABLE `user_access` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   KEY `roleId` (`roleId`),
-  CONSTRAINT `user_access_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
-  CONSTRAINT `user_access_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
+  CONSTRAINT `user_access_user_id_FK` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  CONSTRAINT `user_access_role_id_FK` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+ALTER TABLE `user_access` AUTO_INCREMENT=1;
