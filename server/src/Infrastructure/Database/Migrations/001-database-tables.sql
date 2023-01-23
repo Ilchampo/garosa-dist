@@ -1,8 +1,8 @@
 -- create database and use database
-CREATE DATABASE garosa_dist_prod;
-USE garosa_dist_prod;
+CREATE DATABASE garosa_dist;
+USE garosa_dist;
 
--- garosa_dist_prod.application_configuration definition
+-- garosa_dist.application_configuration definition
 
 CREATE TABLE `application_configuration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -16,7 +16,7 @@ CREATE TABLE `application_configuration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `application_configuration` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.`point` definition
+-- garosa_dist.`point` definition
 
 CREATE TABLE `point` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE `point` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `point` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.`role` definition
+-- garosa_dist.`role` definition
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `role` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.`user` definition
+-- garosa_dist.`user` definition
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `user` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.log definition
+-- garosa_dist.log definition
 
 CREATE TABLE `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,7 +80,7 @@ CREATE TABLE `log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `log` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.role_permission definition
+-- garosa_dist.role_permission definition
 
 CREATE TABLE `role_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -92,14 +92,12 @@ CREATE TABLE `role_permission` (
   `updatedOn` datetime NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `permissionName` (`permissionName`),
-  UNIQUE KEY `permissionDescription` (`permissionDescription`),
   KEY `roleId` (`roleId`),
   CONSTRAINT `role_permission_role_id_FK` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `role_permission` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.route definition
+-- garosa_dist.route definition
 
 CREATE TABLE `route` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -121,7 +119,7 @@ CREATE TABLE `route` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `route` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.route_point definition
+-- garosa_dist.route_point definition
 
 CREATE TABLE `route_point` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -146,7 +144,7 @@ CREATE TABLE `route_point` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `route_point` AUTO_INCREMENT=1;
 
--- garosa_dist_prod.user_access definition
+-- garosa_dist.user_access definition
 
 CREATE TABLE `user_access` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
