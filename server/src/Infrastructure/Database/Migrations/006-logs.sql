@@ -1,0 +1,11 @@
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED APP CONFIG', 'Created application configuration', 'DB: garosa_dist; TB: application_configuration', 1, NOW(), NOW(), 0);
+
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED ROLE', 'Created Administrator role', 'DB: garosa_dist; TB: role', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED ROLE', 'Created Supervisor role', 'DB: garosa_dist; TB: role', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED ROLE', 'Created Distributor role', 'DB: garosa_dist; TB: role', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED ROLE', 'Created Master role', 'DB: garosa_dist; TB: role', 1, NOW(), NOW(), 0);
+
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED USER', 'Created user master@garosa.com', 'DB: garosa_dist; TB: user, user_access', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED USER', 'Created user administrator@garosa.com', 'DB: garosa_dist; TB: user, user_access', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED USER', 'Created user supervisor@garosa.com', 'DB: garosa_dist; TB: user, user_access', 1, NOW(), NOW(), 0);
+INSERT INTO garosa_dist.log (userId, logName, logDescription, logSource, logStatus, createdOn, updatedOn, deleted) VALUES(1, 'CREATED USER', 'Created user distributor@garosa.com', 'DB: garosa_dist; TB: user, user_access', 1, NOW(), NOW(), 0);
