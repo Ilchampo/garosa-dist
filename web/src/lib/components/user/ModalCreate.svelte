@@ -16,7 +16,7 @@
 		<hr class="!border-t-2 my-4" />
 	</div>
 
-	<form use:enhance method="POST" action="/users?/create" >
+	<form use:enhance method="POST" action="/users?/create">
 		<div class="card-body">
 			<div class="flex w-full gap-4 justify-between">
 				<label for="firstName" class="flex-1">

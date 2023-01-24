@@ -3,7 +3,7 @@
 	import { writable, type Writable } from 'svelte/store';
 	import { enhance } from '$app/forms';
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
-	const storeValue: Writable<number> = writable(1);
+	const storeValue: Writable<number> = writable(0);
 </script>
 
 <AppRail selected={storeValue} width="w-12">

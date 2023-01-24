@@ -13,10 +13,8 @@
 
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	import Loader from '$lib/components/global/Loader.svelte';
-	import ModalCreate from '$lib/components/point/ModalCreate.svelte';
-	import ModalRead from '$lib/components/point/ModalRead.svelte';
-	import ModalUpdate from '$lib/components/point/ModalUpdate.svelte';
-	import ModalDelete from '$lib/components/point/ModalDelete.svelte';
+	import ModalPointRead from '$lib/components/point/ModalPointRead.svelte';
+	import ModalPointDelete from '$lib/components/point/ModalPointDelete.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -48,23 +46,13 @@
 		let settings: ModalSettings;
 
 		switch (option) {
-			case Modals.CREATE:
-				component = { ref: ModalCreate };
-				settings = { type: 'component', component };
-				modalStore.trigger(settings);
-				break;
 			case Modals.READ:
-				component = { ref: ModalRead };
-				settings = { type: 'component', component, meta: { point } };
-				modalStore.trigger(settings);
-				break;
-			case Modals.UPDATE:
-				component = { ref: ModalUpdate };
+				component = { ref: ModalPointRead };
 				settings = { type: 'component', component, meta: { point } };
 				modalStore.trigger(settings);
 				break;
 			case Modals.DELETE:
-				component = { ref: ModalDelete };
+				component = { ref: ModalPointDelete };
 				settings = { type: 'component', component, meta: { point } };
 				modalStore.trigger(settings);
 				break;
@@ -125,9 +113,6 @@
 						class="btn-icon btn-filled-primary"
 						disabled={!perms?.createPoint}
 						use:tooltip={{ content: 'Create Point', position: 'left' }}
-						on:click={() => {
-							openModal(Modals.CREATE);
-						}}
 					>
 						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
 					</button>
@@ -187,23 +172,22 @@
 									</td>
 									<td role="gridcell" aria-colindex={5} tabindex="0">
 										<div class="flex gap-4">
-											<button
-												class="btn-icon btn-filled-secondary"
-												disabled={!perms?.updatePointById}
-												use:tooltip={{ content: 'Update Point', position: 'left' }}
-												on:click={() => {
-													openModal(Modals.UPDATE, row);
-												}}
-											>
-												<span>
-													<SvgIcon
-														name="pencil"
-														width="w-8"
-														height="h-6"
-														fill="fill-primary-400"
-													/>
-												</span>
-											</button>
+											<a href="/points/update/{row.id}">
+												<button
+													class="btn-icon btn-filled-secondary"
+													disabled={!perms?.updatePointById}
+													use:tooltip={{ content: 'Update Point', position: 'left' }}
+												>
+													<span>
+														<SvgIcon
+															name="pencil"
+															width="w-8"
+															height="h-6"
+															fill="fill-primary-400"
+														/>
+													</span>
+												</button>
+											</a>
 											<button
 												class="btn-icon btn-filled-tertiary"
 												disabled={!perms?.deletePointById}

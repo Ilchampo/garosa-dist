@@ -1,25 +1,28 @@
 <script lang="ts">
-	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	import { Alert } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import { modalStore } from '@skeletonlabs/skeleton';
+
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+
 	export let parent: any;
-	const data = $modalStore[0].meta.user;
+
+	const data = $modalStore[0].meta.point;
 </script>
 
 <div class="card">
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
 			<div>
-				<h2>Delete User</h2>
-				<em>Are you sure you want to delete user?</em>
+				<h2>Delete Distribution Point</h2>
+				<em>Are you sure you want to delete distribution point?</em>
 			</div>
 		</div>
 		<hr class="!border-t-2 my-4" />
 	</div>
 
-	<form use:enhance method="POST" action="/users?/delete">
+	<form use:enhance method="POST" action="/points?/delete">
 		<div class="card-body">
 			<Alert>
 				<svelte:fragment slot="lead">
@@ -27,11 +30,11 @@
 				</svelte:fragment>
 				<svelte:fragment slot="title">Warning!</svelte:fragment>
 				<span
-					>This actions will have as consequence delete the user <b>{data.firstName} {data.lastName}</b> from the
+					>This actions will have as consequence delete the distribution point <b>{data.pointName}</b> from the
 					system!</span
 				>
 			</Alert>
-			<input type="number" name="user" value={data.id} hidden />
+			<input type="number" name="pointId" value={data.id} hidden />
 		</div>
 
 		<div class="card-footer">

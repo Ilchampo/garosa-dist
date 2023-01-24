@@ -13,7 +13,7 @@
 
 	function roleName(role: number): string {
 		let roleName = 'Undefined';
-		switch(role) {
+		switch (role) {
 			case Roles.MASTER:
 				roleName = 'Master';
 				break;
@@ -36,8 +36,8 @@
 		<div class="flex flex-row items-center gap-4">
 			<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
 			<div>
-				<h2>{ data.firstName } { data.lastName }</h2>
-				<a href="mailto: { data.email }"><em>{ data.email }</em></a>
+				<h2>{data.firstName} {data.lastName}</h2>
+				<a href="mailto: {data.email}"><em>{data.email}</em></a>
 			</div>
 		</div>
 		<hr class="!border-t-2 my-4" />
@@ -47,17 +47,16 @@
 		<div class="flex justify-between">
 			<div class="flex flex-col justify-between items-center !bg-primary-500 p-4 w-32 h-32 rounded-full">
 				<SvgIcon name="shield-halved" width="w-24" height="h-24" fill="fill-primary-400" />
-				<b>{ roleName(data.role) }</b>
+				<b>{roleName(data.role)}</b>
 			</div>
 			<div class="flex flex-col justify-between w-full pl-4">
 				<div class="w-full">
-					
 					<label for="createdOn">Created On</label>
-					<input type="text" disabled placeholder={new Date(data.createdOn).toLocaleString('en-GB')}>
+					<input type="text" disabled placeholder={new Date(data.createdOn).toLocaleString('en-GB')} />
 				</div>
 				<div>
 					<label for="createdOn">Updated On</label>
-					<input type="text" disabled placeholder={new Date(data.updatedOn).toLocaleString('en-GB')}>
+					<input type="text" disabled placeholder={new Date(data.updatedOn).toLocaleString('en-GB')} />
 				</div>
 			</div>
 		</div>
@@ -66,7 +65,7 @@
 	<div class="card-footer">
 		<hr class="!border-t-2 my-4" />
 		<div class="flex justify-end">
-            <button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}>Close</button>
-        </div>
+			<button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}>Close</button>
+		</div>
 	</div>
 </div>

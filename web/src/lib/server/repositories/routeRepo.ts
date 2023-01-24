@@ -20,6 +20,9 @@ export async function createRoute(route: RouteInterface, points: number[], token
 				routeTitle: route.routeTitle,
 				routeDescription: route.routeDescription,
 				routePoints: points
+			},
+			validateStatus: function (status: any) {
+				return status < 500;
 			}
 		};
 		const result: ResponseInterface = await axios(config)
@@ -42,6 +45,9 @@ export async function getAllRoutes(token?: string): Promise<ResponseInterface> {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
+			},
+			validateStatus: function (status: any) {
+				return status < 500;
 			}
 		};
 		const result: ResponseInterface = await axios(config)
@@ -64,6 +70,9 @@ export async function getAllRoutesBySupervisor(token?: string): Promise<Response
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
+			},
+			validateStatus: function (status: any) {
+				return status < 500;
 			}
 		};
 		const result: ResponseInterface = await axios(config)
@@ -89,6 +98,9 @@ export async function deleteRoute(route: number, token?: string): Promise<Respon
 			},
 			params: {
 				id: route
+			},
+			validateStatus: function (status: any) {
+				return status < 500;
 			}
 		};
 		const result: ResponseInterface = await axios(config)

@@ -16,6 +16,6 @@ export const load: PageServerLoad = async (event) => {
 	if (request.code === 500) {
 		throw error(401, request.msg);
 	}
-	request.payload = { user: event.locals.user, roles: request.payload as RoleInterface[]};
+	request.payload = { user: event.locals.user, roles: request.payload as RoleInterface[] };
 	return request;
 };

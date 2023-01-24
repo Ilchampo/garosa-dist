@@ -5,7 +5,7 @@
 
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import { Modal } from '@skeletonlabs/skeleton';
-	
+
 	import Header from '$lib/components/global/Header.svelte';
 	import SideBar from '$lib/components/global/SideBar.svelte';
 </script>

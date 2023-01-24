@@ -1,35 +1,17 @@
 <script lang="ts">
 	import type { UserInterface } from '$lib/server/interfaces/userInterface';
-	import { Roles } from '$lib/enums';
+
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	import { enhance } from '$app/forms';
+
+	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+
 	export let parent: any;
 
 	const data = $modalStore[0].meta.user as UserInterface;
-
-	function roleName(role: number): string {
-		let roleName = 'Undefined';
-		switch (role) {
-			case Roles.MASTER:
-				roleName = 'Master';
-				break;
-			case Roles.ADMINISTRATOR:
-				roleName = 'Administrator';
-				break;
-			case Roles.SUPERVISOR:
-				roleName = 'Supervisor';
-				break;
-			case Roles.DISTRIBUTOR:
-				roleName = 'Distributor';
-				break;
-		}
-		return roleName;
-	}
 </script>
 
 <div class="card">
-    
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
 			<SvgIcon name="pencil" width="w-14" height="h-14" fill="fill-primary-400" />
@@ -41,12 +23,14 @@
 		<hr class="!border-t-2 my-4" />
 	</div>
 
-    <div class="card-body">
-        <form use:enhance method="POST" action="/users?/recover">
-            <input type="number" name="userId" value={data.id} hidden />
-            <button type="submit" class="btn btn-filled-tertiary w-full" on:click={parent.onClose}>Recover Password</button>
-        </form>
-    </div>
+	<div class="card-body">
+		<form use:enhance method="POST" action="/users?/recover">
+			<input type="number" name="userId" value={data.id} hidden />
+			<button type="submit" class="btn btn-filled-tertiary w-full" on:click={parent.onClose}
+				>Recover Password</button
+			>
+		</form>
+	</div>
 
 	<form use:enhance method="POST" action="/users?/update">
 		<div class="card-body">
