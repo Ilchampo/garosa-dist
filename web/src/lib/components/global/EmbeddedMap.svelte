@@ -9,7 +9,7 @@
 	title="Google Maps"
 	width="100%"
 	height={height ?? '350px'}
-	style="border:0"
+	style="border-radius: 0.5rem"
 	loading="lazy"
 	referrerpolicy="no-referrer-when-downgrade"
 	src="https://www.google.com/maps/embed/v1/place?key={appConfig.key}

@@ -15,7 +15,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>{data.pointName}</h2>
 			</div>
@@ -25,18 +25,18 @@
 
 	<!-- Body -->
 	<div class="card-body">
-		<div class="flex">
+		<div class="flex items-center">
 			<img src={data.pointImage} alt={data.pointName} class="point-image_read" />
 			<div class="flex flex-col justify-between ml-4">
 				<h3>{data.pointDescription}</h3>
-				<b>Created on: {data.createdOn}</b>
-				<b>Updated on: {data.updatedOn}</b>
+				<span><b>Created on:</b> {new Date(data.createdOn).toLocaleString('en-GB')}</span>
+				<span><b>Updated on:</b> {new Date(data.updatedOn).toLocaleString('en-GB')}</span>
 			</div>
 		</div>
 
 		<!-- Google Maps -->
 		<div class="py-4">
-			<EmbeddedMap latitude={data.latitude} longitude={data.longitude} />
+			<EmbeddedMap latitude={data.latitude} longitude={data.longitude} height="350px"/>
 		</div>
 	</div>
 
@@ -44,7 +44,7 @@
 	<div class="card-footer">
 		<hr class="!border-t-2 my-4" />
 		<div class="flex justify-end">
-			<button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}>Close</button>
+			<button type="submit" class="btn btn-filled-surface w-40" on:click={parent.onClose}>Close</button>
 		</div>
 	</div>
 </div>

@@ -38,6 +38,12 @@ routeRouter.get(
 	RouteController.GetAllRoutesByDistributor
 );
 
+// @route  GET /routes/get/route
+// @descr  Get route by Id
+// @param  [id: route id]
+// @perms  getAllRoutes
+routeRouter.get('/get/route', userAuthentication([permission.getAllRoutes]), RouteController.GetRouteById);
+
 // @route  DELETE /routes/delete/route?id
 // @descr  Delete route
 // @param  [id: route id]
@@ -50,4 +56,4 @@ routeRouter.delete('/delete/route', userAuthentication([permission.deleteRoute])
 // @perms  completeRoute
 routeRouter.put('/complete/route', userAuthentication([permission.completeRoute]), RouteController.CompleteRoute);
 
-export default routeRouter;
+export default routeRouter; 

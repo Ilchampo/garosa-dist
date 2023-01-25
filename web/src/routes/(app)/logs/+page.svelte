@@ -69,7 +69,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="clipboard" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="clipboard" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Logs Panel</h2>
 				<em>List of logs on the system</em>
@@ -86,7 +86,7 @@
 			<div class="card-table">
 				<!-- Table Search Bar -->
 				<div class="card-table_bar">
-					<div class="flex flex-1">
+					<div class="flex flex-1 gap-4">
 						<button on:click={clearSearchParams} class="btn btn-filled-surface btn-base">Clear</button>
 						<input bind:value={$dataTableStore.search} type="search" placeholder="Search Log..." />
 					</div>
@@ -97,7 +97,7 @@
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-secondary-100" /> </span>
 					</button>
 				</div>
 

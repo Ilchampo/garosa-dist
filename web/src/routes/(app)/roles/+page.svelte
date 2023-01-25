@@ -24,17 +24,17 @@
 		let cssClass = 'badge w-full ';
 		switch (role) {
 			case Roles.MASTER:
-				cssClass += 'bg-primary-500/20';
+				cssClass += 'bg-tertiary-300';
 				break;
 			case Roles.ADMINISTRATOR:
-				cssClass += 'bg-secondary-500/20';
+				cssClass += 'bg-tertiary-600';
 				break;
 			case Roles.SUPERVISOR:
-				cssClass += 'bg-tertiary-500/20';
+				cssClass += 'bg-tertiary-500';
 				break;
 			case Roles.DISTRIBUTOR:
 			default:
-				cssClass += 'bg-surface-500/20';
+				cssClass += 'bg-tertiary-400';
 				break;
 		}
 		return cssClass;
@@ -45,7 +45,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="shield-halved" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="shield-halved" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Roles Panel</h2>
 				<em>List of roles on the system</em>
@@ -62,7 +62,7 @@
 			<div class="grid grid-cols-2 gap-4">
 				{#each data.payload.roles as role}
 					<div class="flex w-full {roleClass(role.id)} p-4 rounded justify-start">
-						<SvgIcon name="shield-halved" width="w-28" height="h-28" fill="fill-primary-400" />
+						<SvgIcon name="shield-halved" width="w-28" height="h-28" fill="fill-tertiary-100" />
 						<div class="flex flex-col justify-between">
 							<h3>{role.roleName}</h3>
 							<em>Created on {new Date(role.createdOn).toLocaleString('en-GB')}</em>

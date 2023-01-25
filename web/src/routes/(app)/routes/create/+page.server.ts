@@ -38,7 +38,7 @@ export const load: PageServerLoad = async (event) => {
 		}
 		return { msg: 'No users and points found' };
 	} catch (err) {
-		throw error(500, 'Error at loading Create Route');
+		throw error(500, 'Error at loading Create Route screen');
 	}
 };
 

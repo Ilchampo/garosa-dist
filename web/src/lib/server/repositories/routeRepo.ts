@@ -87,11 +87,11 @@ export async function getAllRoutesBySupervisor(token?: string): Promise<Response
 	return { code: 500, msg: bundle.repositories.route.get_all_routes_by_supervisor.error, payload: null };
 }
 
-export async function deleteRoute(route: number, token?: string): Promise<ResponseInterface> {
+export async function getRouteById(route: number, token?: string): Promise<ResponseInterface> {
 	if (token) {
 		const config = {
-			method: 'delete',
-			url: appConfig.url + '/routes/delete/route',
+			method: 'get',
+			url: appConfig.url + '/routes/get/route',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
@@ -113,4 +113,32 @@ export async function deleteRoute(route: number, token?: string): Promise<Respon
 		return result;
 	}
 	return { code: 500, msg: bundle.repositories.route.get_all_routes_by_supervisor.error, payload: null };
+}
+
+export async function deleteRoute(route: number, token?: string): Promise<ResponseInterface> {
+	if (token) {
+		const config = {
+			method: 'delete',
+			url: appConfig.url + '/routes/delete/route',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: token
+			},
+			params: {
+				id: route
+			},
+			validateStatus: function (status: any) {
+				return status < 500;
+			}
+		};
+		const result: ResponseInterface = await axios(config)
+			.then((response) => {
+				return response.data;
+			})
+			.catch((error) => {
+				return { code: 500, msg: bundle.repositories.route.delete_route.error, payload: error };
+			});
+		return result;
+	}
+	return { code: 500, msg: bundle.repositories.route.delete_route.error, payload: null };
 }

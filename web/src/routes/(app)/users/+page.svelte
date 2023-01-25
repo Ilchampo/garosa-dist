@@ -78,17 +78,17 @@
 		let cssClass = 'badge w-full ';
 		switch (role) {
 			case Roles.MASTER:
-				cssClass += 'badge-filled-primary';
+				cssClass += 'bg-tertiary-600';
 				break;
 			case Roles.ADMINISTRATOR:
-				cssClass += 'badge-filled-secondary';
+				cssClass += 'bg-tertiary-500';
 				break;
 			case Roles.SUPERVISOR:
-				cssClass += 'badge-filled-tertiary';
+				cssClass += 'bg-tertiary-400';
 				break;
 			case Roles.DISTRIBUTOR:
 			default:
-				cssClass += 'badge-filled-surface';
+				cssClass += 'bg-tertiary-300';
 				break;
 		}
 		return cssClass;
@@ -122,7 +122,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="user-group" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="user-group" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Users Panel</h2>
 				<em>List of users on the system</em>
@@ -137,9 +137,9 @@
 		<!-- Body -->
 		<div class="card-body">
 			{#if form}
-				<div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
-					<div class="flex">
-						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
+				<div class="flex bg-surface-500/20 border border-surface-500 p-4 mb-4 justify-between items-center">
+					<div class="flex items-center">
+						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-surface-500" />
 						<div class="flex flex-col ml-4">
 							<h3>{form.request.msg}</h3>
 							<p>
@@ -151,13 +151,13 @@
 						</div>
 					</div>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Dismiss', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 			{/if}
@@ -165,28 +165,28 @@
 			<div class="card-table">
 				<!-- Table Search Bar -->
 				<div class="card-table_bar">
-					<div class="flex flex-1">
+					<div class="flex flex-1 gap-4">
 						<button on:click={clearSearchParams} class="btn btn-filled-surface btn-base">Clear</button>
-						<input bind:value={$dataTableStore.search} type="search" placeholder="Search User..." />
+						<input bind:value={$dataTableStore.search} type="search" placeholder="Search User Name..." />
 					</div>
 					<button
-						class="btn-icon btn-filled-primary"
+						class="btn-icon btn-filled-secondary"
 						disabled={!perms?.createUser}
 						use:tooltip={{ content: 'Create User', position: 'left' }}
 						on:click={() => {
 							openModal(Modals.CREATE);
 						}}
 					>
-						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-secondary-100" /> </span>
 					</button>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Reload', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 
@@ -201,7 +201,7 @@
 						>
 							<tr>
 								<th>Full Name</th>
-								<th>User Role</th>
+								<th data-sort="role">User Role</th>
 								<th>User Email</th>
 								<th data-sort="createdOn">Created On</th>
 								<th data-sort="updatedOn">Updated On</th>
@@ -250,7 +250,7 @@
 														name="pencil"
 														width="w-8"
 														height="h-6"
-														fill="fill-primary-400"
+														fill="fill-secondary-100"
 													/>
 												</span>
 											</button>
@@ -267,7 +267,7 @@
 														name="trash"
 														width="w-8"
 														height="h-6"
-														fill="fill-primary-400"
+														fill="fill-tertiary-100"
 													/>
 												</span>
 											</button>

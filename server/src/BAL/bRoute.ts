@@ -73,7 +73,7 @@ export async function CreateRoute(request: {
 			logName: 'CREATE ROUTE',
 			logDescription: `Created new route ${route.dataValues.routeTitle}`,
 			logSource: `DB: ${appConfiguration.db.name}; TB: route, route_point`,
-			logStatus: enums.RouteStatus.ACTIVE,
+			logStatus: enums.LogStatus.SUCCESSS,
 		});
 		console.log(Date.now(), '-', log.payload.logDescription);
 		response.set(200, 'Route created', route);
@@ -138,6 +138,27 @@ export async function GetAllRoutesByDistributor(request: any): Promise<Response>
 		return response;
 	} catch (error) {
 		response.set(500, 'Server error at bRoute.GetAllRoutesByDistributor', error);
+		return response;
+	}
+}
+
+export async function GetRouteById(request: any): Promise <Response> {
+	const response = new Response();
+	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
+	if (!routeId) {
+		response.set(422, 'Invalid datatype for route id', null);
+		return response;
+	}
+	try {
+		const route = await Route.findOne({ where: { id: routeId, deleted: false }});
+		if (!route) {
+			response.set(404, 'Route not found', null);
+			return response;
+		}
+		response.set(200, 'Route found', route);
+		return response;
+	} catch (error) {
+		response.set(500, 'Server error at bRoute.GetRouteById', error);
 		return response;
 	}
 }

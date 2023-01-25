@@ -13,7 +13,7 @@
 <div class="card">
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Delete Distribution Point</h2>
 				<em>Are you sure you want to delete distribution point?</em>
@@ -24,9 +24,9 @@
 
 	<form use:enhance method="POST" action="/points?/delete">
 		<div class="card-body">
-			<Alert>
+			<Alert color="bg-warning-500">
 				<svelte:fragment slot="lead">
-					<SvgIcon name="warning" width="w-20" height="h-20" fill="fill-warning-400" />
+					<SvgIcon name="warning" width="w-20" height="h-20" fill="fill-warning-100" />
 				</svelte:fragment>
 				<svelte:fragment slot="title">Warning!</svelte:fragment>
 				<span
@@ -38,9 +38,10 @@
 		</div>
 
 		<div class="card-footer">
+			<hr class="!border-t-2 my-4" />
 			<div class="flex gap-4 justify-end">
-				<button type="button" class="btn btn-filled-primary w-40" on:click={parent.onClose}>Cancel</button>
-				<button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}>Delete</button>
+				<button type="button" class="btn btn-filled-surface w-40" on:click={parent.onClose}>Cancel</button>
+				<button type="submit" class="btn btn-filled-tertiary w-40" on:click={parent.onClose}>Delete</button>
 			</div>
 		</div>
 	</form>

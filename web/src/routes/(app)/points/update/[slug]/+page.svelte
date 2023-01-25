@@ -29,7 +29,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Update Distribution Point</h2>
 				<em>Complete the following information to update the distribution point</em>
@@ -44,19 +44,16 @@
 			<Loader />
 		{:else}
 			{#if form}
-				<div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
-					<div class="flex">
-						<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+				<div class="flex bg-surface-500/20 border border-surface-500 p-4 mb-4 justify-between items-center">
+					<div class="flex items-center">
+						<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-surface-400" />
 						<div class="flex flex-col ml-4">
 							<h3>{form.request.msg}</h3>
 						</div>
 					</div>
-					<a href="/points">
-						<button
-							class="btn-icon btn-filled-secondary"
-							use:tooltip={{ content: 'Back to Distribution Points', position: 'left' }}
-						>
-							<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+					<a href="/points" use:tooltip={{ content: 'Back to Distribution Points', position: 'left' }}>
+						<button class="btn-icon btn-filled-tertiary">
+							<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 						</button></a
 					>
 				</div>
@@ -66,7 +63,7 @@
 					<EmbeddedMap
 						latitude={data.payload.point.latitude}
 						longitude={data.payload.point.longitude}
-						height="620px"
+						height="600px"
 					/>
 					<div class="card">
 						<div class="card-header">
@@ -77,10 +74,15 @@
 									class="point-image_read"
 								/>
 								<div class="flex flex-col justify-between">
-									<h2>Update Form</h2>
-									<em>Please complete the following information</em>
-									<b>Created On: {new Date(data.payload.point.createdOn).toLocaleString('en-GB')}</b>
-									<b>Updated On: {new Date(data.payload.point.updatedOn).toLocaleString('en-GB')}</b>
+									<h2>{data.payload.point.pointName}</h2>
+									<span
+										><b>Created On:</b>
+										{new Date(data.payload.point.createdOn).toLocaleString('en-GB')}</span
+									>
+									<span
+										><b>Updated On:</b>
+										{new Date(data.payload.point.updatedOn).toLocaleString('en-GB')}</span
+									>
 								</div>
 							</div>
 							<hr class="!border-t-2 my-4" />
@@ -137,8 +139,10 @@
 						</div>
 						<div class="card-footer">
 							<hr class="!border-t-2 my-4" />
-							<button type="submit" class="btn btn-filled-secondary w-full"
-								>Update Distribution Point</button
+							<button
+								type="submit"
+								class="btn btn-filled-tertiary w-full"
+								disabled={!perms?.updatePointById}>Update Distribution Point</button
 							>
 						</div>
 					</div>
@@ -150,12 +154,9 @@
 	<!-- Footer -->
 	<div class="card-footer">
 		<hr class="!border-t-2 my-4" />
-		<a href="/points">
-			<button
-				class="btn-icon btn-filled-primary"
-				use:tooltip={{ content: 'Back to Distribution Points', position: 'right' }}
-			>
-				<span> <SvgIcon name="arrow-left" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+		<a href="/points" use:tooltip={{ content: 'Back to Distribution Points', position: 'right' }}>
+			<button class="btn-icon btn-filled-surface">
+				<span> <SvgIcon name="arrow-left" width="w-8" height="h-6" fill="fill-surface-100" /> </span>
 			</button>
 		</a>
 	</div>

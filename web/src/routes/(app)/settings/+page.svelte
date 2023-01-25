@@ -31,7 +31,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="gear" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="gear" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Settings Panel</h2>
 				<em>Application and user settings</em>
@@ -46,21 +46,21 @@
 		<!-- Body -->
 		<div class="card-body">
 			{#if form}
-				<div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
-					<div class="flex">
-						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
+				<div class="flex bg-surface-500/20 border border-surface-500 p-4 mb-4 justify-between items-center">
+					<div class="flex items-center">
+						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-surface-500" />
 						<div class="flex flex-col ml-4">
 							<h3>{form.request.msg}</h3>
 						</div>
 					</div>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Dismiss', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 			{/if}
@@ -69,7 +69,7 @@
 				<div class="card">
 					<div class="card-header">
 						<div class="flex flex-row items-center gap-4">
-							<SvgIcon name="user" width="w-10" height="h-10" fill="fill-primary-400" />
+							<SvgIcon name="user" width="w-10" height="h-10" fill="fill-secondary-500" />
 							<div>
 								<h2>User Settings</h2>
 								<em>Change user password</em>
@@ -106,7 +106,7 @@
 						</div>
 						<div class="card-footer">
 							<hr class="!border-t-2 my-4" />
-							<button type="submit" class="btn btn-filled-primary w-full">Change Password</button>
+							<button type="submit" class="btn btn-filled-secondary w-full">Change Password</button>
 						</div>
 					</form>
 				</div>
@@ -115,7 +115,7 @@
 				<div class="card">
 					<div class="card-header">
 						<div class="flex flex-row items-center gap-4">
-							<SvgIcon name="computer" width="w-10" height="h-10" fill="fill-primary-400" />
+							<SvgIcon name="computer" width="w-10" height="h-10" fill="fill-secondary-500" />
 							<div>
 								<h2>Application Settings</h2>
 								<em>List of application settings</em>
@@ -169,7 +169,7 @@
 							<hr class="!border-t-2 my-4" />
 							<button
 								type="submit"
-								class="btn btn-filled-secondary w-full"
+								class="btn btn-filled-tertiary w-full"
 								disabled={!perms?.updateApplicationConfiguration}>Update Settings</button
 							>
 						</div>

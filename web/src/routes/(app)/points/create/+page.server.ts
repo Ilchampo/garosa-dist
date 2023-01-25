@@ -1,11 +1,18 @@
 import type { ResponseInterface } from '$lib/server/interfaces/responseInterface';
 import type { PointInterface } from '$lib/server/interfaces/pointInterface';
+import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
 import { uploadImage } from '$lib/server/services/cloudinary';
-import { error } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 
 import * as pointRepo from '$lib/server/repositories/pointRepo';
+
+export const load: PageServerLoad = async (event) => {
+	const user = event.locals.user;
+	if (!user || !user.updatePointById) throw redirect(302, '/signin');
+	return user;
+}
 
 export const actions: Actions = {
 	default: async (event) => {

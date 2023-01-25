@@ -7,7 +7,7 @@
 <div class="card">
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="plus" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="plus" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Create User</h2>
 				<em>Enter the following fields</em>
@@ -41,10 +41,10 @@
 			</label>
 		</div>
 		<div class="card-footer">
+			<hr class="!border-t-2 my-4" />
 			<div class="flex gap-4 justify-end">
-				<button type="button" class="btn btn-filled-primary w-40" on:click={parent.onClose}>Cancel</button>
-				<button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}
-					>Create User</button
+				<button type="button" class="btn btn-filled-surface w-40" on:click={parent.onClose}>Cancel</button>
+				<button type="submit" class="btn btn-filled-tertiary w-40" on:click={parent.onClose}>Create User</button
 				>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/themes/theme-rocket.css';
-	import '@skeletonlabs/skeleton/styles/all.css';
+	import '../../theme.postcss'; // <--
 	import '../../app.postcss';
+	import '@skeletonlabs/skeleton/styles/all.css';
 </script>
 
 <slot />

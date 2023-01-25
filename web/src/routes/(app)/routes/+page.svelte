@@ -5,12 +5,13 @@
 	import type { PageData } from './$types';
 	import type { ActionData } from './$types';
 
-	import { Modals } from '$lib/enums';
+	import { Modals, RouteStatus } from '$lib/enums';
 	import { createDataTableStore, dataTableHandler } from '@skeletonlabs/skeleton';
 	import { tableInteraction, tableA11y, Paginator } from '@skeletonlabs/skeleton';
 	import { modalStore, tooltip } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
+	import ModalRouteDelete from '$lib/components/route/ModalRouteDelete.svelte';
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
 	import Loader from '$lib/components/global/Loader.svelte';
 
@@ -38,13 +39,57 @@
 	function clearSearchParams(): void {
 		$dataTableStore.search = '';
 	}
+
+	function openModal(option: Modals, route?: RouteInterface): void {
+		let component: ModalComponent;
+		let settings: ModalSettings;
+		switch (option) {
+			case Modals.DELETE:
+				component = { ref: ModalRouteDelete };
+				settings = { type: 'component', component, meta: { route } };
+				modalStore.trigger(settings);
+				break;
+		}
+	}
+
+	function routeStatusName(status: RouteStatus): string {
+		switch (status) {
+			case RouteStatus.ACTIVE:
+				return 'Active';
+			case RouteStatus.IN_PROGRESS:
+				return 'In Progress';
+			case RouteStatus.COMPLETED:
+				return 'Completed';
+			case RouteStatus.DELETED:
+				return 'Deleted';
+			case RouteStatus.CANCELED:
+			default:
+				return 'Canceled';
+		}
+	}
+
+	function routeStatusClass(status: RouteStatus): string {
+		switch (status) {
+			case RouteStatus.ACTIVE:
+				return 'bg-primary-600';
+			case RouteStatus.IN_PROGRESS:
+				return 'bg-primary-500';
+			case RouteStatus.COMPLETED:
+				return 'bg-primary-400';
+			case RouteStatus.DELETED:
+				return 'bg-primary-300';
+			case RouteStatus.CANCELED:
+			default:
+				return 'bg-primary-200';
+		}
+	}
 </script>
 
 <div class="card card-container">
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Routes Panel</h2>
 				<em>List of distribution routes on the system</em>
@@ -59,19 +104,19 @@
 		<!-- Body -->
 		<div class="card-body">
 			{#if form}
-				<div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
-					<div class="flex">
-						<SvgIcon name="user" width="w-14" height="h-14" fill="fill-primary-400" />
+				<div class="flex bg-surface-500/20 border border-surface-500 p-4 mb-4 justify-between items-center">
+					<div class="flex items-center">
+						<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-surface-500" />
 						<div class="flex flex-col ml-4"><h3>{form.request.msg}</h3></div>
 					</div>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Dismiss', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 			{/if}
@@ -79,31 +124,27 @@
 			<div class="card-table">
 				<!-- Table Search Bar -->
 				<div class="card-table_bar">
-					<div class="flex flex-1">
+					<div class="flex flex-1 gap-4">
 						<button on:click={clearSearchParams} class="btn btn-filled-surface btn-base">Clear</button>
 						<input
 							bind:value={$dataTableStore.search}
 							type="search"
-							placeholder="Search Distribution Route..."
+							placeholder="Search Distribution Route Name..."
 						/>
 					</div>
-					<a href="/routes/create">
-						<button
-							class="btn-icon btn-filled-primary"
-							disabled={!perms?.createUser}
-							use:tooltip={{ content: 'Create Distribution Route', position: 'left' }}
-						>
-							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+					<a href="/routes/create" use:tooltip={{ content: 'Create Distribution Route', position: 'left' }}>
+						<button class="btn-icon btn-filled-secondary" disabled={!perms?.createRoute}>
+							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-secondary-100" /> </span>
 						</button>
 					</a>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Reload', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 
@@ -124,7 +165,7 @@
 								on:keypress
 							>
 								<tr>
-									<th>Route Title</th>
+									<th>Route Name</th>
 									<th>Route Description</th>
 									<th data-sort="routeStatus">Route Status</th>
 									<th data-sort="startTime">Start Time</th>
@@ -138,7 +179,7 @@
 								{#each $dataTableStore.filtered as row, rowIndex}
 									<tr aria-rowindex={rowIndex + 1}>
 										<td role="gridcell" aria-colindex={0} tabindex="0">
-											<a href="routes/read/{row.id}">
+											<a href="routes/read/{row.id}" style="color: inherit">
 												<div class="text-link" on:keydown>
 													{row.routeTitle}
 												</div>
@@ -148,7 +189,9 @@
 											{row.routeDescription}
 										</td>
 										<td role="gridcell" aria-colindex={2} tabindex="0">
-											{row.routeStatus}
+											<span class="badge w-full {routeStatusClass(row.routeStatus)}"
+												>{routeStatusName(row.routeStatus)}</span
+											>
 										</td>
 										<td role="gridcell" aria-colindex={3} tabindex="0">
 											{#if row.startTime}
@@ -174,29 +217,32 @@
 											<div class="flex gap-4">
 												<button
 													class="btn-icon btn-filled-secondary"
-													disabled={!perms?.editUser}
-													use:tooltip={{ content: 'Update User', position: 'left' }}
+													disabled={!perms?.completeRoute}
+													use:tooltip={{ content: 'Complete Route', position: 'left' }}
 												>
 													<span>
 														<SvgIcon
 															name="pencil"
 															width="w-8"
 															height="h-6"
-															fill="fill-primary-400"
+															fill="fill-secondary-100"
 														/>
 													</span>
 												</button>
 												<button
 													class="btn-icon btn-filled-tertiary"
-													disabled={!perms?.deleteUser}
-													use:tooltip={{ content: 'Delete User', position: 'left' }}
+													disabled={!perms?.deleteRoute}
+													use:tooltip={{ content: 'Delete Route', position: 'left' }}
+													on:click={() => {
+														openModal(Modals.DELETE, row);
+													}}
 												>
 													<span>
 														<SvgIcon
 															name="trash"
 															width="w-8"
 															height="h-6"
-															fill="fill-primary-400"
+															fill="fill-tertiary-100"
 														/>
 													</span>
 												</button>

@@ -14,7 +14,7 @@
 <div class="card">
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="pencil" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="pencil" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Update User</h2>
 				<em>Replace the fields with the desired new values</em>
@@ -26,9 +26,7 @@
 	<div class="card-body">
 		<form use:enhance method="POST" action="/users?/recover">
 			<input type="number" name="userId" value={data.id} hidden />
-			<button type="submit" class="btn btn-filled-tertiary w-full" on:click={parent.onClose}
-				>Recover Password</button
-			>
+			<button type="submit" class="btn btn-filled-primary w-full" on:click={parent.onClose}>Recover Password</button>
 		</form>
 	</div>
 
@@ -46,15 +44,16 @@
 			</div>
 			<label for="email" class="my-2">
 				<span>Email</span>
-				<input type="email" name="email" id="email" minlength="5" disabled value={data.email} />
+				<input type="email" name="email" id="email" minlength="5" readonly value={data.email} />
 			</label>
 			<input type="number" name="userId" value={data.id} hidden />
 		</div>
 
 		<div class="card-footer">
+			<hr class="!border-t-2 my-4" />
 			<div class="flex gap-4 justify-end">
-				<button type="button" class="btn btn-filled-primary w-40" on:click={parent.onClose}>Cancel</button>
-				<button type="submit" class="btn btn-filled-secondary w-40" on:click={parent.onClose}>Update</button>
+				<button type="button" class="btn btn-filled-surface w-40" on:click={parent.onClose}>Cancel</button>
+				<button type="submit" class="btn btn-filled-tertiary w-40" on:click={parent.onClose}>Update</button>
 			</div>
 		</div>
 	</form>

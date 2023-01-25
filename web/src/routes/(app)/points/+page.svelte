@@ -64,7 +64,7 @@
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Distribution Points Panel</h2>
 				<em>List of distribution points on the system</em>
@@ -101,31 +101,27 @@
 			<div class="card-table">
 				<!-- Table Search Bar -->
 				<div class="card-table_bar">
-					<div class="flex flex-1">
+					<div class="flex flex-1 gap-4">
 						<button on:click={clearSearchParams} class="btn btn-filled-surface btn-base">Clear</button>
 						<input
 							bind:value={$dataTableStore.search}
 							type="search"
-							placeholder="Search Distribution Points..."
+							placeholder="Search Distribution Points Name..."
 						/>
 					</div>
-					<a href="/points/create">
-						<button
-							class="btn-icon btn-filled-primary"
-							disabled={!perms?.createPoint}
-							use:tooltip={{ content: 'Create Point', position: 'left' }}
-						>
-							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+					<a href="/points/create" use:tooltip={{ content: 'Create Point', position: 'left' }}>
+						<button class="btn-icon btn-filled-secondary" disabled={!perms?.createPoint}>
+							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-secondary-100" /> </span>
 						</button>
 					</a>
 					<button
-						class="btn-icon btn-filled-secondary"
+						class="btn-icon btn-filled-tertiary"
 						use:tooltip={{ content: 'Reload', position: 'left' }}
 						on:click={() => {
 							location.reload();
 						}}
 					>
-						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						<span> <SvgIcon name="reload" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
 					</button>
 				</div>
 
@@ -174,18 +170,17 @@
 									</td>
 									<td role="gridcell" aria-colindex={5} tabindex="0">
 										<div class="flex gap-4">
-											<a href="/points/update/{row.id}">
+											<a href="/points/update/{row.id}" use:tooltip={{ content: 'Update Point', position: 'left' }}>
 												<button
 													class="btn-icon btn-filled-secondary"
 													disabled={!perms?.updatePointById}
-													use:tooltip={{ content: 'Update Point', position: 'left' }}
 												>
 													<span>
 														<SvgIcon
 															name="pencil"
 															width="w-8"
 															height="h-6"
-															fill="fill-primary-400"
+															fill="fill-secondary-100"
 														/>
 													</span>
 												</button>
@@ -203,7 +198,7 @@
 														name="trash"
 														width="w-8"
 														height="h-6"
-														fill="fill-primary-400"
+														fill="fill-tertiary-100"
 													/>
 												</span>
 											</button>

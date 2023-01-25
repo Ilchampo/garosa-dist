@@ -32,6 +32,12 @@ export async function GetAllRoutesByDistributor(req: Request, res: Response): Pr
 	return res.status(result.status).json({ msg: result.message, payload: result.payload });
 }
 
+export async function GetRouteById(req: Request, res: Response): Promise<Response> {
+	const request = req.query.id;
+	const result = await bRoute.GetRouteById(request);
+	return res.status(result.status).json({ msg: result.message, payload: result.payload });
+}
+
 export async function DeleteRoute(req: Request, res: Response): Promise<Response> {
 	const request = req.query.id;
 	const result = await bRoute.DeleteRoute(request);

@@ -1,24 +1,49 @@
 <script lang="ts">
+	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
+	import type { PointInterface } from '$lib/server/interfaces/pointInterface';
 	import type { PermissionInterface } from '$lib/server/interfaces/permissionInterface';
 	import type { PageData } from './$types';
-    import type { ActionData } from './$types';
+	import type { ActionData } from './$types';
 
+	import { Modals } from '$lib/enums';
+	import { modalStore, tooltip } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
-	import { tooltip } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
 
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
+	import ModalPointRead from '$lib/components/point/ModalPointRead.svelte';
 
 	export let data: PageData;
-    export let form: ActionData;
+	export let form: ActionData;
 
+	let perms: PermissionInterface | null = null;
 	let distPointIds: number[] = [];
+
+	onMount(async () => {
+		if (data.user) {
+			perms = data.user as PermissionInterface;
+		}
+	});
+
+	function openModal(option: Modals, point?: PointInterface): void {
+		let component: ModalComponent;
+		let settings: ModalSettings;
+
+		switch (option) {
+			case Modals.READ:
+				component = { ref: ModalPointRead };
+				settings = { type: 'component', component, meta: { point } };
+				modalStore.trigger(settings);
+				break;
+		}
+	}
 </script>
 
 <div class="card card-content">
 	<!-- Header -->
 	<div class="card-header">
 		<div class="flex flex-row items-center gap-4">
-			<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-primary-400" />
+			<SvgIcon name="truck" width="w-14" height="h-14" fill="fill-secondary-500" />
 			<div>
 				<h2>Create Distribution Routes</h2>
 				<em>Create a new distribution route for the system</em>
@@ -29,25 +54,22 @@
 
 	<!-- Body -->
 	<div class="card-body">
-        <!-- Form Banner -->
+		<!-- Form Banner -->
 		{#if form}
-        <div class="flex bg-primary-500/50 border border-primary-500 p-4 mb-4 justify-between items-center">
-            <div class="flex">
-                <SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
-                <div class="flex flex-col ml-4">
-                    <h3>{form.request.msg}</h3>
-                </div>
-            </div>
-            <a href="/routes">
-                <button
-                    class="btn-icon btn-filled-secondary"
-                    use:tooltip={{ content: 'Back to Distribution Points', position: 'left' }}
-                >
-                    <span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
-                </button></a
-            >
-        </div>
-    {/if}
+			<div class="flex bg-surface-500/20 border border-surface-500 p-4 mb-4 justify-between items-center">
+				<div class="flex items-center">
+					<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-surface-500" />
+					<div class="flex flex-col ml-4">
+						<h3>{form.request.msg}</h3>
+					</div>
+				</div>
+				<a href="/routes" use:tooltip={{ content: 'Back to Distribution Points', position: 'left' }}>
+					<button class="btn-icon btn-filled-tertiary">
+						<span> <SvgIcon name="check" width="w-8" height="h-6" fill="fill-tertiary-100" /> </span>
+					</button></a
+				>
+			</div>
+		{/if}
 
 		<form
 			use:enhance={({ form, data, action, cancel }) => {
@@ -59,7 +81,7 @@
 				<div class="card">
 					<div class="card-header">
 						<div class="flex flex-row items-center gap-4">
-							<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+							<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-secondary-500" />
 							<div>
 								<h3>Distribution Points</h3>
 								<em>Select the distribution points</em>
@@ -82,10 +104,19 @@
 														class="card-table_image"
 													/>
 													<div class="flex flex-col justify-between">
-														<b>{point.pointName}</b>
+														<div
+															class="text-link"
+															on:click={() => {
+																openModal(Modals.READ, point);
+															}}
+															on:keydown
+														>
+															{point.pointName}
+														</div>
 														<p>{point.pointDescription}</p>
 													</div>
 												</label>
+												<hr class="divide-y" />
 											{/each}
 										</div>
 									</div>
@@ -99,7 +130,7 @@
 				<div class="card">
 					<div class="card-header">
 						<div class="flex flex-row items-center gap-4">
-							<SvgIcon name="location-dot" width="w-14" height="h-14" fill="fill-primary-400" />
+							<SvgIcon name="road" width="w-14" height="h-14" fill="fill-secondary-500" />
 							<div>
 								<h3>Route Information</h3>
 								<em>Complete the following information</em>
@@ -138,7 +169,9 @@
 					</div>
 					<div class="card-footer">
 						<hr class="!border-t-2 my-4" />
-						<button type="submit" class="btn btn-filled-secondary w-full">Create Distribution Route</button>
+						<button type="submit" class="btn btn-filled-tertiary w-full" disabled={!perms?.createRoute}
+							>Create Distribution Route</button
+						>
 					</div>
 				</div>
 			</div>
@@ -148,12 +181,9 @@
 	<!-- Footer -->
 	<div class="card-footer">
 		<hr class="!border-t-2 my-4" />
-		<a href="/routes">
-			<button
-				class="btn-icon btn-filled-primary"
-				use:tooltip={{ content: 'Back to Distribution Points', position: 'right' }}
-			>
-				<span> <SvgIcon name="arrow-left" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+		<a href="/routes" use:tooltip={{ content: 'Back to Distribution Routes', position: 'right' }}>
+			<button class="btn-icon btn-filled-surface">
+				<span> <SvgIcon name="arrow-left" width="w-8" height="h-6" fill="fill-surface-100" /> </span>
 			</button>
 		</a>
 	</div>
