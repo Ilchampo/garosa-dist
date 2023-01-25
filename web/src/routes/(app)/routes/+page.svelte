@@ -23,7 +23,6 @@
 
 	onMount(async () => {
 		perms = data.payload.user as PermissionInterface;
-		console.log(data.payload.routes);
 		isPopulated = data.payload.routes.length > 0;
 		isLoading = false;
 	});
@@ -88,13 +87,15 @@
 							placeholder="Search Distribution Route..."
 						/>
 					</div>
-					<button
-						class="btn-icon btn-filled-primary"
-						disabled={!perms?.createUser}
-						use:tooltip={{ content: 'Create Distribution Route', position: 'left' }}
-					>
-						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
-					</button>
+					<a href="/routes/create">
+						<button
+							class="btn-icon btn-filled-primary"
+							disabled={!perms?.createUser}
+							use:tooltip={{ content: 'Create Distribution Route', position: 'left' }}
+						>
+							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						</button>
+					</a>
 					<button
 						class="btn-icon btn-filled-secondary"
 						use:tooltip={{ content: 'Reload', position: 'left' }}
@@ -137,9 +138,11 @@
 								{#each $dataTableStore.filtered as row, rowIndex}
 									<tr aria-rowindex={rowIndex + 1}>
 										<td role="gridcell" aria-colindex={0} tabindex="0">
-											<div class="text-link" on:keydown>
-												{row.routeTitle}
-											</div>
+											<a href="routes/read/{row.id}">
+												<div class="text-link" on:keydown>
+													{row.routeTitle}
+												</div>
+											</a>
 										</td>
 										<td role="gridcell" aria-colindex={1} tabindex="0">
 											{row.routeDescription}

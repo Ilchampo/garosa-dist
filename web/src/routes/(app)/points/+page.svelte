@@ -109,13 +109,15 @@
 							placeholder="Search Distribution Points..."
 						/>
 					</div>
-					<button
-						class="btn-icon btn-filled-primary"
-						disabled={!perms?.createPoint}
-						use:tooltip={{ content: 'Create Point', position: 'left' }}
-					>
-						<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
-					</button>
+					<a href="/points/create">
+						<button
+							class="btn-icon btn-filled-primary"
+							disabled={!perms?.createPoint}
+							use:tooltip={{ content: 'Create Point', position: 'left' }}
+						>
+							<span> <SvgIcon name="plus" width="w-8" height="h-6" fill="fill-primary-400" /> </span>
+						</button>
+					</a>
 					<button
 						class="btn-icon btn-filled-secondary"
 						use:tooltip={{ content: 'Reload', position: 'left' }}

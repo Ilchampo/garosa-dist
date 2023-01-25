@@ -9,7 +9,7 @@ import bundle from '$lib/translations/en-Us.json';
 export async function createPoint(point: PointInterface, token?: string): Promise<ResponseInterface> {
 	if (token) {
 		const config = {
-			method: 'postt',
+			method: 'post',
 			url: appConfig.url + '/points/create',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',

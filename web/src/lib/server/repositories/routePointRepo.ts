@@ -10,7 +10,7 @@ export async function createRoutePoint(route: RoutePointInterface, token?: strin
 	if (token) {
 		const config = {
 			method: 'post',
-			url: appConfig.url + '/routes/create',
+			url: appConfig.url + '/points/create',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
@@ -36,7 +36,7 @@ export async function getAllRoutePointsByRouteId(route: number, token?: string):
 	if (token) {
 		const config = {
 			method: 'get',
-			url: appConfig.url + '/routes/get/route',
+			url: appConfig.url + '/points/get/route',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
@@ -65,7 +65,7 @@ export async function getRoutePointById(point: number, token?: string): Promise<
 	if (token) {
 		const config = {
 			method: 'get',
-			url: appConfig.url + '/routes/get/point',
+			url: appConfig.url + '/points/get/point',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
@@ -90,7 +90,7 @@ export async function deleteAllRoutePointsByRouteId(route: number, token?: strin
 	if (token) {
 		const config = {
 			method: 'delete',
-			url: appConfig.url + '/routes/delete/route',
+			url: appConfig.url + '/points/delete/route',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				Authorization: token
