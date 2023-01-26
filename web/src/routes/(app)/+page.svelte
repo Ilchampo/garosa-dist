@@ -1,21 +1,38 @@
 <script lang="ts">
-	// import type { PageData } from './$types';
-
+	import type { PageData } from './$types';
 	import SvgIcon from '$lib/components/SvgIcon/SvgIcon.svelte';
-	// export let data: PageData;
+	export let data: PageData;
 </script>
 
-<div class="content-container">
-	<div class="card h-full overflow-y-scroll md:max-h-full">
-		<div class="card-header">
-			<div class="flex items-center">
-				<SvgIcon name="house" width="w-14" height="h-14" fill="fill-secondary-500" />
-				<div class="ml-4">
-					<h2>Dashboard</h2>
-					<hr class="!border-t-1" />
-					<em>Welcome to your Garosa Dist dashboard</em>
+<div class="card card-container">
+	<!-- Header -->
+	<div class="card-header">
+		<div class="flex flex-row items-center gap-4">
+			<SvgIcon name="house" width="w-14" height="h-14" fill="fill-secondary-500" />
+			<div>
+				<h2>Dashboard Panel</h2>
+				<em>Welcome to your user dashboard</em>
+			</div>
+		</div>
+		<hr class="!border-t-2 my-4" />
+	</div>
+
+	<!-- Body -->
+	<div class="card-body">
+		<div class="grid grid-cols-2 gap-4">
+			<div class="flex flex-1 flex-col gap-4">
+
+			</div>
+			<div class="flex flex-1 flex-col gap-4">
+				<div class="flex">
+					
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- Footer -->
+	<div class="card-footer">
+		<hr class="!border-t-2 my-4" />
 	</div>
 </div>

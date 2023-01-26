@@ -231,7 +231,7 @@
 												</button>
 												<button
 													class="btn-icon btn-filled-tertiary"
-													disabled={!perms?.deleteRoute}
+													disabled={!perms?.deleteRoute || row.routeStatus === RouteStatus.IN_PROGRESS}
 													use:tooltip={{ content: 'Delete Route', position: 'left' }}
 													on:click={() => {
 														openModal(Modals.DELETE, row);

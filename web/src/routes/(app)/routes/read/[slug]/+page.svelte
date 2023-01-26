@@ -152,7 +152,7 @@
 						<p>
 							{data.payload.route.startTime
 								? new Date(data.payload.route.endTime).toLocaleString('en-GB')
-								: 'Not Started'}
+								: 'Not Finished'}
 						</p>
 					</div>
 				</div>

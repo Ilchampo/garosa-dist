@@ -28,22 +28,24 @@
         <div class="flex flex-1 justify-between gap-4">
             <label for="startTime" class="flex-1">
                 <span>Start Time</span>
-                <input type="text" readonly value={data.reportTitle}>
+                <input type="text" readonly value={data.startTime ? new Date(data.startTime).toLocaleString('en-GB') : 'Not Started'}>
             </label>
             <label for="endTime" class="flex-1">
                 <span>End Time</span>
-                <input type="text" readonly value={data.reportTitle}>
+                <input type="text" readonly value={data.endTime ? new Date(data.endTime).toLocaleString('en-GB') : 'Not Finished'}>
             </label>
         </div>
         <label for="reportDescription">
             <span>Report Description</span>
             <textarea readonly class="h-40">{data.reportDescription}</textarea>
         </label>
-        <div class="flex gap-4 overflow-x-scroll h-60">
-            <img src={data.reportImageOne} alt={data.reportTitle} class="">
-            <img src={data.reportImageTwo} alt={data.reportTitle} class="">
-            <img src={data.reportImageThree} alt={data.reportTitle} class="">
-        </div>
+        {#if data.reportImageOne || data.reportImageTwo || data.reportImageThree}
+            <div class="flex gap-4 overflow-x-scroll h-60 items-center">
+                <img src={data.reportImageOne} alt={data.reportTitle} class="h-60 rounded-xl" hidden={!data.reportImageOne}>
+                <img src={data.reportImageTwo} alt={data.reportTitle} class="h-60 rounded-xl" hidden={!data.reportImageTwo}>
+                <img src={data.reportImageThree} alt={data.reportTitle} class="h-60 rounded-xl" hidden={!data.reportImageThree}>
+            </div>
+        {/if}
     </div>
 
     <!-- Footer -->
