@@ -140,7 +140,8 @@ export async function StartRoutePointById(request: { routePointId: any; location
 			response.set(400, 'Distributor is not in range from the distribution point', null);
 			return response;
 		}
-		const route = await bRoute.SetRouteStart(point.payload.routeId);
+
+		const route = await bRoute.SetRouteStart(routePoint.dataValues.routeId);
 		if (route.status !== 200 && route.status !== 400) {
 			response.set(route.status, route.message, route.payload);
 			return response;

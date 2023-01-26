@@ -198,7 +198,7 @@ export async function SetRouteStart(request: any): Promise<Response> {
 	const response = new Response();
 	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
 	try {
-		const route = await Route.findOne({ where: { routeId, deleted: false } });
+		const route = await Route.findOne({ where: { id: routeId, deleted: false } });
 		if (!route) {
 			response.set(404, 'Route not found', null);
 			return response;
