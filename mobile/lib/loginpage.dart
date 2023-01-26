@@ -10,6 +10,7 @@ import 'package:garosadist/homepage.dart';
 import 'package:http/http.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quickalert/quickalert.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -22,28 +23,30 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-  login(String email, String password) async {
-    Response res = await post(
-        Uri.parse(HttpService().baseURL + "/users/login/mobile"),
-        body: {"email": email, "password": password});
+  login(String email, String password, context) async {
+    Response res =
+        await post(Uri.parse(HttpService().baseURL + "/users/login/mobile"),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            encoding: Encoding.getByName('utf-8'),
+            body: {"email": email, "password": password});
     Map<dynamic, dynamic> json = jsonDecode(res.body);
 
     Map<dynamic, dynamic> jwtDecoded = Jwt.parseJwt(json["payload"]);
     final prefs = await SharedPreferences.getInstance();
-
-    print(jwtDecoded);
-    print(jwtDecoded["firstName"]);
 
     prefs.setInt("userId", jwtDecoded["userId"]);
     prefs.setInt("roleId", jwtDecoded["roleId"]);
     prefs.setString("firstName", jwtDecoded["firstName"]);
     prefs.setString("lastName", jwtDecoded["lastName"]);
     prefs.setString("email", jwtDecoded["email"]);
+    prefs.setString("jwt", json["payload"]);
 
     if (res.statusCode == 200) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
-    }
+    } else {}
 
     /*if (email == "distributor@garosa.com" || password == "Password1234") {
       final prefs = await SharedPreferences.getInstance();
@@ -116,7 +119,45 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       child: const Text('Login'),
                       onPressed: () async {
-                        setState(() {
+                        Response res = await post(
+                            Uri.parse(
+                                HttpService().baseURL + "/users/login/mobile"),
+                            headers: {
+                              "Content-Type":
+                                  "application/x-www-form-urlencoded",
+                            },
+                            encoding: Encoding.getByName('utf-8'),
+                            body: {
+                              "email": nameController.text,
+                              "password": passwordController.text
+                            });
+
+                        if (res.statusCode == 200) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } else {
+                          QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.error,
+                              text: jsonDecode(res.body)["msg"]);
+                        }
+
+                        Map<dynamic, dynamic> json = jsonDecode(res.body);
+
+                        Map<dynamic, dynamic> jwtDecoded =
+                            Jwt.parseJwt(json["payload"]);
+                        final prefs = await SharedPreferences.getInstance();
+
+                        prefs.setInt("userId", jwtDecoded["userId"]);
+                        prefs.setInt("roleId", jwtDecoded["roleId"]);
+                        prefs.setString("firstName", jwtDecoded["firstName"]);
+                        prefs.setString("lastName", jwtDecoded["lastName"]);
+                        prefs.setString("email", jwtDecoded["email"]);
+                        prefs.setString("jwt", json["payload"]);
+
+                        /* setState(() {
                           isLoading = true;
                         });
                         Timer _timer = Timer(
@@ -124,8 +165,8 @@ class _LoginPageState extends State<LoginPage> {
                             () => setState(() {
                                   isLoading = false;
                                   login(nameController.text,
-                                      passwordController.text);
-                                }));
+                                      passwordController.text, context);
+                                }));*/
                       },
                     )),
               ],

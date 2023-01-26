@@ -60,10 +60,11 @@ class _PreviewPageState extends State<PreviewPage> {
                     setState(() {
                       isLoading = false;
                     });
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    print("Ssd");
                     widget.addPic(response.secureUrl);
-
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    print("Ssd");
                   },
                   child: Material(
                       color: Colors.teal,
