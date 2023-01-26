@@ -2,6 +2,7 @@ import { Response } from '../DAL/Response';
 import { RoutePoint } from '../DAL/RoutePoint';
 
 import * as bPoint from './bPoint';
+import * as bRoute from './bRoute';
 import * as bApplicationConfiguration from './bApplicationConfiguration';
 import * as vf from '../Helpers/ValidateFields';
 import * as enums from '../Helpers/StaticEnums';
@@ -137,6 +138,11 @@ export async function StartRoutePointById(request: { routePointId: any; location
 		);
 		if (!isOnRange) {
 			response.set(400, 'Distributor is not in range from the distribution point', null);
+			return response;
+		}
+		const route = await bRoute.SetRouteStart(point.payload.routeId);
+		if (route.status !== 200 && route.status !== 400) {
+			response.set(route.status, route.message, route.payload);
 			return response;
 		}
 		routePoint.set({

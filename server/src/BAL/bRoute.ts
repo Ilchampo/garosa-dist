@@ -142,7 +142,7 @@ export async function GetAllRoutesByDistributor(request: any): Promise<Response>
 	}
 }
 
-export async function GetRouteById(request: any): Promise <Response> {
+export async function GetRouteById(request: any): Promise<Response> {
 	const response = new Response();
 	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
 	if (!routeId) {
@@ -150,7 +150,7 @@ export async function GetRouteById(request: any): Promise <Response> {
 		return response;
 	}
 	try {
-		const route = await Route.findOne({ where: { id: routeId, deleted: false }});
+		const route = await Route.findOne({ where: { id: routeId, deleted: false } });
 		if (!route) {
 			response.set(404, 'Route not found', null);
 			return response;
@@ -190,6 +190,33 @@ export async function DeleteRoute(request: any): Promise<Response> {
 		return response;
 	} catch (error) {
 		response.set(500, 'Server error at bRoute.DeleteRoute', error);
+		return response;
+	}
+}
+
+export async function SetRouteStart(request: any): Promise<Response> {
+	const response = new Response();
+	const routeId = vf.IsNumeric(request) ? parseInt(request) : null;
+	try {
+		const route = await Route.findOne({ where: { routeId, deleted: false } });
+		if (!route) {
+			response.set(404, 'Route not found', null);
+			return response;
+		}
+		if (route.dataValues.startTime) {
+			response.set(400, 'Route already started', null);
+			return response;
+		}
+		route.set({
+			routeStatus: enums.RouteStatus.IN_PROGRESS,
+			startTime: Date.now(),
+			updatedOn: Date.now(),
+		});
+		await route.save();
+		response.set(200, 'Route started', route);
+		return response;
+	} catch (error) {
+		response.set(500, 'Server error at bRoute.SetStartTime', error);
 		return response;
 	}
 }
