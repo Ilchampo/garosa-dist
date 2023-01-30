@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import type { ActionData } from './$types';
 
+	import { appConfig } from '$lib/config';
 	import { enhance } from '$app/forms';
 	import { tooltip } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
@@ -20,6 +21,8 @@
 			perms = data as PermissionInterface;
 		}
 	});
+
+	const test: string = 'Test';
 </script>
 
 <svelte:head>
@@ -51,6 +54,9 @@
 				document.getElementById('latitude').value = place.geometry.location.lat();
 				document.getElementById('longitude').value = place.geometry.location.lng();
 				document.getElementById('pointName').value = place.name;
+				document.getElementById(
+					'googleMaps'
+				).src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBezSyDx58XcmWt4XBNuuXrVLMN0GP8xVg&q=${place.geometry.location.lat()},${place.geometry.location.lng()}`;
 			}
 		}
 	</script>
@@ -93,7 +99,18 @@
 			<div class="grid grid-cols-2 gap-4">
 				<div class="flex flex-col gap-4">
 					<input type="text" id="autocomplete" placeholder="Search For Establishment" />
-					<EmbeddedMap latitude={0} longitude={0} height="500px" />
+					<!-- <EmbeddedMap latitude={0} longitude={0} height="500px" /> -->
+
+					<iframe
+						id="googleMaps"
+						title="Google Maps"
+						width="100%"
+						height="500px"
+						style="border-radius: 0.5rem"
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade"
+						src="https://www.google.com/maps/embed/v1/place?key={appConfig.key}&q=-0.1628905,-78.4616573"
+					/>
 				</div>
 				<div class="card">
 					<div class="card-header">
@@ -124,7 +141,9 @@
 					</div>
 					<div class="card-footer">
 						<hr class="!border-t-2 my-4" />
-						<button type="submit" class="btn btn-filled-tertiary w-full" disabled={!perms?.createPoint}>Create Distribution Point</button>
+						<button type="submit" class="btn btn-filled-tertiary w-full" disabled={!perms?.createPoint}
+							>Create Distribution Point</button
+						>
 					</div>
 				</div>
 			</div>

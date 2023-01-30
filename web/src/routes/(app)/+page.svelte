@@ -19,15 +19,21 @@
 
 	<!-- Body -->
 	<div class="card-body">
-		<div class="grid grid-cols-2 gap-4">
-			<div class="flex flex-1 flex-col gap-4">
+		<h3>It's great to see you again, {data.payload.user.firstName} {data.payload.user.lastName}.</h3>
+		<em>Today's date is {new Date(Date.now()).toLocaleString('en-GB')}</em>
 
-			</div>
-			<div class="flex flex-1 flex-col gap-4">
-				<div class="flex">
-					
+		<div class="flex gap-4 justify-between w-full items-center">
+			{#if data.payload.userRoutes.length > 0}
+				<div class="flex w-full gap-4 justify-center bg-secondary-500 p-10 rounded-xl items-center my-4">
+					<h4>You currently have {data.payload.userRoutes.length} routes created</h4>
+					<a href="/routes/"><button class="btn btn-filled-tertiary">Check My Routes</button></a>
 				</div>
-			</div>
+			{:else}
+				<div class="flex w-full gap-4 justify-center bg-secondary-500 p-10 rounded-xl items-center my-4">
+					<h4>You don't have any route created yet</h4>
+					<a href="/routes/create"><button class="btn btn-filled-tertiary">Create New Route</button></a>
+				</div>
+			{/if}
 		</div>
 	</div>
 

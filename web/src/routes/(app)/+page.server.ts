@@ -13,14 +13,14 @@ export const load: PageServerLoad = async (event) => {
 	if (!user) { throw redirect(302, '/signin'); }
 
 	const token = event.cookies.get('Authorization');
-	// const userRoutes = await routeRepo.getAllRoutesBySupervisor(token);
+	const userRoutes = await routeRepo.getAllRoutesBySupervisor(token);
 
 	const request: ResponseInterface = {
 		code: 200,
 		msg: 'Dashboard loaded correctly',
 		payload: {
 			user,
-			// userRoutes: userRoutes.payload as RouteInterface[],
+			userRoutes: userRoutes.payload ? userRoutes.payload as RouteInterface[] : [],
 		}
 	};
 
